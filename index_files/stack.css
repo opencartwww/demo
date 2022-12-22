@@ -1,0 +1,214 @@
+@font-face {
+  font-family: 'Glyphicons Halflings';
+
+  src: url('../../fonts/glyphicons-halflings-regular.eot');
+  src: url('../../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.chipstable {
+  background-color: transparent;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+.chipstable th {
+  text-align: left;
+}
+.chipstable {
+  width: 100%;
+  max-width: 100%;
+}
+.chipstable > thead > tr > th,
+.chipstable > tbody > tr > th,
+.chipstable > thead > tr > td,
+.chipstable > tbody > tr > td {
+  line-height: 1.42857143;
+  vertical-align:middle;text-align:center;
+  border: tpx solid transparent;
+  font-size:20px;
+  font-weight:bold;
+  color:#020100;}
+  
+.chipstable > thead > tr > th{ padding: 7px 0; text-transform:capitalize;}
+.chipstable-striped > tbody > tr > td{ padding:11px 4px;}
+.chipstable-striped > tbody > tr > td b{color: #e11414; font-size:36px;}
+.chipstable > thead > tr > th {background:#2471cd; font-size:14px !important; padding:0px 0px;
+  vertical-align:middle;border-bottom-width:0; color:#fff;
+}
+.chipstable > thead > tr > th,
+.chipstable-bordered1 > tbody > tr > td,
+.chipstable-striped > thead > tr > th{font-weight:normal;}
+.chipstable > tbody + tbody {
+  border-top: 2px solid #ddd;
+}
+.chipstable .chipstable {
+  background-color: #fff;
+}
+.chipstable-condensed > thead > tr > th,
+.chipstable-condensed > tbody > tr > th,
+.chipstable-condensed > tfoot > tr > th,
+.chipstable-condensed > thead > tr > td,
+.chipstable-condensed > tbody > tr > td,
+.chipstable-condensed > tfoot > tr > td {
+  padding: 5px;
+}
+.chipstable-bordered {
+  border: 1px solid #373636;
+}
+.chipstable-bordered > thead > tr > th,
+.chipstable-bordered > tbody > tr > th,
+.chipstable-bordered > tfoot > tr > th,
+.chipstable-bordered > thead > tr > td,
+.chipstable-bordered > tbody > tr > td,
+.chipstable-bordered > tfoot > tr > td {
+  border: 1px solid #373636;
+}
+.chipstable-bordered > thead > tr > th,
+.chipstable-bordered > thead > tr > td {
+  border-bottom-width: 2px;
+}
+.chipstable-striped > tbody > tr{
+  background-color:#fee446;
+}
+.chipstable-striped > tbody > tr:nth-of-type(odd) {
+  background-color:#f2a928;
+}
+/*.table-hover > tbody > tr:hover {
+  background-color: #fee449;
+}*/
+.chipstable col[class*="col-"] {
+  position: static;
+  display: table-column;
+  float: none;
+}
+.chipstable td[class*="col-"],
+.chipstable th[class*="col-"] {
+  position: static;
+  display: table-cell;
+  float: none;
+}
+.chipstable-responsive {
+  min-height: .01%;
+}
+.chipstable-striped > tbody > tr > td{ padding-left:0; padding-right:0;}
+@media screen and (max-width: 767px) {
+  .chipstable-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #ddd;
+  }
+  .chipstable-responsive > .chipstable {
+    margin-bottom: 0;
+  }
+  .chipstable-responsive > .chipstable > thead > tr > th,
+  .chipstable-responsive > .chipstable > tbody > tr > th,
+  .chipstable-responsive > .chipstable > tfoot > tr > th,
+  .chipstable-responsive > .chipstable > thead > tr > td,
+  .chipstable-responsive > .chipstable > tbody > tr > td,
+  .chipstable-responsive > .chipstable > tfoot > tr > td {
+    white-space: nowrap;
+  }
+  .chipstable-responsive > .chipstable-bordered {
+    border: 0;
+  }
+  .chipstable-responsive > .chipstable-bordered > thead > tr > th:first-child,
+  .chipstable-responsive > .chipstable-bordered > tbody > tr > th:first-child,
+  .chipstable-responsive > .chipstable-bordered > tfoot > tr > th:first-child,
+  .chipstable-responsive > .chipstable-bordered > thead > tr > td:first-child,
+  .chipstable-responsive > .chipstable-bordered > tbody > tr > td:first-child,
+  .chipstable-responsive > .chipstable-bordered > tfoot > tr > td:first-child {
+    border-left: 0;
+  }
+  .chipstable-responsive > .chipstable-bordered > thead > tr > th:last-child,
+  .chipstable-responsive > .chipstable-bordered > tbody > tr > th:last-child,
+  .chipstable-responsive > .chipstable-bordered > tfoot > tr > th:last-child,
+  .chipstable-responsive > .chipstable-bordered > thead > tr > td:last-child,
+  .chipstable-responsive > .chipstable-bordered > tbody > tr > td:last-child,
+  .chipstable-responsive > .chipstable-bordered > tfoot > tr > td:last-child {
+    border-right: 0;
+  }
+  .chipstable-responsive > .chipstable-bordered > tbody > tr:last-child > th,
+  .chipstable-responsive > .chipstable-bordered > tfoot > tr:last-child > th,
+  .chipstable-responsive > .chipstable-bordered > tbody > tr:last-child > td,
+  .chipstable-responsive > .chipstable-bordered > tfoot > tr:last-child > td {
+    border-bottom: 0;
+  }
+}
+.chipstable .itemLeft {
+    text-align: left;
+    color: #333;
+    font-size: 20px;
+    border-right: 1px solid #eee;
+    border-left: 1px solid #eee;
+    background: #eee;
+}
+.chipstable td div{
+	font-size: inherit;
+}
+.chipstable tr:first-child td div{
+	text-transform: uppercase;
+}
+.chipstable .ticket_type,
+.chipstable .date{
+	font-size : 15px;
+}
+.chipstable td:not(:first-child) div.giai-tam{
+	font-size: 36px!important;
+    color: red!important;
+}
+.chipstable td:not(:first-child) div.giai-dac-biet{
+	font-size: 36px!important;
+    color: red!important;
+}
+.clock{
+	background : url('../icon/clock.svg') top center no-repeat;
+	background-size: contain;
+}
+.chipstable td .load{
+	height : 40px;
+	width:100%;
+	margin : atuo;
+}
+.chipstable .random{
+	text-align : center;
+	color : white;
+}
+.winnings{
+	padding : 15px;
+	text-align : center;
+}
+.winningsTitle{
+	font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+@media (max-width: 768px){
+    .chipstable .itemLeft {
+		font-size: 14px;
+	}
+    .chipstable .ticket_type,
+	.chipstable .date{
+		font-size : 12px;
+	}
+	.chipstable td:not(:first-child) div.giai-tam{
+		font-size: 25px!important;
+	}
+	.chipstable td:not(:first-child) div.giai-dac-biet{
+		font-size: 18px!important;
+	}
+	.chipstable > thead > tr > th,
+	.chipstable > tbody > tr > th,
+	.chipstable > thead > tr > td,
+	.chipstable > tbody > tr > td {
+		font-size:15px;
+	}
+}

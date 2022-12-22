@@ -1,0 +1,387 @@
+var PICKER = function () {
+    let _this = this;
+    _this.labels = { 0: 'CN', 1: 'T2', 2: 'T3', 3: 'T4', 4: 't5', 5: 'T6', 6: 'T7' };
+    _this.date = new Date();
+    _this.time = new Date();
+    _this.prefix = "";
+    _this.element;
+    _this.event = false;
+	_this.change;
+    _this.config = {
+        location: 'https://choiveso.com/',
+        folder: 'lotter/picker/',
+        run: false,
+    };
+    _this.library = {
+        css: {
+            style: 'picker.css'
+        }
+    }
+    _this.ini = (option) => {
+        let date = (typeof option.date === 'object') ? option.date : (option.date ? new Date(option.date) : new Date());
+		_this.set(date);
+        _this.prefix = (option.prefix) ? option.prefix : 'cws-picker';
+		if(option.onchange && typeof option.onchange ==='function'){
+			_this.change = option.onchange;
+		}
+        _this.element = document.querySelector("[" + _this.prefix + "]");
+        _this.loadfile({ href: _this.config.location + _this.config.folder + _this.library.css.style })
+        _this.templates.main();
+    }
+    _this.get = () => {
+        return new Date(_this.date);
+    }
+    _this.set = (time) => {
+        _this.date = new Date(time);
+        _this.time = new Date(time);
+		_this.templates.changeButton();
+    }
+    _this.loadfile = function (option) {
+        if (option.src || option.href) {
+            var file = (option.src) ? option.src.split('.').reverse() : option.href.split('.').reverse();
+            var el;
+            if (file[0] == 'js') {
+                if (!document.querySelector("[src='" + option.src + "']")) {
+                    el = document.createElement("script");
+                    el.setAttribute("type", "text/javascript");
+					el.setAttribute("choiveso", "choiveso");
+                }
+            }
+            if (file[0] == 'css') {
+                if (!document.querySelector("[href='" + option.href + "']")) {
+                    el = document.createElement("link");
+                    el.setAttribute("rel", "stylesheet");
+                    el.setAttribute("type", "text/css");
+					el.setAttribute("choiveso", "choiveso");
+                }
+            }
+            if (el) {
+                for (var k in option) {
+                    el.setAttribute(k, option[k]);
+                }
+                void 0 !== el && document.head.appendChild(el);
+            }
+        }
+    }
+    _this.templates = {
+        main: () => {
+            let html = `<div class='_dropdown-picker-group-vertical'>
+                <div `+ _this.prefix + `-picker-button class='_dropdown-picker-button'></div>
+                <div `+ _this.prefix + `-picker-extract class='_dropdown-picker-list'></div>
+            </div>`;
+            if (_this.element) {
+                _this.element.innerHTML = html;
+                _this.templates.changeButton();
+                let el = document.querySelector("[" + _this.prefix + "-picker-button]");
+                if (el) {
+                    el.onclick = (e) => {
+                        if (_this.event == true) {
+                            _this.templates.removeList();
+                        } else {
+                            _this.templates.day();
+                        }
+                        _this.event = !_this.event;
+                    }
+                }
+            }
+        },
+        day: () => {
+            let el = document.querySelector("[" + _this.prefix + "-picker-extract]");
+            if (el) {
+                el.className += ' open';
+                let thead = '';
+                for (let k in _this.labels) {
+                    thead += '<th>' + _this.labels[k] + '</th>';
+                }
+                let tbody = _this.getData();
+                let html = `<div picker-extract-tmp class='picker-extract-tmp'>
+                    <div ` + _this.prefix + `-picker-control>
+                        <div class='picker-control'>
+							<div class='picker-next-brack'>
+                                <div picker-control-brack class='brack'><</div>
+                            </div>
+                            <div class='picker-month'>
+                                <span change-year>THÁNG `+ (_this.time.getMonth() + 1) + ` ` + _this.time.getFullYear() + `</span>
+                            </div>
+                            <div class='picker-next-brack'>
+                                <div picker-control-next class='next'>></div>
+                            </div>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>`+ thead + `</tr>
+                        </thead>
+                        <tbody>`+ tbody + `</tbody>
+                    </table>
+                </div>`;
+                el.innerHTML = html;
+                let list = el.querySelectorAll("[prefix-item]");
+                for (let i = 0; i < list.length; i++) {
+                    list[i].onclick = (e) => {
+                        let val = e.target.getAttribute('data');
+                        _this.time.setDate(+val);
+                        _this.date = new Date(_this.time);
+                        _this.event = !_this.event;
+                        _this.templates.removeList();
+                        _this.templates.changeButton();
+                    }
+                }
+                let tmp = el.querySelector("[picker-extract-tmp]");
+                if (tmp) {
+                    tmp.onclick = () => {
+                        event.stopPropagation();
+                    }
+                }
+                el.onclick = () => {
+                    _this.event = !_this.event;
+                    _this.templates.removeList();
+                    _this.time = new Date(_this.date);
+                }
+                let next = el.querySelector("[picker-control-next]");
+                let brack = el.querySelector("[picker-control-brack]");
+                if (next) {
+                    next.onclick = () => {
+                        _this.time.setMonth(_this.time.getMonth() + 1);
+                        _this.templates.day();
+                    }
+                }
+                if (brack) {
+                    brack.onclick = () => {
+                        _this.time.setMonth(_this.time.getMonth() - 1);
+                        _this.templates.day();
+                    }
+                }
+                let year = el.querySelector("[change-year]");
+                if (year) {
+                    year.onclick = () => { _this.templates.year(); }
+                }
+            }
+        },
+        year: () => {
+            let el = document.querySelector("[" + _this.prefix + "-picker-extract]");
+            if (el) {
+                el.className += ' open';
+                let tbody = _this.getYear();
+				console.log(_this.getYear());
+                let html = `<div picker-extract-tmp class='picker-extract-tmp'>
+                    <div ` + _this.prefix + `-picker-control>
+                        <div class='picker-control'>
+							<div class='picker-next-brack'>
+                                <div picker-control-brack class='brack'><</div>
+                            </div>
+                            <div class='picker-month'>
+                                <span change-day>` + (_this.time.getFullYear() - 10) +'  -  '+ (_this.time.getFullYear() + 13 )+ `</span>
+                            </div>
+                            <div class='picker-next-brack '>
+                                <div picker-control-next class='next'>></div>
+                            </div>
+                        </div>
+                    </div>
+                    <table>
+                        <tbody>`+ tbody + `</tbody>
+                    </table>
+                </div>`;
+                el.innerHTML = html;
+                let list = el.querySelectorAll("[prefix-item]");
+                for (let i = 0; i < list.length; i++) {
+                    list[i].onclick = (e) => {
+                        let val = e.target.getAttribute('data');
+                        _this.time.setFullYear(+val);
+                        _this.templates.month();
+                    }
+                }
+                let tmp = el.querySelector("[picker-extract-tmp]");
+                if (tmp) {
+                    tmp.onclick = () => {
+                        event.stopPropagation();
+                    }
+                }
+                el.onclick = () => {
+                    _this.event = !_this.event;
+                    _this.templates.removeList();
+                    _this.time = new Date(_this.date);
+                }
+                let next = el.querySelector("[picker-control-next]");
+                let brack = el.querySelector("[picker-control-brack]");
+                if (next) {
+                    next.onclick = () => {
+                        _this.time.setFullYear(_this.time.getFullYear() + 11);
+                        _this.templates.year();
+                    }
+                }
+                if (brack) {
+                    brack.onclick = () => {
+                        _this.time.setFullYear(_this.time.getFullYear() - 24);
+                        _this.templates.year();
+                    }
+                }
+                let day = el.querySelector("[change-day]");
+                if (day) {
+                    day.onclick = () => {
+                        _this.time.setFullYear(_this.date.getFullYear());
+                        _this.templates.day();
+                    }
+                }
+                let current = el.querySelector("[picker-year-current]");
+                if (current) {
+                    current.onclick = () => {
+                        _this.time.setFullYear((new Date()).getFullYear());
+                        _this.templates.year();
+                    }
+                }
+            }
+        },
+        month: () => {
+            let el = document.querySelector("[" + _this.prefix + "-picker-extract]");
+            if (el) {
+                el.className += ' open';
+                let tbody = _this.getMonths();
+                let html = `<div picker-extract-tmp class='picker-extract-tmp'>
+                    <div ` + _this.prefix + `-picker-control>
+                        <div class='picker-control'>
+                            <div class='picker-month'>
+                                <span change-day>` + _this.time.getFullYear() + `</span>
+                            </div>
+                        </div>
+                    </div>
+                    <table>
+                        <tbody>`+ tbody + `</tbody>
+                    </table>
+                </div>`;
+                el.innerHTML = html;
+                let list = el.querySelectorAll("[prefix-item]");
+                for (let i = 0; i < list.length; i++) {
+                    list[i].onclick = (e) => {
+                        let val = e.target.getAttribute('data');
+                        _this.time.setMonth(+val);
+                        _this.templates.day();
+                    }
+                }
+                let tmp = el.querySelector("[picker-extract-tmp]");
+                if (tmp) {
+                    tmp.onclick = () => {
+                        event.stopPropagation();
+                    }
+                }
+                el.onclick = () => {
+                    _this.event = !_this.event;
+                    _this.templates.removeList();
+                    _this.time = new Date(_this.date);
+                }
+                let day = el.querySelector("[change-day]");
+                if (day) {
+                    day.onclick = () => { _this.templates.day(); }
+                }
+            }
+        },
+        removeList: () => {
+            let el = document.querySelector("[" + _this.prefix + "-picker-extract]");
+            if (el) {
+                el.innerHTML = '';
+                el.className = '_dropdown-picker-list';
+            }
+        },
+        changeButton: () => {
+            let el = document.querySelector("[" + _this.prefix + "-picker-button]");
+            if (el) {
+                el.innerHTML = _this.convertdate(_this.date);
+                _this.time = new Date(_this.date);
+				if(_this.change && typeof _this.change ==='function'){
+					_this.change();
+				}
+            }
+        }
+    }
+    _this.convertdate = (time) => {
+        time = (typeof time === 'object') ? time : new Date();
+        let m = time.getMonth() + 1;
+        m = (m > 9) ? m : '0' + m.toString();
+        let d = time.getDate();
+        d = d > 9 ? d : '0' + d.toString();
+        return d + '/' + m + '/' + time.getFullYear();
+    }
+    _this.getData = () => {
+        let v = new Date(_this.time);
+        v.setDate(1);
+        let t = new Date(_this.time);
+        t.setMonth(t.getMonth() + 1);
+        t.setDate(1);
+        t.setDate(t.getDate() - 1);
+        if (v.getDay() > 0) {
+            v.setDate(v.getDate() - v.getDay());
+        }
+        if (t.getDay() < 6) {
+            t.setDate(t.getDate() + (6 - t.getDay()));
+        }
+        let createHtml = (html) => {
+            let step = (html.length < 1) ? 0 : 1;
+
+            v.setDate(v.getDate() + step);
+            if (v.getDay() == 0) {
+                html += '<tr>';
+            }
+            let current = (_this.convertdate(new Date()) == _this.convertdate(v)) ? " current" : "";
+            let active = (_this.convertdate(v) == _this.convertdate(_this.date) || _this.convertdate(v) === _this.convertdate(_this.date)) ? " active" : "";
+            let attr = (v.getMonth() == _this.time.getMonth()) ? 'prefix-item' : 'prefix-disabled';
+            html += "<td><div data='" + v.getDate() + "' " + attr + " class='" + attr + active + current + "'>" + v.getDate() + "</div></td>";
+            if (v.getDay() == 6) {
+                html += '</tr>';
+            }
+            if (_this.convertdate(v) == _this.convertdate(t) || _this.convertdate(v) === _this.convertdate(t)) {
+                return html;
+            } else {
+                return createHtml(html);
+            }
+
+        }
+        return createHtml('');
+    }
+    _this.getYear = () => {
+        let y = _this.time.getFullYear();
+        let year = y - 11;
+        let dem = 0;
+        let createHtml = (html, step) => {
+            dem++;
+            if (dem == 1) {
+                html += '<tr>';
+            }
+            let _year = year + step;
+            let current = ((new Date()).getFullYear() == _year) ? " current" : "";
+            let active = (_this.date.getFullYear() == _year) ? " active" : "";
+            html += "<td><div data='" + _year + "' prefix-item class='prefix-item prefix_attr" + active + current + "'>" + _year + "</div></td>";
+            if (dem == 6) {
+                html += '</tr>';
+                dem = 0;
+            }
+            if (step == 24) {
+                return html;
+            } else {
+                return createHtml(html, step + 1);
+            }
+        }
+        return createHtml('', 1);
+    }
+    _this.getMonths = () => {
+        let dem = 0;
+        let createHtml = (html, step) => {
+            dem++;
+            if (dem == 1) {
+                html += '<tr>';
+            }
+            let current = (_this.date.getFullYear() == _this.time.getFullYear() && ((new Date()).getMonth() + 1) == step) ? " current" : "";
+            let active = (_this.date.getFullYear() == _this.time.getFullYear() && (_this.date.getMonth() + 1) == step) ? " active" : "";
+            html += "<td><div data='" + (step - 1) + "' prefix-item class='prefix-item prefix_attr prefix_attr_month" + active + current + "'>THÁNG " + step + "</div></td>";
+            if (dem == 4) {
+                html += '</tr>';
+                dem = 0;
+            }
+            if (step == 12) {
+                return html;
+            } else {
+                return createHtml(html, step + 1);
+            }
+        }
+        return createHtml('', 1);
+    }
+}

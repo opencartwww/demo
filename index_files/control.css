@@ -1,0 +1,160 @@
+
+.lottery-control{
+	display: flex;
+	align-items: center;
+	padding: 15px;
+	width : 100%;
+}
+.lottery-control>div{
+	flex: 1;
+	display: flex;
+	align-items: center;
+	padding-left: 10px;
+	padding-right : 10px;
+}
+.lottery-control>div>div{
+	width : 100%;
+}
+.lottery-control>div>div>input, .lottery-control-type>div>div>input {
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555555;
+    background-color: #fff;
+    background-image: none;
+	min-height: 30px!important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  }
+.lottery-control>div>div>input:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  }
+.lottery-control>div>div>input::-moz-placeholder {
+    color: #999;
+    opacity: 1;
+  }
+.lottery-control>div>div>input:-ms-input-placeholder {
+    color: #999;
+  }
+.lottery-control>div>div>input::-webkit-input-placeholder {
+    color: #999;
+  }
+.lottery-control>div>div>input::-ms-expand {
+    border: 0;
+    background-color: transparent;
+  }
+.lottery-control>div.lottery-button-submit{
+	width : 100px;
+	flex: none;
+}
+.lottery-control>div.lottery-button-submit>button, .lottery-control-type>div.lottery-button-submit-type>button{
+	color: #fff;
+    background-color: #1e7e34;
+    border: 1px solid #1c7430;
+	padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+}
+.box-lottery-control-type{
+	background:#eeeeee
+}
+.lottery-control-type{
+	padding: 15px;
+}
+.title-control-type{
+    color: #e10909;
+    text-transform: uppercase;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+    background: #dee2e6;
+}
+.lottery-control-type>div{
+	margin-bottom:15px;
+}
+
+.lottery-control-type select, .lottery-control select{
+	display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.lottery-button-submit-type button{
+	width:100%;
+    outline:none
+}
+.lottery-bind-modal{
+	position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: rgba(27, 3, 3, 0.4117647058823529);
+}
+.lottery-modal{
+	position: absolute;
+    top: 35%;
+    text-align: center;
+    background: white;
+    padding: 15px;
+    left: 0;
+    right: 0;
+    width: 40%;
+    left: 30%;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+@media (max-width: 768px){
+	.lottery-control{
+		display: block;
+	}
+	.lottery-control>div{
+		flex: none;
+		width: 49%!important;
+		display: inline-block;
+		margin-top: 2px;
+		margin-bottom : 2px;
+	}
+	.lottery-control>div.lottery-button-submit>button{
+		width : 100%;
+	}
+}
+@media (max-width: 415px){
+	div.lottery-bind-alert-modal div[lottery-alert-modal] {
+      width: 90%;
+      left: 5%;
+    }
+}
+

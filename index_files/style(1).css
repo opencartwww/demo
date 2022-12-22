@@ -1,0 +1,108 @@
+._dropdown-select-button {
+    display: block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+._dropdown-select-group-vertical {
+    position: relative;
+    vertical-align: middle;
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+._dropdown-select-group-vertical:hover{
+    background: #eee;
+}
+._dropdown-select-list{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    font-size: 14px;
+    text-align: left;
+    display: none;
+}
+._dropdown-select-list.open{
+    display: block!important;
+    position: relative;
+    background: transparent;
+    width: 100%;
+    height: 100%;
+	z-index : 9999;
+	padding: 0px;
+}
+._dropdown-select-list>div{
+	position: absolute;
+	top:100%;
+	left:0px;
+	width: 100%;
+    max-height: 140px;
+    overflow-y: auto;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+._dropdown-select-list>div>div{
+    padding: 5px 15px;
+    background: white;
+    cursor: pointer;
+}
+._dropdown-select-list>div>div.active{
+    color: #fff;
+    background-color: #337ab7;
+}
+._dropdown-select-list>div>div:not(.active):hover{
+    background: #eee;
+}
+/*
+.desc,.asc{
+    position: relative;
+}
+._dropdown-select-button.desc::after{
+    content: "↑";
+    position: absolute;
+    width: 25px;
+    height: 100%;
+    left: 100%;
+}
+._dropdown-select-button.asc::after{
+    content: "↓";
+    position: absolute;
+    width: 25px;
+    height: 100%;
+    left: 100%;
+}*/

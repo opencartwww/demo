@@ -1,0 +1,1826 @@
+//'use strict';
+var LOTTERYGETAPI = function() {
+    var _this = this;
+    _this.time = new Date();
+    _this.data = [];
+    _this.cached = [];
+    _this.start = [16, 10];
+    _this.end = [20, 0];
+    _this.day = false;
+    _this.buttonType;
+    _this.city = {
+        name: '',
+        code: ''
+    };
+    _this.filed = {
+        title: 'mask_name'
+    };
+    _this.prize_number = "";
+    _this.listCity = [];
+    _this.winnings = [];
+    _this.SELECT;
+    _this.SELECTTYPE;
+    _this.PICKER;
+    _this.PICKERTYPE;
+    _this.account = false;
+    _this.timeToken = 'cws' + (new Date()).getTime().toString();
+    _this.area = "";
+    _this.area_value = "";
+    _this.content = {
+        agency: '',
+        address: '',
+        signature: '',
+        title: ''
+    };
+    _this.config = {
+        path: 'http://api.xsktmiennam.vn/',
+        location: 'https://library.chips.vn/',
+        prizeLength: 6,
+        day: {
+            mask: ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"],
+            curn: ["C.N", "T.Hai", "T.Ba", "T.Tư", "T.Năm", "T.Sáu", "T.Bảy"]
+        },
+        display: 5000,
+        iconload: 'clock',
+        timeout: 300,
+        timedisplay: 0,
+        isload: false,
+        clear: false,
+        eventPrint: false,
+        showprint: false,
+        folder: 'get/',
+        run: false,
+        maskFolder: '',
+        control: false,
+        controltype: 1,
+        map: null,
+        pathGet: null,
+        bingo: false
+    };
+    _this.library = {
+        icon: {
+            clock: 'clock',
+            earth: 'earth',
+            spiral: 'earth',
+            spinner: 'spinner'
+        },
+        css: {
+            stack: 'style/stack.css',
+            striped: 'style/striped.css',
+            inserted: 'style/inserted.css',
+            collapse: 'style/collapse.css',
+            control: 'style/control.css',
+            style: 'style/style.css',
+
+        },
+        script: {
+            picker: '../picker/picker.js',
+            select: '../select/select.js',
+            jspdf: '../jspdf/jspdf.debug.js'
+        },
+        button: {
+            btn: 'style/button.css'
+        },
+        print: {
+            a4_1: 'style/print01.css',
+            a4_4: 'style/print04.css',
+            a4_6: 'style/print06.css',
+            a5_1: 'style/print51.css',
+            a00: 'style/print.css'
+        },
+        get: (name) => {
+            let a = name.split(".");
+            if (a.length == 2 && _this.library[a[0]] && _this.library[a[0]][a[1]]) {
+                //console.log(_this.config.location)
+                let path = ((_this.config.run == false) ? _this.config.folder : _this.config.location + _this.config.maskFolder + _this.config.folder) + _this.library[a[0]][a[1]]
+                return path;
+            }
+        }
+    }
+    _this.pages = {
+        list: {
+            41: {
+                number: 1,
+                name: '1 / A4',
+                css: 'print.a4_1',
+                id: 'printa41'
+            },
+            44: {
+                number: 4,
+                name: '4 / A4',
+                css: 'print.a4_4',
+                id: 'printa44'
+            },
+            46: {
+                number: 6,
+                name: '6 / A4',
+                css: 'print.a4_6',
+                id: 'printa46'
+            },
+        },
+        select: 0,
+        size: []
+    };
+
+    _this.bingo = {
+        listNumber: [{
+            id: 'bingo-number0',
+            name: 0,
+            value: 0
+        }, {
+            id: 'bingo-number1',
+            name: 1,
+            value: 1
+        }, {
+            id: 'bingo-number2',
+            name: 2,
+            value: 2
+        }, {
+            id: 'bingo-number3',
+            name: 3,
+            value: 3
+        }, {
+            id: 'bingo-number4',
+            name: 4,
+            value: 4
+        }, {
+            id: 'bingo-number5',
+            name: 5,
+            value: 5
+        }, {
+            id: 'bingo-number6',
+            name: 6,
+            value: 6
+        }, {
+            id: 'bingo-number7',
+            name: 7,
+            value: 7
+        }, {
+            id: 'bingo-number8',
+            name: 8,
+            value: 8
+        }, {
+            id: 'bingo-number9',
+            name: 9,
+            value: 9
+        }, ],
+        select: -1,
+        indexFocus: -1,
+        indexBingoGroupFocus: 0,
+        flagBingo: false,
+        data: [],
+        hoverNumber: (flag, index) => {
+            _this.bingo.select = (!flag) ? index : -1;
+            let v = document.querySelectorAll(".chipstable tbody>tr>td>div");
+            for (z = 0; z < v.length; z++) {
+                if (+v[z].innerText > 0) {
+                    let item = v[z].innerText.slice(v[z].innerText.length - 2, v[z].innerText.length);
+                    if (!flag && item.indexOf(_this.bingo.listNumber[index].value) > -1) {
+                        v[z].innerHTML = v[z].innerText.slice(0, ((_this.bingo.indexBingoGroupFocus == 0) ? (v[z].innerText.length - 2) : ((_this.bingo.indexBingoGroupFocus == 2 && v[z].innerText.length > 2) ? 1 : 0))) + `<span class="bingo-color">` + v[z].innerText.slice(v[z].innerText.length - 2, v[z].innerText.length) + `</span>`;
+                    } else if (_this.bingo.indexFocus >= 0 && _this.bingo.indexFocus != index && flag && item.indexOf(_this.bingo.listNumber[index].value) > -1 && item.indexOf(_this.bingo.listNumber[_this.bingo.indexFocus].value) == -1) {
+                        v[z].innerHTML = ((_this.bingo.indexBingoGroupFocus == 0) ? v[z].getAttribute('prize_number') : ((_this.bingo.indexBingoGroupFocus == 1) ? v[z].getAttribute('prize_number').slice(v[z].getAttribute('prize_number').length - 2, v[z].getAttribute('prize_number') - 1) : v[z].getAttribute('prize_number').slice((v[z].getAttribute('prize_number').length > 2 ? (v[z].getAttribute('prize_number').length - 3) : 0), v[z].getAttribute('prize_number') - 1)));
+                    } else if (flag && _this.bingo.indexFocus == -1) {
+                        v[z].innerHTML = ((_this.bingo.indexBingoGroupFocus == 0) ? v[z].getAttribute('prize_number') : ((_this.bingo.indexBingoGroupFocus == 1) ? v[z].getAttribute('prize_number').slice(v[z].getAttribute('prize_number').length - 2, v[z].getAttribute('prize_number') - 1) : v[z].getAttribute('prize_number').slice((v[z].getAttribute('prize_number').length > 2 ? (v[z].getAttribute('prize_number').length - 3) : 0), v[z].getAttribute('prize_number') - 1)));
+                    }
+                }
+            }
+        },
+        removeActiveBefore: (index) => {
+            let v = document.querySelectorAll(".chipstable tbody>tr>td>div");
+            for (z = 0; z < v.length; z++) {
+                if (+v[z].innerText > 0) {
+                    let item = v[z].innerText.slice(v[z].innerText.length - 2, v[z].innerText - 1);
+                    if (item.indexOf(_this.bingo.listNumber[index].value.toString()) === -1) {
+                        v[z].innerHTML = ((_this.bingo.indexBingoGroupFocus == 0) ? v[z].getAttribute('prize_number') : ((_this.bingo.indexBingoGroupFocus == 1) ? v[z].getAttribute('prize_number').slice(v[z].getAttribute('prize_number').length - 2, v[z].getAttribute('prize_number') - 1) : v[z].getAttribute('prize_number').slice((v[z].getAttribute('prize_number').length > 2 ? (v[z].getAttribute('prize_number').length - 3) : 0), v[z].getAttribute('prize_number') - 1)));
+                    }
+                }
+            }
+        },
+        removeActiveAll: () => {
+            let v = document.querySelectorAll(".chipstable tbody>tr>td>div");
+            for (z = 0; z < v.length; z++) {
+                if (+v[z].innerText > 0) {
+                    v[z].innerHTML = ((_this.bingo.indexBingoGroupFocus == 0) ? v[z].getAttribute('prize_number') : ((_this.bingo.indexBingoGroupFocus == 1) ? v[z].getAttribute('prize_number').slice(v[z].getAttribute('prize_number').length - 2, v[z].getAttribute('prize_number') - 1) : v[z].getAttribute('prize_number').slice((v[z].getAttribute('prize_number').length > 2 ? (v[z].getAttribute('prize_number').length - 3) : 0), v[z].getAttribute('prize_number') - 1)));
+                }
+            }
+        },
+        clickNumber: (index) => {
+            if (_this.bingo.indexFocus != index) {
+                if (_this.bingo.indexFocus != -1) {
+                    _this.bingo.removeActiveBefore(index);
+                    document.getElementById(_this.bingo.listNumber[_this.bingo.indexFocus].id).classList.remove("bingo-focus");
+                }
+                _this.bingo.indexFocus = index;
+                document.getElementById(_this.bingo.listNumber[index].id).classList.add("bingo-focus");
+            } else {
+                _this.bingo.clear();
+            }
+        },
+        clear: () => {
+            if (_this.bingo.indexFocus != -1) {
+                document.getElementById(_this.bingo.listNumber[_this.bingo.indexFocus].id).classList.remove("bingo-focus");
+            }
+            _this.bingo.indexFocus = -1;
+            _this.bingo.select = -1;
+            _this.bingo.removeActiveAll();
+        },
+        clickBingoGroup: (index) => {
+            let v = document.querySelectorAll(".chipstable tbody>tr>td>div");
+            if (_this.bingo.indexBingoGroupFocus != index) {
+                if (index === 0) {
+                    document.getElementById('bingo-group-1').classList.remove("active");
+                    document.getElementById('bingo-group-2').classList.remove("active");
+                    document.getElementById('bingo-group-all').classList.add("active");
+                } else if (index == 1) {
+                    document.getElementById('bingo-group-all').classList.remove("active");
+                    document.getElementById('bingo-group-2').classList.remove("active");
+                    document.getElementById('bingo-group-1').classList.add("active");
+                } else {
+                    document.getElementById('bingo-group-all').classList.remove("active");
+                    document.getElementById('bingo-group-1').classList.remove("active");
+                    document.getElementById('bingo-group-2').classList.add("active");
+                }
+                _this.bingo.clear();
+                _this.bingo.indexBingoGroupFocus = index;
+                for (z = 0; z < v.length; z++) {
+                    if (+v[z].getAttribute('prize_number') > 0) {
+                        switch (index) {
+                            case 1:
+                                v[z].innerHTML = v[z].getAttribute('prize_number').slice(v[z].getAttribute('prize_number').length - 2, v[z].getAttribute('prize_number') - 1);
+                                break;
+                            case 2:
+                                v[z].innerHTML = v[z].getAttribute('prize_number').slice((v[z].getAttribute('prize_number').length > 2 ? (v[z].getAttribute('prize_number').length - 3) : 0), v[z].getAttribute('prize_number') - 1);
+                                break;
+                            default:
+                                v[z].innerHTML = v[z].getAttribute('prize_number');
+                        }
+                    }
+                }
+            }
+        },
+        processBingo: (index, prize_number) => {
+            if (+prize_number > 0) {
+               let result = prize_number.slice(prize_number.length - 2, prize_number.length);
+               let ten = result.substring(0,1);
+               let unit = result.substring(1,2);
+               _this.bingo.data[index].data[+unit].tens += ((_this.bingo.data[index].data[+unit].tens != '')? ', ': '') +ten+'' ;
+               _this.bingo.data[index].data[+ten].units += ((_this.bingo.data[index].data[+ten].units != '')? ', ': '') +unit+'' ;
+            }
+        },
+        clearBingoTable: ()=> {
+            _this.bingo.data = [];
+        },
+        showBingoTable: () => {
+            _this.bingo.flagBingo = !_this.bingo.flagBingo;
+            if(_this.bingo.flagBingo === true){
+                document.getElementById('bingo-view-detail').innerHTML = 'X';
+                document.getElementById('bingo-view-detail-mb').innerHTML = 'X';
+                document.querySelector('.chips-bingo').classList.add('active');
+            }else{
+                document.getElementById('bingo-view-detail').innerHTML = 'Xem Bảng Loto';
+                document.getElementById('bingo-view-detail-mb').innerHTML = 'Xem Bảng Loto';
+                document.querySelector('.chips-bingo').classList.remove('active');
+            }
+        }
+    };
+
+    _this.token = {
+        set: function(token) {
+            _this.token.key = encodeURIComponent(token);
+        },
+        key: null,
+        get: function() {
+            return _this.token.key
+        },
+        check: function() {
+            return _this.token.key != null ? true : false
+        }
+    };
+    _this.typeResponse = true;
+    _this.uri = {
+        set: function(url) {
+            _this.uri.tmp = url
+        },
+        tmp: _this.config.path + "get-result?client=true" + (_this.config.map == null) ? '' : "&map=true",
+        get: function() {
+            return _this.uri.tmp;
+        }
+    };
+    _this.response = {};
+    _this.element;
+    _this.elementPrint;
+    _this.logdebug = {
+        get: function() {
+            return _this.logdebug.data
+        },
+        set: function(key, message) {
+            _this.logdebug.data.push({
+                key: message
+            });
+            if (_this.logdebug.bebug == true) {
+                console.log(key + ": " + message);
+            }
+        },
+        data: [],
+        bebug: false
+    };
+
+    _this.ini = function(option) {
+        if (option.token) {
+            _this.element = (option.element) ? document.querySelector(option.element) : document.querySelector("[lottery-bind-table]");
+            (option.folder) ? _this.config.maskFolder = option.folder: '';
+
+            _this.config.map = (option.map && option.map == true) ? true : ((_this.params.query('map') && eval(_this.params.query('map')) == true) ? true : null);
+            if (option.control) {
+                _this.elementControl = (option.element) ? document.querySelector(option.element) : document.querySelector("[lottery-bind-control]");
+            }
+            if (_this.element) {
+                _this.element.innerHTML = '';
+            }
+            _this.config.run = (option.run && option.run == true) ? true : false;
+            _this.config.control = (option.control && option.control == true) ? true : false;
+            _this.config.bingo = (option.bingo && option.bingo == true) ? true : false;
+            _this.config.controltype = option.controltype ? option.controltype : _this.config.controltype;
+            _this.day = (option.day && option.day == true) ? true : false;
+            _this.config.map = (option.map && option.map == true) ? true : ((_this.params.query('map') && eval(_this.params.query('map')) == true) ? true : null);
+            if (_this.params.query('print') && (option.print && option.print == true)) {
+                if (!_this.element) {
+                    var el = document.createElement('div');
+                    document.body.innerHTML = "";
+                    document.body.insertBefore(el, null);
+                    _this.element = el;
+                }
+            }
+            if (_this.element) {
+                _this.element.setAttribute("lottery-bind-table", "");
+                if (option.account) {
+                    _this.account = option.account;
+                }
+                _this.area = (option.area) ? option.area : null;
+                _this.area_value = _this.area == "all" ? 'mn' : _this.area;
+                _this.config.pathGet = (option.path) ? option.path : null;
+                _this.loadfile({
+                    href: _this.library.get('css.style')
+                });
+                _this.token.set(option.token);
+                _this.start = (option.configTime && typeof option.configTime === 'object') ? option.configTime : _this.start;
+                if (option.time || _this.params.query('time')) {
+                    _this.time = (_this.params.query('time')) ? new Date(_this.params.query('time')) : new Date(option.time);
+                } else {
+                    var d = new Date();
+                    var skip = (d.getHours() == _this.start[0] && d.getMinutes() < _this.start[1]) ? true : (d.getHours() < _this.start[0] ? true : false);
+                    if (skip == true) {
+                        d.setDate(d.getDate() - 1);
+                    }
+                    _this.time = d;
+                }
+                if (_this.config.control == true) {
+                    _this.loadfile({
+                        src: _this.library.get('script.select')
+                    });
+                    _this.loadfile({
+                        src: _this.library.get('script.picker')
+                    });
+                    _this.loadfile({
+                        href: _this.library.get('css.control')
+                    });
+                    _this.onloadCity();
+                    _this.configSelect(_this.listCity);
+                    _this.configPicker();
+                }
+                if (option.prize_number) {
+                    _this.prize_number = option.prize_number;
+                }
+                _this.config.showprint = (option.print && option.print == true) ? true : false;
+                if (option.table && _this.library.css[option.table]) {
+                    _this.loadfile({
+                        href: _this.library.get('css.' + option.table)
+                    })
+                } else {
+                    _this.loadfile({
+                        href: _this.library.get('css.stack')
+                    });
+                }
+                if (_this.params.query('print')) {
+                    _this.loadfile({
+                        href: _this.library.get('print.a00'),
+                        media: 'print'
+                    });
+                    //_this.loadfile({ src: _this.library.get('script.jspdf') });
+                    _this.config.showprint = true;
+                    _this.config.control = false;
+                    _this.pages.select = isNaN(+_this.params.query('print')) ? 1 : +_this.params.query('print');
+                    _this.pages.select = (_this.pages.list[_this.pages.select]) ? _this.pages.select : 1;
+                    delete _this.element;
+                    var container = document.createElement('div');
+                    var pr = document.createElement('div');
+                    container.style.display = 'none';
+                    container.className = 'print_container_hidden';
+                    container.innerHTML = document.body.innerHTML;
+                    document.body.innerHTML = '';
+                    document.body.insertBefore(container, null);
+
+                    pr.className = 'print_container';
+                    document.body.insertBefore(pr, null);
+                    _this.elementPrint = pr;
+                    var style = document.querySelectorAll("[rel='stylesheet']");
+                    for (var i = 0; i < style.length; i++) {
+                        style[i].removeAttribute('href');
+                    }
+                    style = document.querySelectorAll('style');
+                    for (var i = 0; i < style.length; i++) {
+                        style[i].remove();
+                    }
+                    _this.loadfile({
+                        href: _this.library.get(_this.pages.list[_this.pages.select].css)
+                    });
+
+                    window.addEventListener('keyup', function(e) {
+                        if (e.ctrlKey && e.keyCode == 80) {
+                            _this.printEvent();
+                            e.preventDefault();
+                        }
+                    })
+
+                    window.addEventListener('keydown', function(e) {
+                        if (e.ctrlKey && e.keyCode == 80) {
+                            _this.printEvent();
+                            e.preventDefault();
+                        }
+                    })
+                }
+                if (option.agency) {
+                    _this.content.agency = option.agency;
+                } else {
+                    _this.content.agency = (document.title) ? document.title : ((document.querySelector('h1')) ? document.querySelector('h1').innerHTML : '');
+                }
+                if (option.title) {
+                    document.title = option.title;
+                    _this.content.title = option.title;
+                }
+                if (option.address) {
+                    _this.content.address = option.address;
+                } else {
+                    _this.content.address = (document.querySelector('address')) ? document.querySelector('address') : '';
+                }
+                if (option.signature) {
+                    _this.content.signature = option.signature;
+                } else {
+                    _this.content.signature = 'In Vé Dò Tại: ' + window.location.host;
+                }
+
+                if (option.data) {
+                    _this.cached = option.data;
+                } else {
+                    _this.onload();
+                }
+            } else {
+                _this.logdebug.set("element", "Can't find element to extract response API.");
+            }
+        } else {
+            _this.logdebug.set("token", "Can't find token connect to API.");
+        }
+    }
+    _this.onloadCity = () => {
+        if (_this.token.check() == true) {
+            var request = _this.request();
+            if (request) {
+                let base_url = _this.config.path + "city-list?client=true&token=" + _this.token.get() + "&typeResponse=true" + _this.typeResponse + "&area=" + _this.area_value;
+                request.open("POST", base_url, true);
+                request.setRequestHeader('Content-type', 'application/ecmascript');
+                request.setRequestHeader('X-Alt-Referer', window.location.pathname);
+                request.send();
+                request.onreadystatechange = function() {
+                    if (request.readyState == 4 && request.status == 200) {
+                        try {
+                            var response = (typeof request.response === 'object') ? request.response : JSON.parse(request.response)
+
+                            if (response['status'] == 1 && response['data'] && response['data'].length > 0) {
+                                _this.listCity = response['data'];
+                                _this.configSelect([]);
+
+                            }
+                            _this.logdebug.set("response", response.message);
+                        } catch (err) {
+                            //console.log(err);
+                            _this.logdebug.set("onload", err.message);
+                        }
+                    }
+                }
+            } else {
+                _this.logdebug.set("XMLHttpRequest", "You browser browser not supported by supported by method XMLHttpRequest.");
+            }
+        } else {
+            _this.logdebug.set("token", "Can't find token connect to API.");
+        }
+    }
+    _this.filterCity = () => {
+        let d = new RegExp((new Date(_this.time)).getDay());
+        return _this.listCity.filter(e => {
+            return (e.day_run.search(d) !== -1) ? true : false;
+        })
+    }
+    _this.request = () => {
+        let request;
+        if (window.XMLHttpRequest) {
+            request = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            request = new ActiveXObject(Microsoft.XMLHTTP);
+        }
+        return request;
+    }
+    _this.onload = () => {
+        _this.tempates.onload(true);
+        _this.tempates.tab();
+        if (_this.config.control) {
+            _this.tempates.control();
+            _this.tempates.winnings();
+        }
+        _this.onloadCity();
+        _this.configSelect({});
+        _this.configPicker();
+        if (_this.day) {
+            _this.tempates.day();
+        }
+        _this.config.isload = true;
+        let base_url;
+        if (_this.account == true) {
+            base_url = _this.config.path + "get-result?client=true&account=true&token=" + _this.token.get() + "&typeResponse=" + _this.typeResponse + "&limit=1&lotdate=" + _this.convertdate();
+        } else if (_this.config.pathGet != null) {
+            base_url = _this.config.pathGet + '?lotdate=' + _this.convertdate();
+        } else {
+            base_url = _this.config.path + "get-result?client=true" + ((_this.config.map == null) ? '' : "&map=true") + '&token=' + _this.token.get() + '&typeResponse=' + _this.typeResponse + "&area=" + _this.area_value + '&lotdate=' + _this.convertdate() + ((_this.city.code && _this.city.code != null) ? '&city=' + _this.city.code : '');
+        }
+
+        if (_this.token.check() == true) {
+            var request = _this.request();
+            if (request) {
+                request.open("POST", base_url, true);
+                request.setRequestHeader('Content-type', 'application/ecmascript');
+                request.setRequestHeader('X-Alt-Referer', window.location.pathname);
+                request.send();
+                request.onreadystatechange = function() {
+                    if (request.readyState == 4) {
+                        _this.tempates.onload(false);
+                    }
+                    if (request.readyState == 4 && request.status == 200) {
+                        _this.config.isload = false;
+                        _this.config.clear = true;
+                        _this.clearTimeOut();
+                        _this.config.timedisplay = 0;
+                        try {
+                            var response = (typeof request.response === 'object') ? request.response : JSON.parse(request.response);
+                            _this.bingo.clearBingoTable();
+                            if (response['status'] == 1 && response['data'] && response['data'].length > 0) {
+                                _this.cached = response['data'].filter(function(rows, index) {
+                                    rows.className = rows.code + '_' + rows.id;
+                                    _this.bingo.data.push({
+                                        name: rows.name,
+                                        data: [{
+                                            number: 0,
+                                            units: '',
+                                            tens: ''
+                                        }, {
+                                            number: 1,
+                                            units: '',
+                                            tens: ''
+                                        }, {
+                                            number: 2,
+                                            units: '',
+                                            tens: ''
+                                        }, {
+                                            number: 3,
+                                            units: '',
+                                            tens: ''
+                                        }, {
+                                            number: 4,
+                                            units: '',
+                                            tens: ''
+                                        }, {
+                                            number: 5,
+                                            units: '',
+                                            tens: ''
+                                        }, {
+                                            number: 6,
+                                            units: '',
+                                            tens: ''
+                                        }, {
+                                            number: 7,
+                                            units: '',
+                                            tens: ''
+                                        }, {
+                                            number: 8,
+                                            units: '',
+                                            tens: ''
+                                        }, {
+                                            number: 9,
+                                            units: '',
+                                            tens: ''
+                                        }]
+                                    });
+                                    rows.list = rows.list.filter(function(list) {
+                                        list.className = list.code;
+                                        list.orders = +list.orders;
+                                        list.data = list.data.filter(function(row) {
+                                            _this.bingo.processBingo(index, row.prize_number);
+                                            row.className = list.code + ' ' + rows.className + '_' + list.code + '_' + row.id;
+                                            row.prize_amount = +list.prize_amount;
+                                            row.length_number = +list.length_number;
+                                            row.orders = +row.orders;
+                                            return true;
+                                        })
+                                        list.data = list.data.sort(function(a, b) {
+                                            return (isNaN(+a['orders']) ? 0 : +a['orders']) - (isNaN(+b['orders']) ? 0 : +b['orders']);
+                                        });
+                                        return true;
+                                    })
+                                    rows.list = rows.list.sort(function(a, b) {
+                                        return (isNaN(+b['orders']) ? 0 : +b['orders']) - (isNaN(+a['orders']) ? 0 : +a['orders']);
+                                    });
+                                    return true; // (_this.current) ? ((rows.code == _this.current) ? true : false) : true;
+                                })
+                            } else {
+                                _this.cached = [];
+                                //  _this.alert(response.message);
+
+                            }
+                            _this.extract();
+                            _this.response = response; // {status : response.status , message : response.message};
+                            _this.logdebug.set("response", response.message);
+                        } catch (err) {
+                            console.log(err);
+                            _this.logdebug.set("onload", err.message);
+                        }
+                    }
+                }
+            } else {
+                _this.logdebug.set("XMLHttpRequest", "You browser browser not supported by supported by method XMLHttpRequest.");
+            }
+        } else {
+            _this.logdebug.set("token", "Can't find token connect to API.");
+        }
+
+    }
+    _this.configPicker = (date = "") => {
+        if (window['PICKER']) {
+            date = (date) ? date : _this.time;
+            let option = {
+                onchange: () => {
+                    _this.time = new Date(_this.PICKER.date);
+                    _this.configSelect([]);
+                },
+                prefix: _this.timeToken + '-picker',
+                date: new Date(date)
+            }
+            let option2 = {
+                onchange: () => {
+                    _this.time = new Date(_this.PICKERTYPE.date);
+                    _this.configSelect([]);
+                },
+                prefix: _this.timeToken + '-picker-type',
+                date: new Date(date)
+            }
+            if (!_this.PICKER) {
+                _this.PICKER = new PICKER();
+            }
+            _this.PICKER.ini(option);
+            if (!_this.PICKERTYPE) {
+                _this.PICKERTYPE = new PICKER();
+            }
+            _this.PICKERTYPE.ini(option2);
+        } else {
+            setTimeout(() => {
+                _this.configPicker(date)
+            }, 1000);
+        }
+    }
+    _this.configSelect = (list) => {
+        if (window['SELECT']) {
+            list = (list.length == 0) ? _this.filterCity() : list;
+            if (list.length > 0) {
+                if (!_this.buttonType || _this.buttonType == false) {
+                    if (!_this.SELECT) {
+                        _this.SELECT = new SELECT();
+                    } else {
+                        _this.SELECT._set(list);
+                    }
+                    _this.SELECT.ini({
+                        list: list,
+                        prefix: _this.timeToken + '-select'
+                    });
+                }
+
+                if (!_this.buttonType || _this.buttonType == true) {
+                    if (!_this.SELECTTYPE) {
+                        _this.SELECTTYPE = new SELECT();
+                    } else {
+                        _this.SELECTTYPE._set(list);
+                    }
+                    _this.SELECTTYPE.ini({
+                        list: list,
+                        prefix: _this.timeToken + '-select-type'
+                    });
+                }
+
+            } else {
+
+                _this.SELECT = new SELECT();
+                _this.SELECT.ini({
+                    list: [],
+                    prefix: _this.timeToken + '-select'
+                });
+
+                _this.SELECTTYPE = new SELECT();
+                _this.SELECTTYPE.ini({
+                    list: [],
+                    prefix: _this.timeToken + '-select-type'
+                });
+
+            }
+        } else {
+            setTimeout(() => {
+                _this.configSelect(list)
+            }, 1000);
+        }
+    }
+    _this.extract = function() {
+        var table = {
+            thead: [],
+            tbody: []
+        };
+        var data = _this.cached;
+      	_this.winnings = [];
+        var winnings = [];
+        for (var i = 0; i < data.length; i++) {
+            var thead = {
+                lotdate: data[i]['lotdate'],
+                code: data[i]['code'],
+                name: data[i][_this.filed.title],
+                ticket_type: data[i]['ticket_type']
+            };
+            if (i == 0) {
+                var vthead = {
+                    lotdate: data[i]['lotdate'],
+                    code: data[i]['code'],
+                    name: data[i]['lotdate'],
+                    ticket_type: data[i]['ticket_type']
+                };
+                table.thead = [vthead];
+                if (_this.config.control == true) {
+                    _this.time = new Date(data[i]['lotdate'].split("/").reverse().join("-"));
+                    _this.configPicker(_this.time);
+                    _this.time = new Date(data[i]['lotdate'].split("/").reverse().join("-"));
+                }
+            }
+            table.thead.push(thead);
+            if (data[i]['list']) {
+                var list = data[i]['list'];
+                for (var j = 0; j < list.length; j++) {
+                    if (!table.tbody[j]) {
+                        table.tbody[j] = [];
+                    }
+                    if (i == 0) {
+                        if (!table.tbody[j][i]) {
+                            table.tbody[j][i] = [];
+                        }
+                        table.tbody[j][i] = [{
+                            id: list[j]['code'],
+                            prize_number: list[j]['name'],
+                            orders: 0,
+                            className: list[j]['code'],
+                            price: list[j]['prize_value']
+                        }];
+                    }
+
+                    table.tbody[j][i + 1] = list[j]['data'];
+                    var nameCity = (data[i].name) ? data[i].name : data[i][_this.filed.title];
+                    if (_this.prize_number && _this.prize_number.length > 0 && _this.prize_number.length == _this.config.prizeLength) {
+                        var length = +list[j]['length_number'];
+                        var amount = +list[j]['prize_amount'];
+                        var isActive = +list[j]['isactive'];
+                        list[j]['data'].filter(function(item) {
+                            var val = _this.prize_number.slice(-length, _this.prize_number.length);
+                            if (isActive == 0) {
+                                if (item.prize_number === val || item.prize_number == val) {
+                                    winnings.push({
+                                        name: list[j]['name'],
+                                        price: list[j]['prize_value'],
+                                        city: nameCity
+                                    });
+                                }
+                            } else {
+                                var t1 = _this.prize_number.toString().slice(-(length - 1), _this.prize_number.toString().length);
+                                var t2 = item.prize_number.toString().slice(-(length - 1), item.prize_number.toString().length);
+                                if (item.prize_number === val || item.prize_number == val) {
+                                    winnings.push({
+                                        name: list[j]['name'],
+                                        price: list[j]['prize_value'],
+                                        city: nameCity
+                                    });
+                                } else if (t1 == t2) {
+                                    winnings.push({
+                                        name: 'Giải phụ đặc biệt',
+                                        price: 50000000,
+                                        city: nameCity
+                                    });
+                                } else {
+                                    var v1 = _this.prize_number.toString().slice(-(item.prize_number.toString().length), _this.prize_number.toString().length);
+                                    var v2 = item.prize_number.toString().slice(-(item.prize_number.toString().length), item.prize_number.toString().length);
+                                    var dem = 0;
+                                    for (var i = 0; i < v1.length; i++) {
+                                        if (v1[i] == v2[i] || v1[i] === v2[i]) {
+                                            dem++;
+                                        }
+                                    }
+                                    if (dem == (v1.length - 1)) {
+                                        winnings.push({
+                                            name: 'Giải khuyến kích',
+                                            price: 6000000,
+                                            city: nameCity
+                                        });
+                                    }
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+        }
+        _this.data = table;
+        _this.winnings = winnings;
+
+        if (_this.params.query('print')) {
+            _this.tempates.setPrint();
+            _this.tempates.printButton();
+            _this.printEvent();
+        } else {
+            _this.tempates.setInnerHTML();
+            if (_this.config.bingo) {
+                _this.tempates.btnGroupBingo();
+                _this.tempates.tableBingo();
+            }
+            if (_this.config.showprint == true) {
+                _this.tempates.printButton();
+            }
+            _this.scan();
+        }
+
+
+    }
+    _this.convertdate = function() {
+        return _this.time.getFullYear() + '-' + (_this.time.getMonth() + 1).toString() + '-' + _this.time.getDate();
+    }
+    _this.binddate = function() {
+        return _this.convertdate().split("-").reverse().join("/");
+    }
+    _this.convertprice = function(price) {
+        var val = "";
+        if (price != '') {
+            val = Number(price.toString().replace(/,/g, "")).toFixed(0).replace(/./g, function(c, i, a) {
+                return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+            });
+        }
+        return val;
+    }
+    _this.loadtable = (table) => {
+        _this.loadfile({
+            href: _this.library.get('css.' + table)
+        })
+    }
+    _this.loadfile = function(option) {
+        if (option.src || option.href) {
+            var file = (option.src) ? option.src.split('.').reverse() : option.href.split('.').reverse();
+            var el;
+            if (file[0] == 'js') {
+                if (!document.querySelector("[src='" + option.src + "']")) {
+                    el = document.createElement("script");
+                    el.setAttribute("type", "text/javascript");
+                    el.setAttribute("choiveso", "choiveso");
+                }
+            }
+            if (file[0] == 'css') {
+                if (!document.querySelector("[href='" + option.href + "']")) {
+                    el = document.createElement("link");
+                    el.setAttribute("rel", "stylesheet");
+                    el.setAttribute("type", "text/css");
+                    el.setAttribute("choiveso", "choiveso");
+                }
+            }
+            if (el) {
+                for (var k in option) {
+                    el.setAttribute(k, option[k]);
+                }
+                void 0 !== el && document.head.appendChild(el);
+            }
+        }
+    }
+    _this.getPrice = function(price) {
+        var _a = 1000;
+        var _d = price / _a;
+        if (_d >= _a) {
+            _d = _d / _a;
+            if (_d >= _a) {
+                _d = _d / _a;
+                return _d + 'Tỷ';
+            } else {
+                return _d + 'TR';
+            }
+        } else {
+            return _d + 'N';
+        }
+    }
+    _this.tempates = {
+        thead: function() {
+            var list = _this.data.thead;
+            let width = document.body.getBoundingClientRect().width;
+            var html = "<tr class='thead-dark'>";
+            var d = _this.time;
+
+            for (var i = 0; i < list.length; i++) {
+                if (i == 0) {
+                    if (width < 768) {
+                        html += "<td><div class='dateMask'>" + _this.config.day['curn'][d.getDay()] + "</div></td>";
+                    } else {
+                        html += "<td><div class='dateMask'>" + _this.config.day['mask'][d.getDay()] + "</div><div class='date'>" + list[i].name + "</div></td>";
+                    }
+
+                } else {
+                    html += "<td><div class='ciyname'>" + list[i].name + "</div><div class='ticket_type'>" + list[i].ticket_type + "</div></td>";
+                }
+            }
+            html += "</tr>";
+            return html;
+        },
+        tbody: function() {
+            var list = _this.data.tbody;
+            var html = "";
+            let width = document.body.getBoundingClientRect().width;
+            for (var i = 0; i < list.length; i++) {
+                html += "<tr>";
+                for (var j = 0; j < list[i].length; j++) {
+                    html += "<td>";
+                    for (var h = 0; h < list[i][j].length; h++) {
+                        var prize_amount = list[i][j][h]['prize_amount'];
+                        var length_number = list[i][j][h]['length_number'];
+                        var text = (list[i][j][h].prize_number && list[i][j][h].prize_number.length > 0) ? list[i][j][h].prize_number : _this.tempates.preloadder();
+                        if (j == 0 && width < 768) {
+                            html += "<div length_number='" + length_number + "' prize_amount='" + prize_amount + "' class='" + list[i][j][h].className + "' prize_number='" + list[i][j][h].prize_number + "'>" + _this.getPrice(isNaN(+list[i][j][h].price) ? 0 : +list[i][j][h].price) + "</div>";
+                        } else {
+                            html += "<div length_number='" + length_number + "' prize_amount='" + prize_amount + "' class='" + list[i][j][h].className + "' prize_number='" + list[i][j][h].prize_number + "'>" + text + "</div>";
+                        }
+
+                    }
+                    html += "</td>";
+                }
+                html += "</tr>";
+            }
+            return html;
+            
+        },
+        table: function() {
+            let cls = (_this.cached.length == 1) ? "table-cws-one " : "";
+            var html = "<div class='" + cls + "chipstable-responsive'><table class='chipstable chipstable-hover chipstable-striped'>";
+            html += _this.tempates.thead();
+            html += _this.tempates.tbody();
+            html += "</table></div>";
+            return html;
+        },
+        winnings: function() {
+            var winnings = document.querySelector("[winnings]");
+            if (winnings) {
+                winnings.remove();
+            }
+            var html = "<div winnings class='" + (_this.prize_number.length > 0 ? "winnings" : "") + "'>";
+        
+            if (_this.prize_number != '' && _this.prize_number.toString().length > 5) {
+                var day = _this.time.getDate();
+                day = (day < 10) ? '0' + day.toString() : day;
+                var moth = _this.time.getMonth() + 1;
+                moth = (moth < 10) ? '0' + moth.toString() : moth;
+                html += "<div class='winningsTitle'>Kết Quả Xổ Số <span>" + _this.city.name + " - Ngày " + day + "/" + moth + "/" + _this.time.getFullYear() + "</span></div>";
+                html += "<div class='winningsTitle'>Vé Xổ Số Của Bạn: <span>" + _this.prize_number + "</span></div>";
+ 
+                if (_this.winnings.length > 0) {
+                    html += "<div class='winningsTitle'>Chúc mừng bạn !...</div>";
+                    for (var i = 0; i < _this.winnings.length; i++) {
+                        var price = _this.convertprice(_this.winnings[i].price);
+                        html += "<div class='winnings-list'>Vé số của bạn đã trúng thưởng <span>" + _this.winnings[i].name + "</span> của tỉnh " + _this.winnings[i].city + ".<br/> Tổng giá trị giải thưởng là: <strong>" + price + " đ</strong></div>";
+                    }
+
+                } else {
+                    if (_this.config.prizeLength == _this.prize_number.length) {
+                        html += "<div class='winningsTitle'>Rất tiếc vé số của bạn không trúng giải !</div>";
+                        html += "<div class='winningsrespon'>Chúc bạn may mắn lần sau!</div>";
+                    } else {
+                        html += "<div class='winnings-list'>Hệ thống không nhận dạng được số dò của bạn đang nhập. Vui lòng nhập " + _this.config.prizeLength + " ký tự.</div>";
+                    }
+                }
+            }
+            html += "</div>";
+            return html;
+        },
+        innerHTML: function() {
+            if (_this.cached.length > 0) {
+                return _this.tempates.table();
+            } else {
+                return "<div class='message'></div>";
+            }
+        },
+        preloadder: function() {
+            return "<div class='load " + _this.config.iconload + "'></div>";
+        },
+        setInnerHTML: function() {
+            if (_this.element) {
+                var html = "";
+                html += "<div class='APIxskt chipstable'>";
+                if (_this.buttonType == false) {
+                    html += _this.tempates.winnings();
+                }
+                html += _this.tempates.innerHTML();
+                html += "</div>";
+                let el = _this.element.querySelector("[lottery-bind-list]");
+                if (!el) {
+                    el = document.createElement("div");
+                    el.setAttribute("lottery-bind-list", '');
+                    _this.element.appendChild(el);
+                }
+                el.innerHTML = html;
+            }
+        },
+        agency: function() {
+            var area = _this.area_value == 'mn' ? 'MIỀN NAM' : _this.area_value == 'mt' ? 'MIỀN TRUNG' : 'MIỀN BẮC';
+            var _agency = "<div contenteditable='true' class='area'>KẾT QUẢ XỔ SỐ " + area + "</div>";
+            var html = "<tr>";
+            if (_this.pages.select == 46) {
+                html += "<td class='border-none'>" + _agency + "<div></div><div class='date'>" + _this.config.day['mask'][_this.time.getDay()] + " - " + _this.binddate() + "</div></td>";
+            } else {
+                html += "<td class='border-none'>" + _agency + "</td>";
+                var day = _this.time.getDate();
+                day = (day < 10) ? '0' + day.toString() : day;
+                var moth = _this.time.getMonth() + 1;
+                moth = (moth < 10) ? '0' + moth.toString() : moth;
+                html += "<td class='border-none'><div class='daymonth'>" + day + "/" + moth + "</div><div class='year'>" + _this.time.getFullYear() + "</div></td>";
+            }
+            html += "</tr>";
+            return html;
+        },
+        signature: function() {
+            var html = "<tr><td class='border-none'><div class='signature' contenteditable='true'>" + _this.content.signature + "</div></td></tr>";
+            return html;
+        },
+        theadPrint: function() {
+            var list = _this.data.thead;
+            var html = "<tr>";
+            var d = _this.time;
+            for (var i = 0; i < list.length; i++) {
+                if (i == 0) {
+                    html += "<td><div class='dateMask'>" + _this.config.day['curn'][d.getDay()] + "</div></td>";
+                } else {
+                    html += "<td><div class='ciyname'>" + list[i].name + "</div><div class='ticket_type'>" + list[i].ticket_type + "</div></td>";
+                }
+            }
+            html += "</tr>";
+            return html;
+        },
+        tbodyPrint: function() {
+            var list = _this.data.tbody;
+            var html = "";
+            for (var i = 0; i < list.length; i++) {
+                html += "<tr>";
+                for (var j = 0; j < list[i].length; j++) {
+                    html += "<td>";
+                    for (var h = 0; h < list[i][j].length; h++) {
+                        if (j == 0) {
+                            html += "<div>" + _this.getPrice(isNaN(+list[i][j][h].price) ? 0 : +list[i][j][h].price) + "</div>";
+                        } else {
+                            html += "<div class='bindText " + list[i][0][0].id + "'>" + list[i][j][h].prize_number + "</div>";
+                        }
+                    }
+                    html += "</td>";
+                }
+                html += "</tr>";
+            }
+            return html;
+        },
+        print: function() {
+            var html = "<tr><td class='border-none'><table align='center' border='0' cellpadding='0' cellspacing='0' width='100%'>" + _this.tempates.agency() + "</table></td></tr>";
+            html += "<tr><td class='border-none'><table align='center' border='0' cellpadding='0' cellspacing='0' width='100%' class='chipsprintmain'>" + _this.tempates.theadPrint() + _this.tempates.tbodyPrint() + "</table></td></tr>";
+            html += "<tr><td class='border-none'><table align='center' border='0' cellpadding='0' cellspacing='0' width='100%'>" + _this.tempates.signature() + "</table></td></tr>";
+            var cls1 = (_this.cached.length == 4) ? "tableCols4" : "tableCols";
+            var tmp = "<table class='chipsprint " + cls1 + "'>";
+            if (_this.pages.select == 41 || _this.pages.select == 51) {
+                tmp += html;
+            }
+            if (_this.pages.select == 44) {
+                for (var i = 0; i < 3; i++) {
+                    if (i == 0 || i == 2) {
+                        tmp += "<tr>";
+                        tmp += "<td><table class='innerA4' align='center' border='0' cellpadding='0' cellspacing='0' width='100%'>" + html + "</table></td>";
+                        tmp += (i == 0) ? "<td class='tdinterLine'><div class='interLine'></div></td>" : "<td class='tdinterLineBottom'><div class='interLine'></div></td>";
+                        tmp += "<td><table class='innerA4' align='center' border='0' cellpadding='0' cellspacing='0' width='100%'>" + html + "</table></td>";
+                        tmp += "</tr>";
+                    } else {
+                        tmp += "<tr class='centerinterLine'><td align='left' valign='top'><div></div></td><td class='interLinecenter' valign='top'><div></div><div></div></td><td align='right' valign='top' style='float: right;'><div></div></td></tr>";
+                    }
+                }
+            }
+            if (_this.pages.select == 46) {
+                for (var i = 0; i < 3; i++) {
+                    if (i == 0 || i == 2) {
+                        tmp += "<tr>";
+                        tmp += "<td><table class='innerA4' align='center' border='0' cellpadding='0' cellspacing='0' width='100%'>" + html + "</table></td>";
+                        tmp += (i == 0) ? "<td class='tdinterLine'><div class='interLine'></div></td>" : "<td class='tdinterLineBottom'><div class='interLine'></div></td>";
+                        tmp += "<td><table class='innerA4' align='center' border='0' cellpadding='0' cellspacing='0' width='100%'>" + html + "</table></td>";
+                        tmp += (i == 0) ? "<td class='tdinterLine'><div class='interLine'></div></td>" : "<td class='tdinterLineBottom'><div class='interLine'></div></td>";
+                        tmp += "<td><table class='innerA4' align='center' border='0' cellpadding='0' cellspacing='0' width='100%'>" + html + "</table></td>";
+                        tmp += "</tr>";
+                    } else {
+                        tmp += "<tr class='centerinterLine'>";
+                        tmp += "<td align='left' valign='top'><div></div></td>";
+                        tmp += "<td class='interLinecenter' valign='top'><div></div><div></div></td>";
+                        tmp += "<td class='interLinecenter' valign='top'><div style='display: none;'></div><div style='display: none;'></div></td>";
+                        tmp += "<td class='interLinecenter' valign='top'><div></div><div></div></td>";
+                        tmp += "<td align='right' valign='top' style='float: right;'><div></div></td>";
+                        tmp += "</tr>";
+                    }
+                }
+            }
+            tmp += "</table>";
+            return tmp;
+        },
+        printButton: function() {
+            var html = "<div><small>*** Kết quả xổ số chỉ mang tính chất tham khảo</small></div> <div class='btnGroup'><div><span class='titlePrintBtn'>IN: </span>";
+            var href = window.location.protocol + '//' + window.location.hostname + window.location.pathname + '?print=';
+            var time = _this.convertdate();
+            for (var key in _this.pages.list) {
+                if (!_this.params.query('print')) {
+                    html += "<a href='javascript:' onclick=\"window.open('" + href + key + "&time=" + time + "','_blank')\" target='_blank' class='btnPrintChild' chips-print>" + _this.pages.list[key].name + "</a>";
+                } else {
+                    html += "<a href='javascript:' onclick=\"window.location.assign('" + href + key + "&time=" + time + "')\" class='btnPrintChild' chips-print>" + _this.pages.list[key].name + "</a>";
+                }
+            }
+            html += "</div></div>";
+            var el = document.querySelector('[chips-group-print]');
+
+            if (el) {
+                el.remove();
+            } else {
+                var el = document.createElement('div');
+                el.setAttribute('chips-group-print', '');
+                _this.loadfile({
+                    href: _this.library.get('button.btn')
+                });
+            }
+
+            el.innerHTML = (!_this.params.query('print') && _this.cached.length == 0) ? "" : html;
+            if (_this.params.query('print') && _this.elementPrint) {
+                _this.elementPrint.appendChild(el);
+            } else {
+                _this.element.appendChild(el);
+            }
+
+        },
+
+        btnGroupBingo: function() {
+            let html = `<div class="bingo-group-chips">
+                        <div class="bingo-chips-group">
+                        <div class="bingo-chips-groupmb">
+                            <div class="bingo-category-chips" style="margin-right:10px">
+                                <div id="bingo-group-all" class="cursor-chips active" onclick="LOTTERYGETAPI.bingo.clickBingoGroup(0)">Tất cả</div>
+                                <div id="bingo-group-1" class="cursor-chips" onclick="LOTTERYGETAPI.bingo.clickBingoGroup(1)">2 số</div>
+                                <div id="bingo-group-2" class="cursor-chips" onclick="LOTTERYGETAPI.bingo.clickBingoGroup(2)">3 số</div>
+                            </div>
+                            <div id="bingo-view-detail-mb" class="cursor-chips" onclick="LOTTERYGETAPI.bingo.showBingoTable()">`+((_this.bingo.flagBingo === true)?'X':'Xem Bảng Loto')+`</div>
+                       </div>
+                    <div class="bingo-number-chips">`;
+            for (let i = 0; i < _this.bingo.listNumber.length; i++) {
+                const item = _this.bingo.listNumber[i];
+                html += `<div id="` + item['id'] + `" onclick="LOTTERYGETAPI.bingo.clickNumber(` + i + `)" onmouseover="LOTTERYGETAPI.bingo.hoverNumber(false,` + i + `)"  onmouseout="LOTTERYGETAPI.bingo.hoverNumber(true,` + i + `)">` + item['name'] + `</div>`;
+            }
+            html += `
+                </div> 
+                </div> 
+                    <div id="bingo-view-detail" class="cursor-chips" onclick="LOTTERYGETAPI.bingo.showBingoTable()">`+((_this.bingo.flagBingo === true)?'X':'Xem Bảng Loto')+`</div>
+                </div>`;
+
+
+            let el = document.querySelector('[bingo-chips]');
+            if (el) {
+                el.remove();
+            } else {
+                el = document.createElement('div');
+                el.setAttribute('bingo-chips', '');
+            }
+            el.innerHTML = html;
+            if (_this.config.bingo) {
+                _this.element.appendChild(el);
+            }
+        },
+        tableBingo: function() {
+            let html = `
+                 <table class="chips-bingo`+((_this.bingo.flagBingo === true)?' active':'')+`" width="100%">
+                   <tbody>
+                      <tr>`;
+            for (let i = 0; i < _this.bingo.data.length; i++) {
+                let item = _this.bingo.data[i];
+                html += `
+                     <td width="`+(_this.bingo.data.length <= 3 ? 33.333333333333 : 25)+`%">
+                            <table cellpadding="2" cellspacing="0" width="100%">
+                               <tbody>
+                                  <tr style="background: white">
+                                     <td colspan="3"><strong>` + item.name + `</strong></td>
+                                  </tr>
+                                  <tr style="background: #dedede">
+                                     <td width="45%">Chục</td>
+                                     <td width="10%">Số</td>
+                                     <td width="45%">Đơn Vị</td>
+                                  </tr>`;
+                for (let j = 0; j < item.data.length; j++) {
+                    let prize = item.data[j];
+                    html += `<tr style="background: white">
+                                                 <td>` + prize.tens + `</td>
+                                                 <td><strong>` + prize.number + `</strong></td>
+                                                 <td>` + prize.units + `</td>
+                                            </tr>`;
+                }
+                html += `</tbody>
+                            </table>
+                         </td>`;
+            }
+            html += ` </tr>
+                   </tbody>
+                </table>`;
+            let el = document.querySelector('[table-bingo-chips]');
+            if (el) {
+                el.remove();
+            } else {
+                el = document.createElement('div');
+                el.setAttribute('table-bingo-chips', '');
+            }
+            el.innerHTML = html;
+            if (_this.config.bingo) {
+                _this.element.appendChild(el);
+            }
+
+        },
+        setPrint: function() {
+            if (_this.elementPrint) {
+                _this.elementPrint.innerHTML = _this.tempates.print();
+                var table = _this.elementPrint.querySelector('table');
+                if (table) {
+                    var pos = table.getBoundingClientRect();
+                    table.parentNode.style.width = pos.width + 'px';
+                }
+
+            }
+        },
+
+        tab: () => {
+            if (_this.element) {
+                let el = _this.element.querySelector("[lottery-bind-tab]");
+                if (!el) {
+                    el = document.createElement("div");
+                    el.setAttribute("lottery-bind-tab", '');
+                    let elChild = _this.element.querySelector('[lottery-bind-list]');
+                    _this.element.insertBefore(el, elChild);
+                }
+                var html = `<div class='lottery-tab'>`;
+                if (_this.area == 'all' || _this.area == 'mn') {
+                    html += `<div lottery-tab-submit-mn  class='lottery-tab-submit ` + (_this.area_value == 'mn' ? 'active' : 'unactive') + `'><div>KQXS Miền Nam</div></div>`;
+                }
+                if (_this.area == 'all' || _this.area == 'mt') {
+                    html += `<div lottery-tab-submit-mt  class='lottery-tab-submit ` + (_this.area_value == 'mt' ? 'active' : 'unactive') + `'><div>KQXS Miền Trung</div></div>`;
+                }
+                if (_this.area == 'all' || _this.area == 'mb') {
+                    html += `<div lottery-tab-submit-mb  class='lottery-tab-submit ` + (_this.area_value == 'mb' ? 'active' : 'unactive') + `'><div>KQXS Miền Bắc</div></div>`;
+                }
+                html += `</div>`;
+                el.innerHTML = html;
+                let btn = el.querySelector("[lottery-tab-submit-mn]");
+                if (btn) {
+                    btn.onclick = () => {
+                        _this.buttonType = false;
+                        let skip = _this.area_value == 'mn' ? false : true;
+                        _this.area_value = 'mn';
+                        _this.city = '';
+                        _this.prize_number = '';
+                        if (skip == true) {
+                            _this.onload();
+                        }
+                    }
+                }
+                let btn_mt = el.querySelector("[lottery-tab-submit-mt]");
+                if (btn_mt) {
+                    btn_mt.onclick = () => {
+                        _this.buttonType = false;
+                        let skip = _this.area_value == 'mt' ? false : true;
+                        _this.area_value = 'mt';
+                        _this.city = '';
+                        _this.prize_number = '';
+                        if (skip == true) {
+                            _this.onload();
+                        }
+                    }
+                }
+                let btn_mb = el.querySelector("[lottery-tab-submit-mb]");
+                if (btn_mb) {
+                    btn_mb.onclick = () => {
+                        _this.buttonType = false;
+                        let skip = _this.area_value == 'mb' ? false : true;
+                        _this.area_value = 'mb';
+                        _this.city = '';
+                        _this.prize_number = '';
+                        if (skip == true) {
+                            _this.onload();
+                        }
+                    }
+                }
+            }
+        },
+        day: () => {
+            if (_this.day == true && _this.element) {
+                let el = _this.element.querySelector("[lottery-bind-day]");
+                if (!el) {
+                    el = document.createElement("div");
+                    el.setAttribute("lottery-bind-day", '');
+                    let elChild = _this.element.querySelector('[lottery-bind-list]');
+                    _this.element.insertBefore(el, elChild);
+                }
+                let data = [];
+                var _h = new Date().getHours();
+                for (let i = 7; i > 0; i--) {
+                    let v = new Date();
+                    if (_h >= 16) {
+                        v.setDate((v.getDate() + 1) - i);
+                    } else {
+                        v.setDate(v.getDate() - i);
+                    }
+                    let date = v.getFullYear() + '-' + (v.getMonth() + 1).toString() + '-' + v.getDate();
+                    data.push(v)
+                }
+
+                var html = `<div class='lottery-day'>`;
+                if (_this.day == true) {
+                    for (let i = 0; i < data.length; i++) {
+                        html += `<div lottery-day-submit-` + i + ` class='lottery-day-submit ` + (_this.time.getDate() + '-' + (_this.time.getMonth() + 1).toString() + '-' + _this.time.getFullYear() == data[i].getDate() + '-' + (data[i].getMonth() + 1).toString() + '-' + data[i].getFullYear() ? 'active' : '') + `'>`;
+                        html += `<div>` + data[i].getDate() + '-' + (data[i].getMonth() + 1).toString() + '-' + data[i].getFullYear() + `</div>`;
+                        html += `</div>`;
+                    }
+                }
+                html += `</div>`;
+                el.innerHTML = html;
+                for (let i = 0; i < data.length; i++) {
+                    let btn = el.querySelector("[lottery-day-submit-" + i + "]");
+                    if (btn) {
+                        btn.onclick = () => {
+                            _this.time = data[i];
+                            _this.onload();
+                        }
+                    }
+                }
+            }
+        },
+        control: () => {
+          
+            if (_this.config.control == true) {
+                if (_this.element && _this.config.controltype == 1 || _this.config.controltype == 3) {
+                  
+                    let el = _this.element.querySelector("[lottery-bind-control]");
+                    if (!el) {
+                        el = document.createElement("div");
+                        el.setAttribute("lottery-bind-control", '');
+                        let elChild = _this.element.querySelector('[lottery-bind-list]');
+                        _this.element.insertBefore(el, elChild);
+
+                    }
+                    let sel = (_this.account) ? "" : "<div><div " + _this.timeToken + "-select></div></div>";
+                    var html = `<div class='lottery-control'>
+            <div>
+            <div input-lottery-keysearch ><input type='text' placeholder="Nhập vé số cần dò" lottery-keysearch class="_form-control"></div>
+            </div>
+            <div>
+            <div ` + _this.timeToken + `-picker></div>
+            </div>
+            ` + sel + `
+            <div class='lottery-button-submit'>
+            <button class='cwsButton' type='button' lottery-submit>Dò Kết Quả</button>
+            </div>
+            </div>`;
+                    el.innerHTML = html;
+                    let btn = el.querySelector("[lottery-submit]");
+                    if (btn) {
+                        _this.alert('');
+                        let txt = el.querySelector("[lottery-keysearch]");
+                        let value;
+                        if (txt) {
+                            //_this.prize_number = '';
+                            txt.oninput = (e) => {
+                                e.target.value.length == 6 ? value = e.target.value : '';
+                                _this.validInput(e.target.value, value);
+                                _this.prize_number = e.target.value;
+                            }
+                        }
+                        btn.onclick = () => {
+                            let message;
+                            let skip = true;
+                            _this.buttonType = false;
+                            _this.tempates.winnings();
+                            if (_this.prize_number && _this.prize_number.toString().length > 0) {
+                                if ((isNaN(+_this.prize_number) == NaN) || _this.prize_number.toString().length != 6) {
+                                    message = "Vui lòng nhập lại số bạn cần dò. Lưu ý số của bạn phải đủ 6 ký tự.";
+                                    _this.alert(message);
+                                    return false;
+                                } else {
+                                    skip = false;
+                                }
+
+                            }
+                            let item = _this.SELECT.get();
+                            if (typeof item === 'object' && Object.keys(item).length > 1 && !_this.account) {
+                                let list = _this.listCity.filter(e => {
+                                    return (e.id == item.id) ? true : false
+                                });
+                                if (list.length > 0) {
+                                    _this.city = {
+                                        'name': list[0].name,
+                                        'code': list[0].code
+                                    };
+                                    skip = true;
+                                } else {
+                                    _this.city = {},
+                                        skip = false;
+                                }
+                            }
+                            if (_this.prize_number.toString().length > 0 && skip == false && !_this.account) {
+                                message = "Vui lòng chọn tỉnh thành bạn muốn dò số.";
+                                _this.alert(message);
+                                return false;
+                            } else {
+                                skip = true;
+                                if ((new Date(_this.time)).getTime() > (new Date()).getTime()) {
+                                    message = "Bạn vui lòng kiểm tra lại thông tin ngày tháng.";
+                                    _this.alert(message);
+                                    return false;
+                                }
+                            }
+                            if (skip == true) {
+                                _this.onload();
+                            }
+                        }
+                    }
+
+                }
+                if (_this.config.controltype == 2 || _this.config.controltype == 3) { 
+                  
+                    let control_el = document.querySelector('[lottery-bind-control-type]');
+                    if (control_el) {
+                        let sel = (_this.account) ? "" : "<div " + _this.timeToken + "-select-type></div>";
+                        var html = `
+                      <div class='box-lottery-control-type'>
+                      <div class='title-control-type'>DÒ VÉ SỐ</div>
+                      <div class='lottery-control-type'>
+                      <div>
+                      <div input-lottery-keysearch-type><input type='text' placeholder="Nhập vé số cần dò" lottery-keysearch-type class="_form-control" ></div>
+                      </div>
+                      <div>
+                      <div ` + _this.timeToken + `-picker-type></div>
+                      </div>
+                      <div>
+                      <select lottery-select-submit >
+                        <option value="mn" >KQXS Miền Nam</option>
+                        <option value="mt">KQXS Miền Trung</option>
+                        <option value="mb">KQXS Miền Bắc</option>
+                      </select>
+                      </div>
+                      ` + sel + `
+                      <div lottery-bind-alert-type></div>
+                      <div class='lottery-button-submit-type'>
+                      <button class='cwsButton' type='button' lottery-submit-type ">Dò Kết Quả</button>
+                      </div>
+                      </div>
+                      </div>`;
+                        control_el.innerHTML = html;
+                        let btn = control_el.querySelector("[lottery-submit-type]");
+                        if (btn) {
+                            _this.alert('');
+                            let txt = control_el.querySelector("[lottery-keysearch-type]");
+                            let value;
+                            if (txt) {
+                                txt.oninput = (e) => {
+                                    e.target.value.length == 6 ? value = e.target.value : '';
+                                    _this.validInput(e.target.value, value, 1);
+                                    _this.prize_number = e.target.value;
+                                }
+                            }
+                            btn.onclick = () => {
+                                let message;
+                                let skip = true;
+                                _this.buttonType = true;
+                                _this.tempates.winnings();
+                           
+                                if (_this.prize_number && _this.prize_number.toString().length > 0) {
+                                    if ((isNaN(+_this.prize_number) == NaN) || _this.prize_number.toString().length < 6) {
+                                        message = "Vui lòng nhập lại số bạn cần dò. Lưu ý số của bạn phải đủ 6 ký tự.";
+                                        _this.alert(message);
+                                        return false;
+                                    } else {
+                                        skip = false;
+                                    }
+                                } else {
+                                    message = "Bạn chưa nhập số để dò.";
+                                    _this.alert(message);
+                                    return false;
+                                }
+                                let item = _this.SELECTTYPE.get();
+                                if (typeof item === 'object' && Object.keys(item).length > 1 && !_this.account) {
+                                    let list = _this.listCity.filter(e => {
+                                        return (e.id == item.id) ? true : false
+                                    });
+                                    if (list.length > 0) {
+                                        _this.city = {
+                                            'name': list[0].name,
+                                            'code': list[0].code
+                                        };
+                                        skip = true;
+                                    } else {
+                                        _this.city = {},
+                                            skip = false;
+                                    }
+                                }
+                                if (_this.prize_number.toString().length > 0 && skip == false && !_this.account) {
+                                    message = "Vui lòng chọn tỉnh thành bạn muốn dò số.";
+                                    _this.alert(message);
+                                    return false;
+                                } else {
+                                    skip = true;
+                                    if ((new Date(_this.time)).getTime() > (new Date()).getTime()) {
+                                        message = "Bạn vui lòng kiểm tra lại thông tin ngày tháng.";
+                                        _this.alert(message);
+                                        return false;
+                                    }
+                                }
+                                if (skip == true) {
+                                    _this.onload();
+                                    setTimeout(() => {
+ 										_this.modal(_this.tempates.winnings());
+                                    	_this.buttonType = undefined;
+                                  	}, 200);
+                                   
+                                }
+                            }
+                        }
+                        let bntSelect = control_el.querySelector("[lottery-select-submit]");
+                        if (bntSelect) {
+                  
+                            bntSelect.oninput = (e) => {
+                                _this.area_value = e.target.value;
+                                _this.buttonType = true;
+                                _this.onloadCity();
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        onload: (skip) => {
+            var timeNow = new Date();
+            if (_this.element) {
+                let el = _this.element.querySelector("[lottery-onload-table]");
+                if (timeNow.getFullYear() != _this.time.getFullYear() || timeNow.getMonth() != _this.time.getMonth() || timeNow.getDate() != _this.time.getDate()) {
+                    var skip1 = (timeNow.getHours() == _this.start[0] && timeNow.getMinutes() >= _this.start[1]) ? true : (timeNow.getHours() > _this.start[0] ? true : false);
+                    var skip2 = (timeNow.getHours() == _this.end[0] && timeNow.getMinutes() <= _this.end[1]) ? true : (timeNow.getHours() < _this.end[0] ? true : false);
+                    if (skip1 == false || skip2 == false) {
+                        if (skip == true) {
+                            if (!el) {
+                                el = document.createElement('div');
+                                el.setAttribute("lottery-onload-table", "");
+                                el.className = "lottery-onload-table";
+                                _this.element.appendChild(el);
+                            }
+                            el.innerHTML = `<div class='onload-lottery'></div>`;
+                        } else {
+                            if (el) {
+                                setTimeout(() => {
+                                    el.remove();
+                                }, 500);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    _this.scan = function() {
+        //      var data = _this.cached;
+        //      var timeNow = new Date();
+
+        //          var skip1 = (timeNow.getHours() == _this.start[0] && timeNow.getMinutes() >= _this.start[1]) ? true : (timeNow.getHours() > _this.start[0] ? true : false);
+        //          var skip2 = (timeNow.getHours() == _this.end[0] && timeNow.getMinutes() <= _this.end[1]) ? true : (timeNow.getHours() < _this.end[0] ? true : false);
+        //          if (skip1 == true && skip2 == true) {
+        //              _this.config.clear = false;
+        //              for (var i = 0; i < data.length; i++) {
+        //                  var rows = data[i];
+        //                  for (var j = 0; j < rows.list.length; j++) {
+        //                      var list = rows.list[j];
+        //                      var skip = false;
+        //                      for (var h = 0; h < list.data.length; h++) {
+        //                          var item = list.data[h];
+        //                          if (!item.prize_number || item.prize_number.length == 0) {
+        //                              var className = rows.className + '_' + list.code + '_' + item.id;
+        //                              //var el = document.querySelector('.'+className);
+        //                              _this.runRamdon(i, '.' + className, +item.length_number);
+        //                              skip = true;
+        //                              break;
+        //                          }
+        //                      }
+        //                      if (skip == true) {
+        //                          break;
+        //                      }
+        //                  }
+        //              }
+        //          } else {
+        //              _this.logdebug.set("scan_error02", "Không đúng giờ.");
+        //          }
+    }
+    _this.alert = (message) => {
+        if (_this.buttonType) {
+            let el = document.querySelector("[lottery-bind-alert-type]");
+            if (!el) {
+                el = document.createElement("div");
+                el.setAttribute("lottery-bind-alert-type", "");
+                let elChild = _this.element.querySelector('[lottery-bind-list]');
+                _this.element.insertBefore(el, elChild);
+            }
+            let html = `<div lottery-alert><i><small>` + message + `</small></i></div>`;
+            el.className = "lottery-bind-alert-type";
+            el.innerHTML = html;
+
+        } else {
+            let el = document.querySelector("[lottery-bind-alert]");
+            if (!el) {
+                el = document.createElement("div");
+                el.setAttribute("lottery-bind-alert", "");
+                let elChild = _this.element.querySelector('[lottery-bind-list]');
+                _this.element.insertBefore(el, elChild);
+            }
+            let html = `<div lottery-alert><div><div>` + message + `</div></div></div>`;
+            el.className = "lottery-bind-alert";
+            el.innerHTML = html;
+        }
+    }
+
+    _this.modal = (message) => {
+        let el = document.querySelector("[lottery-bind-alert-modal]");
+        if (!el) {
+            el = document.createElement("div");
+            el.setAttribute("lottery-bind-alert-modal", "");
+            document.body.insertBefore(el, null);
+        }
+        document.body.classList.add("no-scroll");
+        let html = `<div lottery-alert-modal><div><div>` + message + `</div></div></div>`;
+        el.className = "lottery-bind-alert-modal";
+        el.innerHTML = html;
+        el.onclick = (e) => {
+            _this.buttontype = false;
+            el.innerHTML = "";
+            el.className = "";
+            document.body.classList.remove("no-scroll");
+        }
+        let lo = el.querySelector("[lottery-alert-modal]");
+        if (lo) {
+            lo.onclick = () => {
+                event.stopPropagation();
+                document.body.classList.remove("no-scroll");
+                _this.buttontype = false;
+            }
+        }
+
+    }
+    _this.validInput = (value, txt, type = 0) => {
+        if (value.length > 6) {
+            if (type == 1) {
+                document.querySelector("[lottery-keysearch-type]").value = txt;
+            } else {
+                document.querySelector("[lottery-keysearch]").value = txt;
+            }
+        }
+    }
+
+    _this.mathRamdon = function(length) {
+        str = '';
+        for (var i = 0; i < length; i++) {
+            loto = Math.floor(Math.random() * 9);
+            str = str + loto.toString();
+        }
+        return str;
+    }
+    _this.hrefPrint = function(num) {
+        num = (_this.pages.list[num]) ? num : 41;
+        _this.params.set('print', num);
+        _this.params.set('time', _this.convertdate());
+        _this.pages.select = num;
+        _this.tempates.setPrint();
+        //_this.printEvent();
+    }
+    _this.runRamdon = function(index, el, length) {
+        var el = document.querySelector(el);
+        if (el) {
+            _this.cached[index].timeout = setInterval(function() {
+                if (_this.config.clear == true) {
+                    _this.clearTimeOut();
+                } else {
+                    if ((_this.config.timedisplay / _this.cached.length) > _this.config.display && _this.config.isload == false) {
+                        _this.config.isload = true;
+                        _this.logdebug.set("reload", "Hệ thống đang tải lại bảng xổ số.");
+                        _this.onload();
+                    }
+                    if (_this.cached[index].timeout) {
+                        _this.config.timedisplay = _this.config.timedisplay + _this.config.timeout;
+                        el.innerHTML = "<div class='random'>" + _this.mathRamdon(length) + "</div>";
+                    } else {
+                        clearInterval(_this.cached[index].timeout);
+                    }
+                }
+            }, _this.config.timeout);
+        }
+
+    }
+    _this.clearTimeOut = function() {
+        for (var i = 0; i < _this.cached.length; i++) {
+            if (_this.cached[i].timeout) {
+                clearInterval(_this.cached[i].timeout);
+            }
+        }
+    }
+    _this.params = {
+        set: function(key, value) {
+            var url = window.location.href.split('?');
+            if (url[1]) {
+                var r = url[1].split("&");
+                href = "";
+                skip = false;
+                for (var i = 0; i < r.length; i++) {
+                    a = r[i].split("=");
+                    c = a[0];
+                    b = a[1];
+                    if (typeof value === 'object' && c == key) {
+                        if (value.length > 0) {
+                            b = value.toString().replace(/,/g, '-');
+                            skip = true;
+                            if (i == (r.length - 1)) {
+                                href += c + "=" + b;
+                            } else {
+                                href += c + "=" + b + "&";
+                            }
+                        }
+                    } else {
+                        if (c == key) {
+                            b = (typeof value === 'object') ? value.toString().replace(/,/g, '-') : value.toString();
+                            skip = true;
+                        }
+                        if (i == (r.length - 1)) {
+                            href += c + "=" + b;
+                        } else {
+                            href += c + "=" + b + "&";
+                        }
+                    }
+                }
+                if (skip == false) {
+                    if (typeof value === 'object') {
+                        if (value.length > 0) {
+                            val = value.toString().replace(/,/g, '-');
+                            href += "&" + key + "=" + val;
+                        }
+                    } else {
+                        href += "&" + key + "=" + value.toString();
+                    }
+                }
+                window.history.replaceState({}, "", url[0] + "?" + href);
+            } else {
+                val = (typeof value === 'object') ? value.toString().replace(/,/g, '-') : value.toString();
+                window.history.replaceState({}, "", href + "?" + key + "=" + val);
+            }
+        },
+        get: function() {
+            var url = window.location.href.split('?');
+            var param = {};
+            if (url[1]) {
+                var r = url[1].split("&");
+                for (var i = 0; i < r.length; i++) {
+                    var a = r[i].split("=");
+                    param[a[0]] = a[1];
+                }
+            }
+            return param;
+        },
+        query: function(key) {
+            var param = _this.params.get();
+            return (param[key]) ? param[key] : null;
+        }
+    }
+    _this.printEvent = function() {
+        setTimeout(function() {
+            window.print();
+        }, 2000);
+    }
+}

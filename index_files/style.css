@@ -1,0 +1,231 @@
+body.no-scroll{
+	overflow-y: hidden;
+}
+.winningsTitle span, .winnings-list span{
+	font-weight: 600;
+}
+div[lottery-bind-list],
+div[chips-group-print],
+div[lottery-bind-control]{
+	display: contents;
+}
+div[lottery-bind-table]{
+	position : relative;
+}
+div.lottery-bind-alert-modal{
+	position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+	z-index : 9999;
+	background : rgba(27, 3, 3, 0.4117647058823529);
+}
+div.lottery-bind-alert-modal div[lottery-alert-modal]{
+	position: absolute;
+    top: 35%;
+    text-align: center;
+    background: white;
+    padding: 15px;
+    left: 0;
+    right: 0;
+	width: 40%;
+    left: 30%;
+	-webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+div.lottery-bind-alert, .lottery-bind-alert-type{
+	text-align: center;
+    width: 100%;
+    height: 100%;
+	z-index : 9999;
+	color: red;
+    margin: 0 0 10px;
+}
+.lottery-bind-alert-type{
+	text-align: left;
+}
+.lottery-bind-alert-type small{
+    font-weight: 600;
+}
+.table-cws-one{
+	
+}
+.table-cws-one tr{
+	
+}
+.table-cws-one tr td{
+	
+}
+.table-cws-one tr td>div{
+	display:  inline-block;
+    width: 25%;
+    min-width: 125px;
+}
+.lottery-onload-table{
+	position : absolute;
+	top : 0;
+	left : 0;
+	width : 100%;
+	height : 100%;
+	background : rgba(27, 3, 3, 0.4117647058823529);
+	
+}
+.lottery-onload-table>div.onload-lottery{
+	background: url(../icon/spinner.svg) center center no-repeat;
+    background-size: contain;
+    position: relative;
+    top: 40%;
+    left: 40%;
+    right: 0;
+    width: 20%;
+    height: 10%;
+    z-index: 0;
+    opacity: 1;
+}
+div.lottery-tab{
+	display: flex;
+	align-items: center;
+	color: black;
+	font-weight: bold;
+  	border-bottom: 1px solid #e10909;
+}
+
+div.lottery-tab  div.lottery-tab-submit{
+	width: 34%;
+    font-size: 18px;
+    padding: 10px 0;
+    text-align: center;	
+	cursor: pointer;
+	border-left: 1px solid #ffffff;
+}
+div.lottery-tab  div.lottery-tab-submit:first-child{
+	border-left: 0px;
+}
+div.lottery-tab  div.lottery-tab-submit.active, div.bingo-category-chips .active{
+	background-color: #e10909;
+    color: #ffffff;
+}
+div.lottery-tab  div.lottery-tab-submit.unactive, div.bingo-category-chips .unactive{
+	background-color: #eeeeee;
+    color: #000000;
+}
+div.winnings{
+	text-align:center;
+	margin: 10px;
+}
+div.lottery-day{
+	display: flex;
+	align-items: center;
+	color: black;
+	font-weight: 550;
+    justify-content: space-between;
+   	background-color: #dedede;
+}
+div.lottery-day div.lottery-day-submit{
+    display: inline-flex;
+    padding: 5px 10px;
+ 	 cursor: pointer;text-align:center;
+    background-color: #dedede;
+}
+div.lottery-day div.lottery-day-submit.active{
+  background-color: #e10909;
+    color: #ffffff;
+}
+.bingo-group-chips{
+  /*background-color:#dedede;*/
+  border: 1px solid #c7e1fa;
+  padding:4px;
+  justify-content: space-between;
+  /*margin-right: 1px;*/
+}
+.bingo-group-chips, .bingo-category-chips, .bingo-number-chips, .bingo-chips-group{
+  display: flex;
+  align-items: center;
+}
+.bingo-category-chips div, #bingo-view-detail, #bingo-view-detail-mb {
+  padding: 2px 8px;
+  margin-right: 5px;
+  border: 1px solid #b7b7b7;
+  background: #ffffff;
+  font-size: 15px;
+}
+#bingo-view-detail-mb {
+  display: none;
+}
+.bingo-number-chips div{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 5px 5px, #F7F5F5, #122027);
+  text-shadow: none;
+  color: #fff;
+  line-height: 18px;
+  text-align: center;
+  margin-right: 10px;
+  font-size: 15px;
+  cursor: pointer;
+}
+.bingo-number-chips div:hover, .bingo-focus{
+	background: radial-gradient(circle at 5px 5px, gold, #001)!important;
+}
+.cursor-chips{
+  cursor:pointer
+}
+.bingo-color{
+	background:radial-gradient(circle at 5px 5px, gold, #001)!important;
+  background: radial-gradient(circle at 5px 5px, gold, #001)!important;
+  border-radius: 50%;
+  box-shadow: 3px 3px 10px -2px rgba(0,0,0,.4);
+  padding: 1px;
+  color: white;
+  font-weight: 400;
+}
+.chips-bingo{
+  width: 100%;
+  background: #dedede;
+  display: none!important;
+}
+.chips-bingo.active{
+  display: table!important;
+}
+.bingo-chips-groupmb{
+  display:flex ;
+  justify-content: space-between;
+}
+@media screen and (max-width: 767px) {
+	div.lottery-tab  div.lottery-tab-submit div{font-size: 9px!important;}
+   	div.lottery-day  {display:none};
+  	.lottery-control {padding: 15px 0; }
+    .chipstable-responsive.table-cws-one > .chipstable > thead > tr > th,
+    .chipstable-responsive.table-cws-one > .chipstable > tbody > tr > th,
+    .chipstable-responsive.table-cws-one > .chipstable > tfoot > tr > th,
+    .chipstable-responsive.table-cws-one > .chipstable > thead > tr > td,
+    .chipstable-responsive.table-cws-one > .chipstable > tbody > tr > td,
+    .chipstable-responsive.table-cws-one > .chipstable > tfoot > tr > td {
+      white-space: normal;
+    }
+}
+@media screen and (max-width: 415px) {
+  .bingo-chips-group {
+    display: inline-block;
+    width: 100%;
+  }
+  #bingo-view-detail-mb {
+    display: block;
+  }
+  #bingo-view-detail{
+    display: none;
+  }
+  .bingo-chips-groupmb{
+    margin-bottom: 10px;
+  }
+  .chips-bingo > tbody > tr > td {
+    width:100%!important;
+  }
+}

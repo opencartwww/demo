@@ -1,0 +1,155 @@
+
+
+function slidesProduct() {
+    $('.owl-carousel-product').owlCarousel({
+        loop: true,
+        margin: 10,
+        autoplay: false,
+        nav: true,
+        navigation: false,
+        navigationText: ["prev", "next"],
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 3
+            },
+            1000: {
+                items: 5
+            }
+        }
+    })
+}
+function slidesContent() {
+    $('.owl-carousel-content').owlCarousel({
+        loop: true,
+        margin: 10,
+        autoplay: true,
+        autoplayTimeout: 2000,
+        nav: false,
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 2
+            },
+            1000: {
+                items: 4
+            }
+        }
+    })
+}
+function slides() {
+    $('.owl-carousel-slides').owlCarousel({
+        loop: true,
+        items: 1,
+        margin: 10,
+        animateOut: 'slideOutDown',
+        animateIn: 'fadeIn',
+        autoHeight: true,
+        autoplay: true,
+        autoplayTimeout: 5000,
+        nav: false,
+        dots: false
+    })
+}
+function viewLibrary() {
+
+    $('.fancybox').fancybox({
+        thumbs: { "autoStart": true }
+    });
+}
+function slideLicense() {
+    $('.owl-carousel-license').owlCarousel({
+        loop: true,
+        margin: 50,
+        padding: 10,
+        autoplay: true,
+        autoplayTimeout: 2000,
+        nav: false,
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 3
+            },
+            1000: {
+                items: 5
+            }
+        }
+    })
+}
+function test() {
+
+    var $container = $('.animate-grid .gallary-thumbs');
+    $container.isotope({
+        filter: '*',
+        animationOptions: {
+            duration: 750,
+            easing: 'linear',
+            queue: false
+        }
+    });
+    $('.animate-grid .categories a').click(function () {
+        $('.animate-grid .categories .active').removeClass('active');
+        $(this).addClass('active');
+        var selector = $(this).attr('data-filter');
+        $container.isotope({
+            filter: selector,
+            animationOptions: {
+                duration: 750,
+                easing: 'linear',
+                queue: false
+            }
+        });
+        return false;
+    });
+    //}));
+
+}
+function onClearShowTV() {
+    if (document.addEventListener) {
+        document.addEventListener('webkitfullscreenchange', exitHandler, false);
+        document.addEventListener('mozfullscreenchange', exitHandler, false);
+        document.addEventListener('fullscreenchange', exitHandler, false);
+        document.addEventListener('MSFullscreenChange', exitHandler, false);
+    }
+}
+function toggleFullScreen(elem) {
+    elem = elem || document.body;
+    if (!document.fullscreenElement && !document.mozFullScreenElement &&
+        !document.webkitFullscreenElement && !document.msFullscreenElement) {
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+        }
+        document.querySelector('#fullscreen').classList.add('showTV');
+        document.querySelector('.input-file').classList.add('hidden-input');
+        document.querySelector('.info-lo').classList.add('hidden-info');
+        // document.querySelector('#zoominfo').classList.remove('hidden-info-is');
+        document.querySelector('#zoomicon').classList.add('hidden-icon');
+        document.querySelector('#outzoomtitle').classList.add('out-zoom');
+        document.querySelector('#zoomtitle').classList.remove('in-zoom');
+        document.querySelector('.ch').classList.add('header-zoom');
+        document.querySelector('.ft').classList.add('footer-zoom');
+        
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+    }
+}

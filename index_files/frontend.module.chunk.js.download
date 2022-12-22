@@ -1,0 +1,1639 @@
+webpackJsonp(["frontend.module"],{
+
+/***/ "../../../../../src/app/frontend/contact/contact.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".contact_info_item{\r\n\tborder: solid 1px #e8e8e8;\r\n\tbox-shadow: 0px 1px 5px rgba(0,0,0,0.1);\r\n\theight: auto;\r\n\t/* margin-right: 70px; */\r\n}\r\n.form-control{\r\n\tborder: solid 1px #e5e5e5;\r\n\tpadding-left: 15px;\r\n\tborder-radius: 5px;\r\n\tcolor: #0e8ce4;\r\n}input{\r\n\theight: 40px;\r\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/contact/contact.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"box-white pt-3 pb-3\">\r\n    <div class=\"container-main\">\r\n        <div class=\"container-fluid Construction\">\r\n            <div class=\"row mt-4 \">\r\n                <div class=\"col-md-6\">\r\n                    <fieldset class=\"tag-fiedset\">\r\n                        <legend class=\"tag-legeng border-bottom\">{{ 'fecontact.inputcontact' | translate }}</legend>\r\n                    </fieldset>\r\n                    <form [formGroup]=\"fm\">\r\n                        <div class=\"form-row mt-2\">\r\n                            <div class=\"col-12 pt-1 col-md-4\">\r\n                                <input type=\"text\" class=\"form-control\" name=\"name\" formControlName=\"name\" placeholder=\"{{ 'fecontact.inputHoTen' | translate }}\">\r\n                                <small style=\"color:red\" *ngIf=\"fm.get('name').invalid && fm.get('name').touched\">{{'form.required'|translate}}</small>\r\n                            </div>\r\n                            <div class=\"col-12 pt-1 col-md-4\">\r\n                                <input type=\"text\" min=1 class=\"form-control\" name=\"phone\" formControlName=\"phone\" placeholder=\"{{'fecontact.inputPhone' | translate }}\">\r\n                                <small style=\"color:red\" *ngIf=\"fm.get('phone').invalid && fm.get('phone').touched\">{{'phone'|translate}}</small>\r\n                            </div>\r\n                            <div class=\"col-12 pt-1 col-md-4\">\r\n                                <input type=\"email\" class=\"form-control\" name=\"email\" formControlName=\"email\" placeholder=\"{{'fecontact.inputEmail' | translate }}\">\r\n                                <small style=\"color:red\" *ngIf=\"fm.get('email').invalid && fm.get('email').touched\">{{'errorMail'|translate}}</small>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"form-row mt-2\">\r\n\r\n                            <div class=\"col\">\r\n                                <input type=\"text\" class=\"form-control\" name=\"subject\" formControlName=\"subject\" placeholder=\"{{'fecontact.title' | translate }}\">\r\n                                <small style=\"color:red\" *ngIf=\"fm.get('subject').invalid && fm.get('subject').touched\">{{'form.required'|translate}}</small>\r\n                            </div>\r\n                        </div>\r\n\r\n                        <div class=\"form-row mt-2\">\r\n                            <div class=\"col\">\r\n                                <textarea type=\"text\" rows=\"5\" name=\"message\" formControlName=\"message\" class=\"form-control p-3 h-4\" placeholder=\"{{'fecontact.messages' | translate }}\"></textarea>\r\n                                <small style=\"color:red\" *ngIf=\"fm.get('message').invalid && fm.get('message').touched\">{{'form.required'|translate}}</small>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"form-row  mt-2 float-right\">\r\n                            <button type=\"button\" [disabled]=\"!fm.valid\" (click)=\"addContact()\" class=\"btn btn-primary  rounded border \">\r\n                                <i class=\"fas fa-paper-plane mr-2\"></i>{{'fecontact.btnSend' | translate }}</button>\r\n                        </div>\r\n                    </form>\r\n                </div>\r\n                <div class=\"col-md-6\">\r\n                    <div class=\"row\">\r\n                        <fieldset class=\"tag-fiedset w-100 pb-4\">\r\n                            <legend class=\"tag-legeng border-bottom\">{{ 'fecontact.contacts'|translate }}</legend>\r\n                        </fieldset>\r\n                        <!-- <div class=\"pb-3\" [innerHTML]=\"('titleContact' | translate) | sanitizeHtml \"></div> -->\r\n                        <div class=\"col-md-7 mb-2 \">\r\n                            <div class=\"address\">\r\n                                <div class=\"card-title\" style=\"font-size: 16px\">\r\n                                    <i class=\"fas fa-home  mr-2\" style=\"color: #00923f\"></i>\r\n                                    <span class=\"font-weight-bold\">{{ 'fecontact.address' | translate }} </span>\r\n                                </div>\r\n                                <div class=\"card-text\">\r\n                                    <span class=\"pl-1\">{{ 'FEAdress' | translate }} </span>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"col-md-5 mb-2\">\r\n                            <div class=\"mail\">\r\n                                <div class=\"card-title\" style=\"font-size: 16px\">\r\n                                    <i class=\"fas fa-envelope-square  mr-2\" style=\"color: #00923f\"></i>\r\n                                    <span class=\"font-weight-bold\">{{ 'fecontact.email' | translate }} </span>\r\n                                    <div class=\"card-text\">\r\n                                        <span class=\"pl-1\">{{ 'email' | translate }} </span>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"col-md-7 mb-2\">\r\n                            <div class=\" w-100\">\r\n                                <div class=\"card-title\" style=\"font-size:16px\">\r\n                                    <i class=\"fas fa-clock mr-2\" style=\"color: #00923f\"></i>\r\n                                    <span class=\"font-weight-bold\">Giờ làm việc</span>\r\n                                </div>\r\n                                <div class=\"card-text\">\r\n                                    <span [innerHTML]=\"'FETime' | translate\"> </span>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"col-md-5 mb-2\">\r\n                            <div class=\" w-100 float-right\">\r\n                                <div class=\"card-title\" style=\"font-size:16px\">\r\n                                    <i class=\"fas fa-barcode mr-2\" style=\"color: #00923f\"></i>\r\n                                    <span class=\"font-weight-bold\">Mã số thuế</span>\r\n                                </div>\r\n                                <div class=\"card-text\">\r\n\r\n                                    <span class=\"pl-1\">{{ 'taxCode' | translate }} </span>\r\n\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n<div class=\"container-fluid p-0 box-white text-center\">\r\n    <div [innerHTML]=\"('map' | translate) | sanitizeHtml\"></div>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/contact/contact.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals__ = __webpack_require__("../../../../../src/app/globals.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_api_api_service__ = __webpack_require__("../../../../../src/app/services/api/api.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var ContactComponent = (function () {
+    function ContactComponent(globals, fb, toastr, api, vcr) {
+        this.globals = globals;
+        this.fb = fb;
+        this.toastr = toastr;
+        this.api = api;
+        this.toastr.setRootViewContainerRef(vcr);
+        this.setform();
+    }
+    ContactComponent.prototype.setform = function () {
+        this.fm = this.fb.group({
+            name: ['', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required]],
+            email: ['', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i)]],
+            phone: ['', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].pattern(/[0-9\+\-\ ]/)]],
+            subject: ['', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required]],
+            message: ['', [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required]],
+        });
+    };
+    ContactComponent.prototype.ngOnInit = function () {
+    };
+    ContactComponent.prototype.addContact = function () {
+        var _this = this;
+        var obj = this.fm.value;
+        this.api.addContact(obj).subscribe(function (res) {
+            var type = (res['status'] == 1) ? "success" : (res['status'] == 0 ? "warning" : "danger");
+            _this.toastr[type](res['message'], type);
+            _this.setform();
+        });
+    };
+    ContactComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-contact',
+            template: __webpack_require__("../../../../../src/app/frontend/contact/contact.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/contact/contact.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__globals__["a" /* Globals */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormBuilder"],
+            __WEBPACK_IMPORTED_MODULE_3_ng2_toastr__["ToastsManager"],
+            __WEBPACK_IMPORTED_MODULE_4__services_api_api_service__["a" /* ApiService */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"]])
+    ], ContactComponent);
+    return ContactComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/content/content.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, " \r\n.card:hover p{\r\n    color: blue;\r\n}\r\n.card img{\r\n    -webkit-transform:scale(0.8); \r\n    -moz-transform:scale(0.8);\r\n    -o-transform:scale(0.8); \r\n    -webkit-transition-duration: 0.5s; \r\n    -moz-transition-duration: 0.5s; \r\n    -o-transition-duration: 0.5s; \r\n}\r\n .card:hover img{\r\n    -webkit-transform:scale(1.1); \r\n    -moz-transform:scale(1.1); \r\n    -o-transform:scale(1.1); \r\n}\r\n\r\ndiv.card .heading{\r\n    position: relative;\r\n}\r\ndiv.card .heading:after {\r\n    content: '';\r\n    width: 1px;\r\n    opacity: 0;\r\n    background: #20a8d8;\r\n    height: 1.5px;\r\n    position: absolute;\r\n    bottom: -2px;\r\n    transition: all 0.2s ease-out;\r\n    left: 0;\r\n}\r\n div.card:hover .heading:after {\r\n     width: 100%;\r\n    opacity: 1;\r\n}\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/content/content.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"box-white pt-3\">\r\n    <div class=\"container-main\">\r\n        <div class=\"container-fluid \">\r\n            <nav aria-label=\"breadcrumb \">\r\n                <ol class=\"breadcrumb border-0 pt-0 pl-0\">\r\n                    <li class=\"breadcrumb-item active\" aria-current=\"page\">\r\n                        <a class=\"text-white-owf\" href=\"/\">Trang chủ</a>\r\n                    </li>\r\n                    <li class=\"breadcrumb-item active\" aria-current=\"page\">Tin tức</li>\r\n                    <li class=\"breadcrumb-item active\" aria-current=\"page\">{{title}}</li>\r\n                </ol>\r\n            </nav>\r\n\r\n            <div class=\"row pt-2\">\r\n                <div class=\"col-md-8\">\r\n                    <div class=\"Construction text-center\">\r\n                        <h2>{{title}}</h2>\r\n                        <div class=\"line-style\">\r\n                            <span></span>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"mt-5\">\r\n                        <app-contentgroup *ngFor=\"let item of cws.data\" class=\"card\" style=\"box-shadow: 0px 0px 4px 1px #ccc !important;\" [item]=\"item\"\r\n                            [className]=\"\"></app-contentgroup>\r\n                    </div>\r\n                    <div class=\"float-left\">\r\n                        <span>\r\n                            <button *ngIf=\"(cws.settings.first > 1 )\" class=\"btn btn-outline-primary p-2\" (click)=\"cws._previousnext(false)\" style=\"padding : 3px 5px;\">\r\n                                <i class=\"fas fa-long-arrow-alt-left\"></i>\r\n                                <span>Prev</span>\r\n                            </button>\r\n                            <button *ngIf=\"(cws.settings.last < cws.settings.total)\" type=\"button\" class=\"btn btn-outline-primary p-2\" (click)=\"cws._previousnext(true)\"\r\n                                style=\"padding : 3px 5px;\">\r\n                                <span>Next</span>\r\n                                <i class=\"fas fa-long-arrow-alt-right\"></i>\r\n                            </button>\r\n                        </span>\r\n                    </div>\r\n                </div>\r\n                <div class=\"col-md-4\">\r\n                    <app-asidebar-right></app-asidebar-right>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/content/content.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContentComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_api_api_service__ = __webpack_require__("../../../../../src/app/services/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_integrated_table_service__ = __webpack_require__("../../../../../src/app/services/integrated/table.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var ContentComponent = (function () {
+    function ContentComponent(router, route, api, cws) {
+        this.router = router;
+        this.route = route;
+        this.api = api;
+        this.cws = cws;
+        this.list = [];
+    }
+    ContentComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            _this.parent_link = params.parent_link;
+            _this.api.getlistByGroupContent(_this.parent_link).subscribe(function (res) {
+                _this.cws._ini({ data: [], count: 15 });
+                _this.cws.sorting.field = '';
+                _this.title = res.data['title'];
+                _this.cws._concat(res.data['list'], true);
+            });
+        });
+    };
+    ContentComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-content',
+            template: __webpack_require__("../../../../../src/app/frontend/content/content.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/content/content.component.css")],
+            providers: [__WEBPACK_IMPORTED_MODULE_2__services_api_api_service__["a" /* ApiService */]],
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_2__services_api_api_service__["a" /* ApiService */],
+            __WEBPACK_IMPORTED_MODULE_3__services_integrated_table_service__["a" /* TableService */]])
+    ], ContentComponent);
+    return ContentComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/contentgroup/contentgroup.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/contentgroup/contentgroup.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"card-body p-1\">\r\n    <div class=\"row\">\r\n        <div class=\"col-12 col-sm-5 col-md-4 p-0\">\r\n            <a class=\"nav-link\" [routerLink]=\"['/tin-tuc/'+item.content_group_link+'/'+item.link]\">\r\n                <img class=\"rounded w-100\" [src]=\"item.images\">\r\n            </a>\r\n        </div>\r\n        <div class=\"col-12 col-sm-7 col-md-8  pt-2 \">\r\n            <a [routerLink]=\"['/tin-tuc/'+item.content_group_link+'/'+item.link]\" class=\"p-0 card-title nav-link p-0 font-weight-bold\">{{item.name}}</a>\r\n            <p class=\"card-text text-justify\" style=\"max-height: 100px;overflow: hidden;\">{{item.description}}</p>\r\n            <div class=\"icon d-flex text-muted font-italic \">\r\n                <div class=\"icon-calendar\" style=\"cursor: pointer;\">\r\n                    <i class=\"fas fa-calendar-alt mr-1 \"></i>\r\n                    <span>{{item.maker_date | date : 'dd-MM-yyyy'}}</span>\r\n                </div>\r\n                <!-- <div class=\"icon-folders  ml-2\" style=\"cursor: pointer;\">\r\n                <i class=\"fas fa-folder-open mr-1\"></i>\r\n                <span>{{item.content_group_name}}</span>\r\n              </div>\r\n              <div class=\"icon-views ml-2\" style=\"cursor: pointer;\">\r\n                <i class=\"far fa-flag mr-1\"></i>\r\n                <span>{{item.views}}</span>\r\n              </div> -->\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/contentgroup/contentgroup.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContentgroupComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var ContentgroupComponent = (function () {
+    function ContentgroupComponent() {
+    }
+    ContentgroupComponent.prototype.ngOnInit = function () {
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('className'),
+        __metadata("design:type", Object)
+    ], ContentgroupComponent.prototype, "className", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('item'),
+        __metadata("design:type", Object)
+    ], ContentgroupComponent.prototype, "item", void 0);
+    ContentgroupComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-contentgroup',
+            template: __webpack_require__("../../../../../src/app/frontend/contentgroup/contentgroup.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/contentgroup/contentgroup.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ContentgroupComponent);
+    return ContentgroupComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/detailcontent/detailcontent.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".main-content{\r\n    background: #FFFFFF;\r\n    padding-top: 100px;\r\n    padding-bottom: 100px;  \r\n}div.card .heading:after {\r\n    content: '';\r\n    width: 1px;\r\n    opacity: 0;\r\n    background: #20a8d8;\r\n    height: 1.5px;\r\n    position: absolute;\r\n    bottom: -2px;\r\n    transition: all 0.2s ease-out;\r\n    left: 0;\r\n}\r\n div.card:hover .heading:after {\r\n    width: 100%;\r\n    opacity: 1;\r\n}\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/detailcontent/detailcontent.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"box-white pt-3\">\r\n    <div class=\"container-main\">\r\n        <div class=\"container-fluid \">\r\n            <nav aria-label=\"breadcrumb \">\r\n                <ol class=\"breadcrumb border-0 pt-0 d-flex\">\r\n                    <li class=\"breadcrumb-item active\" aria-current=\"page\">\r\n                        <a [routerLink]=\"['/']\">Trang chủ</a>\r\n                    </li>\r\n                    <li class=\"breadcrumb-item active\" aria-current=\"page\">Tin tức</li>\r\n                    <li class=\"breadcrumb-item active\" aria-current=\"page\">\r\n                        <a class=\"text-white-owf\" [routerLink]=\"['/tin-tuc/'+ contentdetail.parent_link]\">\r\n                            {{contentdetail.name_group}}</a>\r\n                    </li>\r\n                    <li class=\"breadcrumb-item active\" aria-current=\"page\">\r\n                        <strong>{{contentdetail.name}}</strong>\r\n                    </li>\r\n                </ol>\r\n            </nav>\r\n            <div class=\"row\">\r\n\r\n                <div class=\"col-md-8\">\r\n                    <div class=\"col-md-12 app-pages\">\r\n                        <h2 class=\"mt-4\">\r\n                            <strong>{{contentdetail.name}}</strong>\r\n                        </h2>\r\n                        <small>\r\n                            <span class=\"text-muted font-italic \">\r\n                                <i class=\"fas fa-calendar-alt mr-2\"></i>{{contentdetail.maker_date | date: 'dd-MM-yyyy'}}\r\n                            </span>\r\n                        </small>\r\n                        <div class=\"mt-4 \" style=\"text-align: justify\">\r\n                            <p [innerHTML]=\"contentdetail.detail | sanitizeHtml\"></p>\r\n                        </div>\r\n                    </div>\r\n                    <!-- <div class=\"img\">\r\n                        <img class=\"w-100\" [src]=\"(contentdetail.images && contentdetail.images.length > 4) ? contentdetail.images : null\">\r\n                    </div> -->\r\n                </div>\r\n                <!-- TIN TUC LIEN QUAN  -->\r\n                <div class=\"col-md-4\">\r\n                    <div class=\"card  border-0  \">\r\n                        <div class=\"card-header text-white color-gb-green text-uppercase font-weight-bold\">{{ 'titleNewsgroup'| translate }}</div>\r\n                        <div class=\"card-body pl-0 pr-0 \">\r\n                            <div *ngFor=\"let item of listgroup\">\r\n                                <app-contentgroup *ngIf=\"item.id != contentdetail.id\" class=\"card\" style=\"box-shadow: 0px 0px 4px 1px #ccc !important;\" [item]=\"item\"\r\n                                    [className]=\"\"></app-contentgroup>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/detailcontent/detailcontent.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DetailcontentComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_api_api_service__ = __webpack_require__("../../../../../src/app/services/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var DetailcontentComponent = (function () {
+    function DetailcontentComponent(route, apiService) {
+        var _this = this;
+        this.route = route;
+        this.apiService = apiService;
+        this.listgroup = [];
+        this.contentdetail = {};
+        this.route.params.subscribe(function (params) {
+            var link = params.link;
+            _this.apiService.getListContentDetail(link).subscribe(function (res) {
+                _this.contentdetail = res.data;
+            });
+            var parent_link = params.parent_link;
+            _this.apiService.getlistByGroupContent(parent_link).subscribe(function (res) {
+                _this.listgroup = res.data['list'];
+            });
+        });
+    }
+    DetailcontentComponent.prototype.ngOnInit = function () {
+    };
+    DetailcontentComponent.prototype.lis = function (id) {
+    };
+    DetailcontentComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-detailcontent',
+            template: __webpack_require__("../../../../../src/app/frontend/detailcontent/detailcontent.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/detailcontent/detailcontent.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */], __WEBPACK_IMPORTED_MODULE_1__services_api_api_service__["a" /* ApiService */]])
+    ], DetailcontentComponent);
+    return DetailcontentComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/faq/faq.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".title .span{\r\n    border-bottom: 4px solid #00923f\r\n}\r\n#accordion .card   {\r\n    border: 0;\r\n    border-bottom: 1px solid #bcbcbc;\r\n    position: relative;\r\n}\r\n.plus{\r\n    position: absolute;\r\n    right: 15px;\r\n    top: 10px\r\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/faq/faq.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"box-white pt-3 pb-3\">\r\n    <div class=\"container-main\">\r\n        <div class=\"container-fluid\">\r\n            <nav aria-label=\"breadcrumb \">\r\n                <ol class=\"breadcrumb border-0 pt-0 pl-0\">\r\n                    <li class=\"breadcrumb-item active\" aria-current=\"page\">\r\n                        <a class=\"text-white-owf\" href=\"/\">Trang chủ</a>\r\n                    </li>\r\n                    <li class=\"breadcrumb-item active\" aria-current=\"page\">Hỏi & đáp</li>\r\n                </ol>\r\n            </nav>\r\n            <div class=\"row\">\r\n\r\n                <div class=\"col-md-6 col-12 offset-md-3 title \">\r\n                    <div class=\"mb-2\">\r\n                        <h4>\r\n                            <span class=\"span\">Gửi câu Hỏi</span>\r\n                        </h4>\r\n                    </div>\r\n                    <form [formGroup]=\"fm\" class=\"mt-2\">\r\n                        <div class=\"form-row mt-2\">\r\n                            <div class=\"col-12 pt-1 col-md-4\">\r\n                                <input type=\"text\" class=\"form-control rounded\" name=\"name\" formControlName=\"name\"\r\n                                    placeholder=\"{{ 'fecontact.inputHoTen' | translate }}\">\r\n                                <small style=\"color:red\" *ngIf=\"fm.get('name').invalid && fm.get('name').touched\">{{'errorText'|translate}}</small>\r\n                            </div>\r\n                            <div class=\"col-12 pt-1 col-md-4\">\r\n                                <input type=\"text\" min=1 class=\"form-control rounded\" name=\"phone\" formControlName=\"phone\"\r\n                                    placeholder=\"{{'fecontact.inputPhone' | translate }}\">\r\n                                <small style=\"color:red\" *ngIf=\"fm.get('phone').invalid && fm.get('phone').touched\">{{'phone'|translate}}</small>\r\n                            </div>\r\n                            <div class=\"col-12 pt-1 col-md-4\">\r\n                                <input type=\"email\" class=\"form-control rounded\" name=\"email\" formControlName=\"email\"\r\n                                    placeholder=\"{{'fecontact.inputEmail' | translate }}\">\r\n                                <small style=\"color:red\" *ngIf=\"fm.get('email').invalid && fm.get('email').touched\">{{'errorMail'|translate}}</small>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"form-row mt-2\">\r\n                            <div class=\"col\">\r\n                                <textarea type=\"text\" rows=\"5\" name=\"question\" formControlName=\"question\" class=\"rounded form-control p-3 h-4\"\r\n                                    placeholder=\"{{'faq.Frquetion' | translate }}\"></textarea>\r\n                                <small style=\"color:red\" *ngIf=\"fm.get('question').invalid && fm.get('question').touched\">{{'errorText'|translate}}</small>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"form-row  mt-2 float-right\">\r\n                            <button type=\"button\" (click)=\"addFaq()\" class=\"btn btn-primary  rounded border \">\r\n                                <i class=\"fas fa-paper-plane mr-2\"></i>{{'fecontact.btnSend' | translate }}</button>\r\n                        </div>\r\n                    </form>\r\n                </div>\r\n                <div class=\"col-md-12 col-12 title\">\r\n                    <div class=\"mb-2\">\r\n                        <h4>\r\n                            <span class=\"span\">Những câu hỏi thường gặp</span>\r\n                        </h4>\r\n                    </div>\r\n                    <div id=\"accordion\" class=\"mt-2\">\r\n                        <div class=\"row\">\r\n                            <div class=\"col-md-6 col-12\" *ngFor=\"let item of list;let i= index\">\r\n                                <div class=\"card p-0 mt-2\">\r\n                                    <div (click)=\"click(i+1)\" class=\" card-header border-0 bg-white \" id=\"headingOne\">\r\n                                        <h6 class=\"mb-0 float-left\">\r\n                                            <i class=\"fas fa-question-circle\"></i>\r\n                                            <span class=\"font-weight-bold\">{{item.question}}</span>\r\n                                        </h6>\r\n                                        <div class=\"float-right text-muted plus\">\r\n                                            <i *ngIf=\"!show || show!=i+1\" class=\"fas fa-plus\"></i>\r\n                                            <i *ngIf=\"show && show==i+1\" class=\"fas fa-minus\"></i>\r\n                                        </div>\r\n                                    </div>\r\n                                    <div class=\"card-body \" *ngIf=\"show == i+1\">\r\n                                        <span [innerHTML]=\"item.reply | sanitizeHtml\"></span>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/faq/faq.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FaqComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_toastr__ = __webpack_require__("../../../../ng2-toastr/ng2-toastr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals__ = __webpack_require__("../../../../../src/app/globals.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_api_api_service__ = __webpack_require__("../../../../../src/app/services/api/api.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var FaqComponent = (function () {
+    function FaqComponent(globals, fb, toastr, api, vcr) {
+        this.globals = globals;
+        this.fb = fb;
+        this.toastr = toastr;
+        this.api = api;
+        this.toastr.setRootViewContainerRef(vcr);
+        this.setform();
+    }
+    FaqComponent.prototype.setform = function () {
+        this.fm = this.fb.group({
+            name: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].minLength(5)]],
+            phone: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].pattern(/[0-9\+\-\ ]/)]],
+            email: ['', [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].pattern(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i)]],
+            question: '',
+        });
+    };
+    FaqComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.api.faq().subscribe(function (res) {
+            _this.list = res['data'];
+        });
+    };
+    FaqComponent.prototype.click = function (i) {
+        this.show = (this.show && this.show == i) ? i - i : i;
+    };
+    FaqComponent.prototype.addFaq = function () {
+        var _this = this;
+        var data = this.fm.value;
+        this.api.addFaq(data).subscribe(function (res) {
+            var type = (res['status'] == 1) ? "success" : (res['status'] == 0 ? "warning" : "danger");
+            _this.toastr[type](res['message'], type);
+            _this.setform();
+        });
+    };
+    FaqComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-faq',
+            template: __webpack_require__("../../../../../src/app/frontend/faq/faq.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/faq/faq.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__globals__["a" /* Globals */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"],
+            __WEBPACK_IMPORTED_MODULE_2_ng2_toastr__["ToastsManager"],
+            __WEBPACK_IMPORTED_MODULE_4__services_api_api_service__["a" /* ApiService */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"]])
+    ], FaqComponent);
+    return FaqComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/frontend.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/frontend.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<app-header></app-header>\r\n<div class=\"\">\r\n  <router-outlet></router-outlet>\r\n</div>\r\n<app-footer></app-footer>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/frontend.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FrontendComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_api_api_service__ = __webpack_require__("../../../../../src/app/services/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var FrontendComponent = (function () {
+    function FrontendComponent(api, translate) {
+        this.api = api;
+        this.translate = translate;
+    }
+    FrontendComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        var lang = {};
+        this.api.getLanguage().subscribe(function (response) {
+            for (var key in response['data']) {
+                lang[key] = response['data'][key]['value'];
+                _this.translate.set(key, response['data'][key]['value']);
+            }
+        });
+    };
+    FrontendComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-frontend',
+            template: __webpack_require__("../../../../../src/app/frontend/frontend.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/frontend.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_api_api_service__["a" /* ApiService */], __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]])
+    ], FrontendComponent);
+    return FrontendComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/frontend.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FrontendModule", function() { return FrontendModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__home_home_component__ = __webpack_require__("../../../../../src/app/frontend/home/home.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_header_header_component__ = __webpack_require__("../../../../../src/app/frontend/modules/header/header.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__modules_footer_footer_component__ = __webpack_require__("../../../../../src/app/frontend/modules/footer/footer.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_api_api_service__ = __webpack_require__("../../../../../src/app/services/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_integrated_table_service__ = __webpack_require__("../../../../../src/app/services/integrated/table.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ngx_bootstrap_dropdown__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__sanitizeHtml_pipe__ = __webpack_require__("../../../../../src/app/frontend/sanitizeHtml.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__frontend_component__ = __webpack_require__("../../../../../src/app/frontend/frontend.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__contact_contact_component__ = __webpack_require__("../../../../../src/app/frontend/contact/contact.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_pages_component__ = __webpack_require__("../../../../../src/app/frontend/pages/pages.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__library_library_component__ = __webpack_require__("../../../../../src/app/frontend/library/library.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__faq_faq_component__ = __webpack_require__("../../../../../src/app/frontend/faq/faq.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__content_content_component__ = __webpack_require__("../../../../../src/app/frontend/content/content.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__detailcontent_detailcontent_component__ = __webpack_require__("../../../../../src/app/frontend/detailcontent/detailcontent.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__contentgroup_contentgroup_component__ = __webpack_require__("../../../../../src/app/frontend/contentgroup/contentgroup.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__modules_asidebar_right_asidebar_right_component__ = __webpack_require__("../../../../../src/app/frontend/modules/asidebar-right/asidebar-right.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__modules_not_found_not_found_component__ = __webpack_require__("../../../../../src/app/frontend/modules/not-found/not-found.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__modules_lottery_lottery_component__ = __webpack_require__("../../../../../src/app/frontend/modules/lottery/lottery.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var appRoutes = [
+    {
+        path: '', component: __WEBPACK_IMPORTED_MODULE_12__frontend_component__["a" /* FrontendComponent */],
+        children: [
+            { path: '', redirectTo: 'trang-chu' },
+            { path: 'trang-chu', component: __WEBPACK_IMPORTED_MODULE_5__home_home_component__["a" /* HomeComponent */] },
+            { path: 'lien-he', component: __WEBPACK_IMPORTED_MODULE_14__contact_contact_component__["a" /* ContactComponent */] },
+            { path: 'faq', component: __WEBPACK_IMPORTED_MODULE_17__faq_faq_component__["a" /* FaqComponent */] },
+            { path: 'tin-tuc/:parent_link', component: __WEBPACK_IMPORTED_MODULE_18__content_content_component__["a" /* ContentComponent */] },
+            { path: 'tin-tuc/:parent_link/:link', component: __WEBPACK_IMPORTED_MODULE_19__detailcontent_detailcontent_component__["a" /* DetailcontentComponent */] },
+            { path: 'tin-tuc', component: __WEBPACK_IMPORTED_MODULE_18__content_content_component__["a" /* ContentComponent */] },
+            { path: 'thu-vien-anh-video', component: __WEBPACK_IMPORTED_MODULE_16__library_library_component__["a" /* LibraryComponent */] },
+            { path: 'thu-vien-anh', component: __WEBPACK_IMPORTED_MODULE_16__library_library_component__["a" /* LibraryComponent */] },
+            { path: ':link', component: __WEBPACK_IMPORTED_MODULE_15__pages_pages_component__["a" /* PagesComponent */] },
+        ]
+    }
+];
+var FrontendModule = (function () {
+    function FrontendModule() {
+    }
+    FrontendModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
+                __WEBPACK_IMPORTED_MODULE_13_ngx_bootstrap__["b" /* BsDatepickerModule */].forRoot(),
+                __WEBPACK_IMPORTED_MODULE_4__angular_forms__["FormsModule"],
+                __WEBPACK_IMPORTED_MODULE_4__angular_forms__["ReactiveFormsModule"],
+                __WEBPACK_IMPORTED_MODULE_2__angular_router__["d" /* RouterModule */].forChild(appRoutes),
+                __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__["b" /* TranslateModule */],
+                __WEBPACK_IMPORTED_MODULE_10_ngx_bootstrap_dropdown__["a" /* BsDropdownModule */].forRoot()
+            ],
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_12__frontend_component__["a" /* FrontendComponent */],
+                __WEBPACK_IMPORTED_MODULE_5__home_home_component__["a" /* HomeComponent */],
+                __WEBPACK_IMPORTED_MODULE_6__modules_header_header_component__["a" /* HeaderComponent */],
+                __WEBPACK_IMPORTED_MODULE_15__pages_pages_component__["a" /* PagesComponent */],
+                __WEBPACK_IMPORTED_MODULE_16__library_library_component__["a" /* LibraryComponent */],
+                __WEBPACK_IMPORTED_MODULE_14__contact_contact_component__["a" /* ContactComponent */],
+                __WEBPACK_IMPORTED_MODULE_7__modules_footer_footer_component__["a" /* FooterComponent */],
+                __WEBPACK_IMPORTED_MODULE_11__sanitizeHtml_pipe__["a" /* SanitizeHtmlPipe */],
+                __WEBPACK_IMPORTED_MODULE_17__faq_faq_component__["a" /* FaqComponent */],
+                __WEBPACK_IMPORTED_MODULE_19__detailcontent_detailcontent_component__["a" /* DetailcontentComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__contentgroup_contentgroup_component__["a" /* ContentgroupComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__content_content_component__["a" /* ContentComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__modules_asidebar_right_asidebar_right_component__["a" /* AsidebarRightComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__modules_not_found_not_found_component__["a" /* NotFoundComponent */],
+                __WEBPACK_IMPORTED_MODULE_23__modules_lottery_lottery_component__["a" /* LotteryComponent */]
+            ],
+            providers: [__WEBPACK_IMPORTED_MODULE_8__services_api_api_service__["a" /* ApiService */], __WEBPACK_IMPORTED_MODULE_9__services_integrated_table_service__["a" /* TableService */],],
+        })
+    ], FrontendModule);
+    return FrontendModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/home/home.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\r\n .hover-bg .hover-text {\r\n    position: absolute;\r\n    text-align: center;\r\n    margin: 0 auto;\r\n    color: #ffffff;\r\n    background: rgba(0, 0, 0, 0.66);\r\n    padding: 10% 0;\r\n    height: 100%;\r\n    width: 100%;\r\n    opacity: 0;\r\n    z-index: 999;\r\n    transition: all 0.5s;\r\n}\r\n .hover-bg {\r\n    overflow: hidden;\r\n    position: relative;\r\n}\r\n .hover-bg .hover-text:hover {\r\n    opacity: 0.8;\r\n}\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/home/home.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"box-white\">\r\n    <div class=\"container-main \">\r\n        <div class=\"owl-carousel-slides owl-carousel owl-theme\">\r\n            <div *ngFor=\"let item of slide\">\r\n                <img style=\"max-width: 100%;\" *ngIf=\"item.images && item.images.length > 4\" src=\"{{item.images}}\">\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n<!-- <div style=\"background-color: mediumblue;\">\r\n    <div class=\"container-main\">\r\n        <div class=\"container-fluid\">\r\n            <marquee class=\"ml-2 pt-2\" style=\"background-color: mediumblue; color:white;\">\r\n                <h6 class=\"m-0\">{{'Creeping' | translate}}</h6>\r\n            </marquee>\r\n        </div>\r\n    </div>\r\n</div> -->\r\n<div class=\"box-white pt-3\">\r\n    <div class=\"container-main\">\r\n        <div class=\"container-fluid\">\r\n            <div class=\"row\">\r\n                <div class=\"col-md-8\">\r\n                    <!-- kết quả xổ số theo tỉnh -->\r\n                    <div class=\"title-bp w-100\">\r\n                        <div class=\"hotlinewp color-gb-green col-11 \" [ngClass]=\"(width > 989)?'col-md-3':'col-sm-5'\">\r\n                            <h6>{{'home.kqxstinh' | translate}}</h6>\r\n                        </div>\r\n                    </div>\r\n                    <app-lottery></app-lottery>\r\n\r\n                    <!-- tích hợp miền nam -->\r\n                    <div class=\"title-mn w-100\">\r\n                        <div class=\"hotlinewp color-gb-green  col-11  \" [ngClass]=\"(width > 989)?'col-md-3':'col-sm-5'\">\r\n                            <h6>{{'home.miennam' | translate}}</h6>\r\n                        </div>\r\n                    </div>\r\n                    <div lottery-bind-table></div>\r\n\r\n                    <!-- sự kiện tin tức -- news -->\r\n                    <div class=\"title-bp w-100\">\r\n                        <div class=\"hotlinewp color-gb-green col-11  \" [ngClass]=\"(width > 989)?'col-md-3':'col-sm-5'\">\r\n                            <h6>{{'home.news' | translate}}</h6>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"row pt-4 pb-4\">\r\n                        <div class=\"col-md-6\" style=\"height: 550px;\">\r\n                            <div class=\"card p-0 border-0\" *ngFor=\"let item of itemnews\">\r\n                                <a [routerLink]=\"['/tin-tuc/'+item.parent_link +'/'+item.link]\">\r\n                                    <img class=\"card-img-top\" *ngIf=\"item.images && item.images.length >4\"\r\n                                        [src]=\"item.images\" alt=\"\">\r\n                                </a>\r\n                                <div class=\"card-body pl-0 pr-0\">\r\n                                    <a [routerLink]=\"['/tin-tuc/'+item.parent_link +'/'+item.link]\">\r\n                                        <h4 class=\"card-title font-weight-bold\">\r\n                                            {{item.name}}\r\n                                        </h4>\r\n                                    </a>\r\n                                    <small>\r\n                                        <span class=\"text-muted font-italic \">\r\n                                            <i class=\"fas fa-calendar-alt mr-2\"></i>{{item.maker_date | date:\r\n                                            'dd-MM-yyyy' }}\r\n                                        </span>\r\n                                    </small>\r\n                                    <p class=\"card-text\" style=\"text-align: justify;overflow: hidden;\r\n                                   display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical;\">\r\n                                        {{item.description}}</p>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\" col-md-6 scroll-blog\">\r\n                            <div class=\"card  mr-1 border-0\">\r\n                                <div class=\"card-body p-0\">\r\n                                    <ul class=\"list-group-item1 w-100  \">\r\n                                        <div class=\"list-group-item1\" *ngFor=\"let item of getListContentHome\">\r\n                                            <a [routerLink]=\"['/tin-tuc/'+item.parent_link +'/'+item.link]\">\r\n                                                <b>{{item.name}}</b>\r\n                                            </a>\r\n                                            <br>\r\n                                            <small>\r\n                                                <span class=\"text-muted font-italic \">\r\n                                                    <i class=\"fas fa-calendar-alt mr-2\"></i>{{item.maker_date | date:\r\n                                                    'dd-MM-yyyy'}}\r\n                                                </span>\r\n                                            </small>\r\n                                            <p style=\"text-align: justify\">{{ item.description }}</p>\r\n                                        </div>\r\n                                    </ul>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"col-md-4 col-sm-12\">\r\n                    <app-asidebar-right></app-asidebar-right>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"container-fluid\">\r\n            <div class=\"col-md-12\">\r\n                <div class=\"row libary \">\r\n                    <div class=\"title-bp w-100\">\r\n                        <div class=\"hotlinewp color-gb-red col-10 \" [ngClass]=\"(width > 989)?'col-md-2':'col-sm-3'\">\r\n                            <h6 class=\"pr-2\">{{'home.libary' | translate}}</h6>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"row pt-2\">\r\n                    <div class=\"col-md-4\" *ngIf=\"library.listVideo.length >0\">\r\n                        <div class=\"cardService mb-3\" *ngFor=\"let item of library.listVideo, let i = index\">\r\n                            <div class='gallary-item' *ngIf=\"i<2\">\r\n                                <div class='hover-bg'>\r\n                                    <a data-fancybox='gallery' href='{{item.value}}'>\r\n                                        <div class='hover-text'>\r\n                                            <span class=\"btn-img\">\r\n                                            </span>\r\n                                        </div>\r\n                                        <div class='embed-responsive embed-responsive-4by3'>\r\n                                            <iframe [src]=\"item.value\" frameborder=\"0\" allowfullscreen></iframe>\r\n                                        </div>\r\n                                    </a>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-md-4\" *ngIf=\"library.listVideo.length ==0\">\r\n                        <div class=\"mb-2\" *ngFor=\"let item of library.listImages;let y = index\">\r\n                            <div class='gallary-item' *ngIf=\"y >9\">\r\n                                <div class='hover-bg'>\r\n                                    <a data-fancybox='gallery'\r\n                                        [href]=\"globals.BASE_API_URL + 'public/library/'+item.value\">\r\n                                        <div class='hover-text'>\r\n                                            <!-- <h4>{{item.name}}</h4> -->\r\n                                            <span class=\"btn-img\">\r\n                                                <i class=\"fa fa-image font-5xl mt-4\"></i>\r\n                                            </span>\r\n                                        </div>\r\n                                        <img class='img-responsive w-100 w-100 rounded'\r\n                                            [src]=\"globals.BASE_API_URL + 'public/library/'+item.value\"\r\n                                            [alt]=\"item.name\" />\r\n                                    </a>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-md-8\">\r\n                        <div class=\"row\">\r\n                            <div class=\"p-1 d-none d-md-block\" [ngClass]=\"d == 4 || d==5 ? 'col-md-6':'col-md-3'\"\r\n                                *ngFor=\"let item of library.listImages;let d = index\">\r\n                                <div class='gallary-item' style=\"overflow: hidden;\"\r\n                                    [ngClass]=\"d == 10 || d==11 ? 'd-none':''\"\r\n                                    [ngStyle]=\"{'height':  ( d == 4 || d==5) ? '':'130px'}\">\r\n                                    <div class='hover-bg'>\r\n                                        <a data-fancybox='gallery'\r\n                                            [href]=\"globals.BASE_API_URL + 'public/library/'+item.value\">\r\n                                            <div class='hover-text'>\r\n                                                <!-- <h4>{{item.name}}</h4> -->\r\n                                                <span class=\"btn-img\">\r\n                                                    <i class=\"fa fa-image font-5xl mt-4\"></i>\r\n                                                </span>\r\n                                            </div>\r\n                                            <img class='img-responsive w-100 w-100 rounded'\r\n                                                [src]=\"globals.BASE_API_URL + 'public/library/'+item.value\"\r\n                                                [alt]=\"item.name\" />\r\n                                        </a>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"p-1 d-block d-md-none\" [ngClass]=\"d == 4 || d==5 ? 'col-md-6':'col-md-3'\"\r\n                                *ngFor=\"let item of library.listImages;let d = index\">\r\n                                <div class='gallary-item' [ngClass]=\"d == 10 || d==11 ? 'd-none':''\">\r\n                                    <div class='hover-bg'>\r\n                                        <a data-fancybox='gallery'\r\n                                            [href]=\"globals.BASE_API_URL + 'public/library/'+item.value\">\r\n                                            <div class='hover-text'>\r\n                                                <!-- <h4>{{item.name}}</h4> -->\r\n                                                <span class=\"btn-img\">\r\n                                                    <i class=\"fa fa-image font-5xl mt-4\"></i>\r\n                                                </span>\r\n                                            </div>\r\n                                            <img class='img-responsive w-100 w-100 rounded'\r\n                                                [src]=\"globals.BASE_API_URL + 'public/library/'+item.value\"\r\n                                                [alt]=\"item.name\" />\r\n                                        </a>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/home/home.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_api_api_service__ = __webpack_require__("../../../../../src/app/services/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals__ = __webpack_require__("../../../../../src/app/globals.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var HomeComponent = (function () {
+    function HomeComponent(translate, api, globals, sanitizer) {
+        this.translate = translate;
+        this.api = api;
+        this.globals = globals;
+        this.sanitizer = sanitizer;
+        this.slide = [];
+        //public width: number = 0
+        this.library = { data: [], listImages: [], listVideo: [] };
+    }
+    HomeComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        //this.width = document.body.getBoundingClientRect().width
+        this.getLibrary();
+        this.getListContent();
+        this.api.getListSlide(1).subscribe(function (res) {
+            _this.slide = res.data;
+        });
+        setTimeout(function () {
+            window['runapixskt']({});
+            window["viewLibrary"]();
+            window['slides']();
+        }, 1000);
+    };
+    HomeComponent.prototype.getListContent = function () {
+        var _this = this;
+        this.api.getListContentHome().subscribe(function (res) {
+            var data = res.data;
+            _this.itemnews = data.slice(0, 1);
+            _this.getListContentHome = data.slice(1);
+        });
+    };
+    HomeComponent.prototype.getLibrary = function () {
+        var _this = this;
+        this.api.getLibraryVideoHome().subscribe(function (res) {
+            _this.library.data = res.data;
+            _this.library.data.reduce(function (n, o, i) {
+                o.value = (o.type == 1) ? _this.sanitizer.bypassSecurityTrustResourceUrl(o.value.replace('watch?v=', 'embed/')) : o.value;
+                var type = (o.type == 1) ? _this.library.listVideo.push(o) : _this.library.listImages.push(o);
+                return n;
+            }, []);
+        });
+        this.api.getLibraryImgHome().subscribe(function (res) {
+            _this.library.listImages = res.data;
+        });
+    };
+    HomeComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-home',
+            template: __webpack_require__("../../../../../src/app/frontend/home/home.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/home/home.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__["c" /* TranslateService */], __WEBPACK_IMPORTED_MODULE_2__services_api_api_service__["a" /* ApiService */], __WEBPACK_IMPORTED_MODULE_3__globals__["a" /* Globals */], __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__["DomSanitizer"]])
+    ], HomeComponent);
+    return HomeComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/library/library.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".btn-img{\r\n    color: #eee; \r\n    font-size: 48px;\r\n}\r\n\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/library/library.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"box-white pt-3 pb-3\">\r\n    <div class=\"container-main\">\r\n        <div class=\"container-fluid\">\r\n            <nav aria-label=\"breadcrumb mb-0\">\r\n                <ol class=\"breadcrumb border-0 mb-0\">\r\n                    <li class=\"breadcrumb-item active\" aria-current=\"page\">\r\n                        <a href=\"/\">Home</a>\r\n                    </li>\r\n                    <li class=\"breadcrumb-item active\" aria-current=\"page\">\r\n                        {{'titleLibrary' | translate }}\r\n                    </li>\r\n                </ol>\r\n            </nav>\r\n            <div class=\"col-md-12\">\r\n                <div class='gallary animate-grid  wow fadeInUp' data-wow-delay='0.5s'>\r\n                    <div class='container-fluid'>\r\n                        <div class='row justify-content-center'>\r\n                            <div class='col-xs-12'>\r\n                                <div class='categories Construction'>\r\n                                    <h2>{{'titleLibrary' | translate }}</h2>\r\n                                    <div class=\"line-style\">\r\n                                        <span></span>\r\n                                    </div>\r\n                                    <ul class=\"nav mt-5 justify-content-center\">\r\n                                        <li class=\"nav-item mr-2\">\r\n                                            <a href='javascript:' data-filter=\"*\" class='active btn btn-outline-danger nav-link'>{{\r\n                                                'btn.all' | translate }}</a>\r\n                                        </li>\r\n                                        <li class=\"nav-item mr-2\">\r\n                                            <a href='javascript:' data-filter=\".1\" class=' btn btn-outline-danger nav-link'>{{\r\n                                                'btn.video'| translate }}</a>\r\n                                        </li>\r\n                                        <li class=\"nav-item mr-2\">\r\n                                            <a href=\"javascript:\" data-filter=\".2\" class=' btn btn-outline-danger nav-link'>{{\r\n                                                'btn.img' | translate}}</a>\r\n                                        </li>\r\n                                    </ul>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <div class='row gallary-thumbs'>\r\n                            <div class='col-sm-6 col-md-3 p-1 1' *ngFor=\"let item of library.listVideo\">\r\n                                <div class='gallary-item'>\r\n                                    <div class='hover-bg'>\r\n                                        <a data-fancybox='gallery' href='{{item.value}}'>\r\n                                            <div class='hover-text'>\r\n                                                <span class=\"btn-img\">\r\n                                                </span>\r\n                                            </div>\r\n                                            <div class='embed-responsive embed-responsive-4by3'>\r\n                                                <iframe [src]=\"item.value\" frameborder=\"0\" allowfullscreen></iframe>\r\n                                            </div>\r\n                                        </a>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                            <div class='col-sm-6 col-md-3 p-1 2' *ngFor=\"let item of library.listImages\">\r\n                                <div class='gallary-item'>\r\n                                    <div class='hover-bg'>\r\n                                        <a data-fancybox='gallery' [href]=\"globals.BASE_API_URL + 'public/library/'+item.value\">\r\n                                            <div class='hover-text'>\r\n                                                <!-- <h4>{{item.name}}</h4> -->\r\n                                                <span class=\"btn-img\">\r\n                                                    <i class=\"fa fa-image font-5xl mt-4\"></i>\r\n                                                </span>\r\n                                            </div>\r\n                                            <img class='img-responsive w-100 w-100 rounded' [src]=\"globals.BASE_API_URL + 'public/library/'+item.value\" [alt]=\"item.name\"\r\n                                            />\r\n                                        </a>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/library/library.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LibraryComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals__ = __webpack_require__("../../../../../src/app/globals.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_animations__ = __webpack_require__("../../../animations/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_api_api_service__ = __webpack_require__("../../../../../src/app/services/api/api.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var LibraryComponent = (function () {
+    function LibraryComponent(api, globals, sanitizer) {
+        var _this = this;
+        this.api = api;
+        this.globals = globals;
+        this.sanitizer = sanitizer;
+        this.library = { data: [], listImages: [], listVideo: [] };
+        this.type = [
+            { title: 'all', show: true, filter: '*' },
+            { title: 'images', show: true, filter: 2 },
+            { title: 'video', show: true, filter: 1 },
+        ];
+        setTimeout(function () {
+            window["test"]();
+            window["viewLibrary"]();
+        }, 3000);
+        this.api.getLibrary().subscribe(function (res) {
+            _this.library.data = res.data;
+            _this.library.data.reduce(function (n, o, i) {
+                o.value = (o.type == 1) ? _this.sanitizer.bypassSecurityTrustResourceUrl(o.value.replace('watch?v=', 'embed/')) : o.value;
+                var type = (o.type == 1) ? _this.library.listVideo.push(o) : _this.library.listImages.push(o);
+                return n;
+            }, []);
+        });
+    }
+    LibraryComponent.prototype.ngOnInit = function () {
+    };
+    LibraryComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-library',
+            template: __webpack_require__("../../../../../src/app/frontend/library/library.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/library/library.component.css")],
+            animations: [
+                Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["j" /* trigger */])('heroState', [
+                    Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["g" /* state */])('inactive', Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["h" /* style */])({ transform: 'translateX(0) scale(1)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["g" /* state */])('active', Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["h" /* style */])({ transform: 'translateX(0) scale(1.1)' })),
+                    Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["i" /* transition */])('inactive => active', Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["e" /* animate */])('100ms ease-in')),
+                    Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["i" /* transition */])('active => inactive', Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["e" /* animate */])('100ms ease-out')),
+                    Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["i" /* transition */])('void => inactive', [
+                        Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["h" /* style */])({ transform: 'translateX(-100%) scale(1)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["e" /* animate */])(100)
+                    ]),
+                    Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["i" /* transition */])('inactive => void', [
+                        Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["e" /* animate */])(100, Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["h" /* style */])({ transform: 'translateX(100%) scale(1)' }))
+                    ]),
+                    Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["i" /* transition */])('void => active', [
+                        Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["h" /* style */])({ transform: 'translateX(0) scale(0)' }),
+                        Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["e" /* animate */])(200)
+                    ]),
+                    Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["i" /* transition */])('active => void', [
+                        Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["e" /* animate */])(200, Object(__WEBPACK_IMPORTED_MODULE_3__angular_animations__["h" /* style */])({ transform: 'translateX(0) scale(0)' }))
+                    ])
+                ])
+            ]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__services_api_api_service__["a" /* ApiService */], __WEBPACK_IMPORTED_MODULE_1__globals__["a" /* Globals */], __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["DomSanitizer"]])
+    ], LibraryComponent);
+    return LibraryComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/asidebar-right/asidebar-right.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".list-group-flush .list-group-item:last-child {\r\n    border-bottom: 0!important\r\n }\r\n \r\n .bg-card-header{\r\n    background-color: #00923f;\r\n   \r\n}\r\n.border-a:before {\r\n    position: absolute;\r\n    bottom: 0;\r\n    left: 0;\r\n    transform: translate(0%, -50%);\r\n    content: \"\";\r\n    width: 2px;\r\n    height: 20px;\r\n    background: #b2b2b2;\r\n    display: inline-block;\r\n}\r\n.scroll-blog-link{\r\n    position: relative;\r\n    height: 300px;\r\n    margin-top: .5rem;\r\n    overflow: auto;\r\n }\r\n .scroll-blog-link::-webkit-scrollbar {\r\n    height: 15px;\r\n    width: 15px;\r\n    background: white;\r\n }\r\n .scroll-blog-link::-webkit-scrollbar-thumb {\r\n    background-clip: padding-box;\r\n    background-color: rgba(0,0,0,.3);\r\n    border: 5px solid transparent;\r\n    border-radius: 10px;\r\n    min-height: 20px;\r\n    min-width: 20px;\r\n    height: 5px;\r\n    width: 5px;\r\n }", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/asidebar-right/asidebar-right.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<!-- video lotter -->\r\n<div class=\"card text-white p-0 w-100 border-0\" *ngIf=\"video && video.value\">\r\n    <div class=\"card-header  color-gb-green \">\r\n        <h6 class=\"m-0\">{{'home.titleRight' | translate}}</h6>\r\n    </div>\r\n    \r\n    <div class=\"card-body pl-0 pr-0 pt-1 pb-1\">\r\n        <iframe width=\"100%\" height=\"300px\" [src]=\"video.value\" frameborder=\"0\" allowfullscreen></iframe>\r\n    </div>\r\n</div>\r\n\r\n<!-- faq ==> hỏi dáp -->\r\n<div class=\"card text-white w-100 mb-3 border border-0\">\r\n    <div class=\"card-header border-0 p-0\" style=\"background-color: transparent\">\r\n        <div class=\"d-flex justify-content-between title-bp \">\r\n            <div class=\"hotlinewp color-gb-green pl-3 pr-5 \">\r\n                <h6 class=\"m-0\">{{'home.askanswerRight' | translate}}</h6>\r\n            </div>\r\n            <a class=\"border-a nav-link align-items-end d-flex text-dark\" style=\"position: relative;\" [routerLink]=\"['/faq']\"><span>Xem\r\n                    thêm\r\n                </span> </a>\r\n        </div>\r\n    </div>\r\n    <div class=\"card-body p-0 text-dark bg-light\" style=\"min-height: 100px;\">\r\n        <ul class=\"list-group list-group-flush\">\r\n            <li class=\"list-group-item\" *ngFor=\"let item of faq\">\r\n                <p class=\"font-weight-bold mb-0\" style=\"color: #b80606\">{{ item.question}}</p>\r\n                <span [innerHTML]=\"(item.reply.length >200)? ((item.reply | slice:0:200) +' ...'):(item.reply) | sanitizeHtml\"></span>\r\n            </li>\r\n        </ul>\r\n\r\n    </div>\r\n</div>\r\n\r\n<!-- calendar lotter ==>lịch mở thưởng -->\r\n<div class=\"card text-white w-100  border-0 \">\r\n    <div class=\"card-header border-0 p-0\" style=\"background-color: transparent\">\r\n        <div class=\"d-flex justify-content-between title-mn \">\r\n            <div class=\"hotlinewp color-gb-green pl-3 pr-5 \">\r\n                <h6 class=\"m-0\">{{'home.calendarRight' | translate}}</h6>\r\n            </div>\r\n            <a class=\"border-a nav-link align-items-end d-flex text-dark\" style=\"position: relative;\" [routerLink]=\"['/lich-mo-thuong']\">\r\n                <span>\r\n                    {{'btn.detail' |translate }}\r\n                </span>\r\n            </a>\r\n        </div>\r\n    </div>\r\n    <div class=\"card-body text-dark bg-light\">\r\n        <div class=\"row d-flex align-items-center\">\r\n            <div class=\"col-md-7 col-sm-5 col-7 text-center\">\r\n                <h5 class=\"p-1 m-0\" style=\"border: 2px solid #00923f; border-radius: 10px\">Thứ 6 hàng tuần</h5>\r\n            </div>\r\n\r\n            <div class=\"col-md-5 col-sm-5 col-5\" style=\"border-left: 2px solid #a0a0a0; \">\r\n                <h6>Vĩnh Long</h6>\r\n                <h6 class=\"font-weight-bold\" style=\"color: #b80606\">Trà vinh</h6>\r\n                <h6> Bình Dương </h6>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<!-- link website ==> liên kêt website-->\r\n<div class=\"card text-white w-100 border-0\">\r\n    <div class=\"card-header border-0 p-0\" style=\"background-color: transparent\">\r\n        <div class=\"d-flex justify-content-between title-mn \">\r\n            <div class=\"hotlinewp color-gb-green pl-3 pr-5 \">\r\n                <h6 class=\"m-0\">{{'home.WebLinksRight' | translate}}</h6>\r\n            </div>\r\n\r\n        </div>\r\n    </div>\r\n    <div class=\"card-body p-1 text-dark bg-light m-0 scroll-blog-link\">\r\n        <ul class=\"list-group list-group-flush\">\r\n            <li class=\"list-group-item\" *ngFor=\"let item of link\">\r\n                <a [href]=\"item.link\" class=\"nav-link\" target=\"_blank\">\r\n                    <img height=\"30px\" *ngIf=\"item.images && item.images.length >0 \" [src]=\"item.images\">\r\n                    <i class=\"fas fa-link text-primary\" *ngIf=\"item.images && item.images.length == 0 \"></i>\r\n                    <span class=\"ml-2 font-weight-bold\">{{ item.name | translate}}</span>\r\n                </a>\r\n            </li>\r\n\r\n\r\n        </ul>\r\n    </div>\r\n</div>\r\n\r\n<!-- location company -->\r\n<div class=\"card text-white w-100  border-0\">\r\n    <div class=\"card-header border-0 p-0\" style=\"background-color: transparent\">\r\n        <div class=\"d-flex justify-content-between title-mn \">\r\n            <div class=\"hotlinewp color-gb-green pl-3 pr-5 pb-0 \">\r\n                <h6 class=\"m-0\">{{'home.locationcompany' | translate}}</h6>\r\n            </div>\r\n            <a class=\"border-a nav-link align-items-end d-flex text-dark\" style=\"position: relative;\" [routerLink]=\"['/lien-he']\">\r\n                <span>\r\n                    {{'btn.contact' |translate }}\r\n                </span>\r\n            </a>\r\n        </div>\r\n    </div>\r\n    <div class=\"card-body text-dark pr-0 pl-0 pt-1\">\r\n        <div [innerHTML]=\"('map' | translate) | sanitizeHtml\"></div>\r\n    </div>\r\n</div>\r\n\r\n<!-- quảng cáo -->\r\n<div class=\"card  w-100 border-0\">\r\n    <div class=\"text-center\">\r\n        <div class=\"mt-1\" *ngFor=\"let item of qc\">\r\n            <a [attr.href]=\"(item.link && item.link)?item.link:''\" target=\"_blank\">\r\n                <img src=\"{{item.images}}\" *ngIf=\"item.images && item.images.length >4\" class=\"card-img\">\r\n            </a>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/asidebar-right/asidebar-right.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AsidebarRightComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_api_api_service__ = __webpack_require__("../../../../../src/app/services/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__globals__ = __webpack_require__("../../../../../src/app/globals.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var AsidebarRightComponent = (function () {
+    function AsidebarRightComponent(api, globals, sanitizer) {
+        this.api = api;
+        this.globals = globals;
+        this.sanitizer = sanitizer;
+    }
+    AsidebarRightComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.getlistFaqHome();
+        this.getLibraryVideo();
+        this.getlinkWebsite();
+        this.api.getListSlide(2).subscribe(function (res) {
+            _this.qc = res.data;
+        });
+    };
+    AsidebarRightComponent.prototype.getlistFaqHome = function () {
+        var _this = this;
+        this.api.faq().subscribe(function (res) {
+            _this.faq = res.data;
+        });
+    };
+    AsidebarRightComponent.prototype.getLibraryVideo = function () {
+        var _this = this;
+        this.api.getLibraryVideo().subscribe(function (res) {
+            var item = res.data;
+            if (item && item.value.length > 20) {
+                item.value = _this.sanitizer.bypassSecurityTrustResourceUrl(item.value.replace('watch?v=', 'embed/'));
+                _this.video = item;
+            }
+        });
+    };
+    AsidebarRightComponent.prototype.getlinkWebsite = function () {
+        var _this = this;
+        this.api.getListSlide(3).subscribe(function (res) {
+            _this.link = res.data;
+        });
+    };
+    AsidebarRightComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-asidebar-right',
+            template: __webpack_require__("../../../../../src/app/frontend/modules/asidebar-right/asidebar-right.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/modules/asidebar-right/asidebar-right.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_api_api_service__["a" /* ApiService */], __WEBPACK_IMPORTED_MODULE_2__globals__["a" /* Globals */], __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__["DomSanitizer"]])
+    ], AsidebarRightComponent);
+    return AsidebarRightComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/footer/footer.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\r\n.footer_social a{\r\n    display: inline-block;\r\n    width: 40px;\r\n    height: 40px;\r\n    line-height: 40px;\r\n    background: #fafafa;\r\n    border-radius: 50%;\r\n    cursor: pointer;\r\n    box-shadow: 0px 1px 5px rgba(0,0,0,0.1);\r\n    margin-right: 16px;\r\n    text-align: center;\r\n}\r\n.footer li{\r\n    list-style:none;\r\n}\r\n\r\n.footer{\r\n    background: linear-gradient(-90deg, #6fae7f 10%, #155060 90%);\r\n    color: white\r\n}\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/footer/footer.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"copyright pt-3 pb-3 footer\">\r\n    <div class=\"container-main\">\r\n        <div class=\"container-fluid\">\r\n            <div class=\" text-center\">\r\n                <h5 class=\"font-weight-bold\">{{ 'titleCompany' | translate }}</h5>\r\n                <h6>Địa chỉ: {{ 'FEAdress' | translate }}</h6>\r\n                <h6>MST:{{ 'taxCode' | translate }} - ĐT: {{ 'phone' | translate }} - Fax: {{ 'fax' | translate }}</h6>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/footer/footer.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FooterComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals__ = __webpack_require__("../../../../../src/app/globals.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_api_api_service__ = __webpack_require__("../../../../../src/app/services/api/api.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var FooterComponent = (function () {
+    function FooterComponent(globals, api) {
+        this.globals = globals;
+        this.api = api;
+        this.info = { key: 'footerinfo', data: [], title: 'footerTitleInfo' };
+    }
+    FooterComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        var connect = this.api.getmenu(this.info.key).subscribe(function (response) {
+            _this.info.data = response['data'];
+            console.log(_this.info.data);
+        });
+    };
+    FooterComponent.prototype.ngAfterContentInit = function () {
+        setTimeout(function () {
+            window['runLikebox']();
+        }, 1000);
+    };
+    FooterComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-footer',
+            template: __webpack_require__("../../../../../src/app/frontend/modules/footer/footer.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/modules/footer/footer.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__globals__["a" /* Globals */],
+            __WEBPACK_IMPORTED_MODULE_2__services_api_api_service__["a" /* ApiService */]])
+    ], FooterComponent);
+    return FooterComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/header/header.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__("../../../../css-loader/lib/url/escape.js");
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".bg-menu{\r\n    background-image: url(" + escape(__webpack_require__("../../../../../src/assets/img/bgheader.png")) + ");\r\n    background-repeat: no-repeat;\r\n    background-size: 100% 100%;\r\n    background-position: center;\r\n}\r\n@font-face {\r\n    font-family: myUTM-Aurora;\r\n    src: url(" + escape(__webpack_require__("../../../../../src/assets/fonts/UTM-Aurora.ttf")) + ");\r\n}\r\n.utmaurora{\r\n    font-family: myUTM-Aurora;\r\n}\r\n.font2x{\r\n    font-size: 3em!important;\r\n}\r\n.font3x{\r\n    font-size: 4em!important;\r\n}\r\n/* menu */\r\n@media(min-width: 787px){\r\n    .menu li:hover{\r\n        background-color: white; \r\n    }\r\n    .menu ul li a{\r\n        color: white\r\n    }\r\n    li:hover a{\r\n        color: #00923f!important;\r\n    }\r\n    \r\n    .menu li ul.dropdown-menu, li ul.dropdown-menu li ul.dropdown-menu {\r\n        position: absolute;\r\n        display: none;\r\n        left: auto;\r\n        top: 100%;\r\n        width:  auto!important;\r\n        background: white;\r\n        margin: 0;\r\n    }\r\n    .menu li ul.dropdown-menu li{\r\n        width: 100%;\r\n        margin: 0!important;\r\n        position: relative;\r\n    }\r\n    ul li:hover .dropdown-menu{\r\n        box-shadow: 0px 0px 4px 1px #ccc !important;\r\n        display: block;\r\n    }\r\n    .dropdown-menu li:hover{\r\n        background: #00923f;\r\n    }\r\n    .dropdown-menu li:hover ul li a{\r\n        color: #00923f!important;\r\n    }\r\n    .dropdown-menu li:hover a, .dropdown-menu li ul.dropdown-menu li:hover a{\r\n        color: white!important\r\n    }\r\n    .menu li ul.dropdown-menu li:hover ul.dropdown-menu{\r\n        box-shadow: 0px 0px 4px 1px #ccc !important;\r\n        display: block;    \r\n    }\r\n    .menu li ul.dropdown-menu li ul.dropdown-menu{\r\n        top: 0;\r\n        left: 100%;\r\n    }\r\n}\r\n@media (min-width:991px){\r\n    .menu li .dropdown-menu li a i{\r\n        transform: rotate(-90deg)\r\n    }\r\n    .menu li {\r\n        border-right: 1px solid whitesmoke\r\n    }\r\n    .menu li:last-child{\r\n        border: 0!important\r\n    }\r\n}\r\n@media(max-width:991px){\r\n    .menu .navbar-nav li a{\r\n        color: white!important;\r\n        \r\n    }\r\n    .menu li{\r\n        border-bottom: 1px solid white\r\n    }\r\n    .dropdown-menu li{\r\n        border-bottom: 0\r\n    }\r\n    .dropdown-menu{\r\n      display: inline; \r\n      position: relative;\r\n      left: 20px;\r\n    }\r\n}\r\n/* end menu */\r\n\r\n\r\n/* log<< */\r\n.logo img{\r\n    height: 140px;\r\n}\r\n@media(max-width:677px ){\r\n    .logo img{\r\n        height: 90px;\r\n    }\r\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/header/header.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"bg-menu logo\">\r\n    <div class=\"container-main \">\r\n        <div class=\"container-fuild\">\r\n            <div class=\"col-md-12 col-12 col-sm-12 d-flex align-items-center \">\r\n                <div class=\"col-md-3 p-0 col-sm-3 col-3 d-flex justify-content-center\">\r\n                    <a href=\"\\\">\r\n                        <img [src]=\"globals.title.logo\" class=\"pl-md-5 pt-1 pb-1\">\r\n                    </a>\r\n                </div>\r\n                <div class=\"col-md-9 col-9 col-sm-9 p-0\">\r\n                    <div class=\"text-center mt-3 \" style=\"color: #bc0506\">\r\n                        <h4 class=\"font-weight-bold utmaurora\" [ngClass]=\"(width > 678)?'font2x':''\">\r\n                            <span>CÔNG TY TNHH MỘT THÀNH VIÊN XỔ SỐ KIẾN THIẾT</span>\r\n                        </h4>\r\n                        <h2 class=\"font-weight-bold utmaurora\" [ngClass]=\"(width > 678)?'font3x':''\">\r\n                            <span>TỈNH TRÀ VINH</span>\r\n                        </h2>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n<div class=\"menu\" style=\"background-color: #00923f; box-shadow: 0 2px 2px rgba(10,16,20,.24), 0 0 2px rgba(10,16,20,.12);\">\r\n    <div class=\"container-main\">\r\n        <div class=\"container-fuild\">\r\n            <div class=\"col-md-12\">\r\n                <nav class=\"navbar navbar-expand-lg navbar-light p-0\">\r\n                    <button class=\"navbar-toggler m-1 border border-white\" style=\"color: white\" type=\"button\"\r\n                        data-toggle=\"collapse\" data-target=\"#navbarNavDropdown\" aria-controls=\"navbarNavDropdown\"\r\n                        aria-expanded=\"false\" aria-label=\"Toggle navigation\">\r\n                        <i class=\"fas fa-bars text-white\"></i>\r\n                        <span>Menu</span>\r\n                    </button>\r\n                    <div class=\"collapse navbar-collapse \" id=\"navbarNavDropdown\">\r\n                        <ul class=\"navbar-nav d-flex justify-content-center navbar-nav w-100\" *ngIf=\"menu && menu.length > 0\">\r\n                            <ng-template #recursiveMenu let-menu>\r\n                                <li class=\"nav-item pt-md-2  pb-md-2\" *ngFor=\"let item of menu\" [attr.data-toggle]=\"(width < 989)?'collapse':''\"\r\n                                    [attr.data-target]=\"(width < 989)?'#navbarNavDropdown':''\">\r\n                                    <a class=\"nav-link font-weight-bold pt-1 pb-1\" *ngIf=\"item.type!=1 || item.link == 'trang-chu' || item.link == 'lien-he' || item.link == 'thu-vien-anh-video'\"\r\n                                        [routerLink]=\"[(item.data.length > 0) ? '':'/'+item.href]\">\r\n                                        <i class=\"fas fa-home\" *ngIf=\"item.link == '' || item.link=='trang-chu'\"></i>\r\n                                        {{item.name}}\r\n                                        <i class=\"fas fa-angle-down ml-2\" *ngIf=\"(item.data.length > 0)\"></i>\r\n                                    </a>\r\n                                    <a class=\"nav-link font-weight-bold pt-1 pb-1\" *ngIf=\"item.type==1 && item.link != 'lien-he' &&item.link != 'trang-chu'&& item.link != 'thu-vien-anh-video'\"\r\n                                        target=\"_blank\" [href]=\"[(item.data.length > 0) ? '':item.href]\">\r\n                                        <i class=\"fas fa-home\" *ngIf=\"item.link == '' || item.link=='trang-chu'\"></i>\r\n                                        {{item.name}}\r\n                                        <i class=\"fas fa-angle-down ml-2\" *ngIf=\"(item.data.length > 0)\"></i>\r\n                                    </a>\r\n                                    <ul class=\"dropdown-menu w-100 rounded-0 border-0\" style=\"width: 100px;\" *ngIf=\"item.data && item.data.length > 0\">\r\n                                        <ng-container *ngTemplateOutlet=\"recursiveMenu; context:{ $implicit: item.data }\"></ng-container>\r\n                                    </ul>\r\n                                </li>\r\n                            </ng-template>\r\n                            <ng-container *ngTemplateOutlet=\"recursiveMenu; context:{ $implicit: menu }\"></ng-container>\r\n                        </ul>\r\n                    </div>\r\n                </nav>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/header/header.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HeaderComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals__ = __webpack_require__("../../../../../src/app/globals.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_api_api_service__ = __webpack_require__("../../../../../src/app/services/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var HeaderComponent = (function () {
+    function HeaderComponent(globals, translate, router, http, api) {
+        this.globals = globals;
+        this.translate = translate;
+        this.router = router;
+        this.http = http;
+        this.api = api;
+        this.title = {};
+        this.width = document.body.getBoundingClientRect().width;
+    }
+    HeaderComponent.prototype.ngOnInit = function () {
+        this.getMenu();
+    };
+    HeaderComponent.prototype.getMenu = function () {
+        var _this = this;
+        var connect = this.api.getmenu('menu').subscribe(function (response) {
+            if (response['status'] == 1) {
+                var data = _this.compaid(response['data']);
+                _this.menu = data;
+            }
+        });
+    };
+    HeaderComponent.prototype.compaid = function (data) {
+        var list = [];
+        data = data.filter(function (item) {
+            var v = (isNaN(+item.parent_id) && item.parent_id) ? 0 : +item.parent_id;
+            v == 0 ? '' : list.push(item);
+            return v == 0 ? true : false;
+        });
+        var compaidmenu = function (data, skip) {
+            if (skip == true) {
+                return data;
+            }
+            else {
+                var _loop_1 = function (i) {
+                    var obj = [];
+                    list = list.filter(function (item) {
+                        var skip = (+item.parent_id == +data[i]['id']) ? false : true;
+                        if (skip == false) {
+                            obj.push(item);
+                        }
+                        return skip;
+                    });
+                    var skip_1 = (obj.length == 0) ? true : false;
+                    data[i]['href'] = getType(data[i]['link'], +data[i].type);
+                    data[i]['data'] = compaidmenu(obj, skip_1);
+                };
+                for (var i = 0; i < data.length; i++) {
+                    _loop_1(i);
+                }
+                return data;
+            }
+        };
+        var getType = function (link, type) {
+            if (type == 4 && link != 'thu-vien-anh-video') {
+                return 'tin-tuc/' + link;
+            }
+            return link;
+        };
+        return compaidmenu(data, false);
+    };
+    HeaderComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-header',
+            template: __webpack_require__("../../../../../src/app/frontend/modules/header/header.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/modules/header/header.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__globals__["a" /* Globals */],
+            __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_router__["c" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_5__angular_http__["a" /* Http */],
+            __WEBPACK_IMPORTED_MODULE_3__services_api_api_service__["a" /* ApiService */]])
+    ], HeaderComponent);
+    return HeaderComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/lottery/lottery.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "tr:nth-child(2n) {\r\n    background-color: #dbf3ff;\r\n    color:black;\r\n}\r\ntr:nth-child(2n+1) {\r\n    background-color: #4ea7d3;\r\n    color: black;\r\n}\r\n.table {\r\n    border: 1px solid;\r\n    font-size: 20px;\r\n    font-weight: bold\r\n}\r\n.table tbody td:first-child{\r\n    text-transform: capitalize;\r\n    vertical-align: middle;\r\n}\r\n.giai-dac-biet, .giai-tam{\r\n    font-size: 36px!important;\r\n    color: red!important;\r\n}\r\n.showTV{\r\n    position: fixed;\r\n    top: 0;\r\n    left: 0;\r\n    bottom: 0;\r\n    right: 0;\r\n    width: 100%;\r\n    height: 100%;\r\n    z-index:99999999;\r\n}\r\n* {\r\n      box-sizing: border-box;\r\n  }\r\n  table {\r\n    border-spacing: 0;\r\n    border-collapse: collapse;\r\n  }\r\n  \r\n  .chipstable-xstn {\r\n    background-color: transparent;\r\n    font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\";\r\n  }\r\n  .chipstable-xstn th {\r\n    text-align: left;\r\n  }\r\n  .chipstable-xstn {\r\n    width: 100%;\r\n    max-width: 100%;\r\n  }\r\n  .chipstable-xstn > thead > tr > th,\r\n  .chipstable-xstn > tbody > tr > th,\r\n  .chipstable-xstn > thead > tr > td,\r\n  .chipstable-xstn > tbody > tr > td {\r\n    line-height: 1.42857143;\r\n    vertical-align:middle;text-align:center;\r\n    border: tpx solid transparent;\r\n    font-size:20px;\r\n    font-weight:bold;\r\n    }\r\n  .chipstable-xstn > thead > tr > th{ padding: 7px 0; text-transform:capitalize;}\r\n  .chipstable-xstn-striped > tbody > tr > td{ padding:11px 4px;}\r\n  .chipstable-xstn-striped > tbody > tr > td b{color: #e11414; font-size:36px;}\r\n  .chipstable-xstn > thead > tr > th {background:#2471cd; font-size:14px !important; padding:0px 0px;\r\n    vertical-align:middle;border-bottom-width:0; color:#fff;\r\n  }\r\n  .chipstable-xstn > thead > tr > th,\r\n  .chipstable-xstn-bordered1 > tbody > tr > td,\r\n  .chipstable-xstn-striped > thead > tr > th{font-weight:normal;}\r\n  .chipstable-xstn > tbody + tbody {\r\n    border-top: 2px solid #ddd;\r\n  }\r\n  .chipstable-xstn .chipstable-xstn {\r\n    background-color: #fff;\r\n  }\r\n  .chipstable-xstn-condensed > thead > tr > th,\r\n  .chipstable-xstn-condensed > tbody > tr > th,\r\n  .chipstable-xstn-condensed > tfoot > tr > th,\r\n  .chipstable-xstn-condensed > thead > tr > td,\r\n  .chipstable-xstn-condensed > tbody > tr > td,\r\n  .chipstable-xstn-condensed > tfoot > tr > td {\r\n    padding: 5px;\r\n  }\r\n  .chipstable-xstn-bordered {\r\n    border: 1px solid #373636;\r\n  }\r\n  .chipstable-xstn-bordered > thead > tr > th,\r\n  .chipstable-xstn-bordered > tbody > tr > th,\r\n  .chipstable-xstn-bordered > tfoot > tr > th,\r\n  .chipstable-xstn-bordered > thead > tr > td,\r\n  .chipstable-xstn-bordered > tbody > tr > td,\r\n  .chipstable-xstn-bordered > tfoot > tr > td {\r\n    border: 1px solid #373636;\r\n  }\r\n  .chipstable-xstn-bordered > thead > tr > th,\r\n  .chipstable-xstn-bordered > thead > tr > td {\r\n    border-bottom-width: 2px;\r\n  }\r\n  .chipstable-xstn-striped > tbody > tr{\r\n    background-color:#fee446;\r\n  }\r\n  .chipstable-xstn-striped > tbody > tr:nth-of-type(odd) {\r\n    background-color:#f2a928;\r\n  }\r\n  /*.table-hover > tbody > tr:hover {\r\n    background-color: #fee449;\r\n  }*/\r\n  .chipstable-xstn col[class*=\"col-\"] {\r\n    position: static;\r\n    display: table-column;\r\n    float: none;\r\n  }\r\n  .chipstable-xstn td[class*=\"col-\"],\r\n  .chipstable-xstn th[class*=\"col-\"] {\r\n    position: static;\r\n    display: table-cell;\r\n    float: none;\r\n  }\r\n  .chipstable-xstn-responsive {\r\n    min-height: .01%;\r\n  }\r\n  .chipstable-xstn-striped > tbody > tr > td{ padding-left:0; padding-right:0;}\r\n  @media screen and (max-width: 767px) {\r\n    .chipstable-xstn-responsive {\r\n      width: 100%;\r\n      margin-bottom: 15px;\r\n      overflow-y: hidden;\r\n      -ms-overflow-style: -ms-autohiding-scrollbar;\r\n      border: 1px solid #ddd;\r\n    }\r\n    .chipstable-xstn-responsive > .chipstable-xstn {\r\n      margin-bottom: 0;\r\n    }\r\n    .chipstable-xstn-responsive > .chipstable-xstn > thead > tr > th,\r\n    .chipstable-xstn-responsive > .chipstable-xstn > tbody > tr > th,\r\n    .chipstable-xstn-responsive > .chipstable-xstn > tfoot > tr > th,\r\n    .chipstable-xstn-responsive > .chipstable-xstn > thead > tr > td,\r\n    .chipstable-xstn-responsive > .chipstable-xstn > tbody > tr > td,\r\n    .chipstable-xstn-responsive > .chipstable-xstn > tfoot > tr > td {\r\n      white-space: nowrap;\r\n    }\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered {\r\n      border: 0;\r\n    }\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > thead > tr > th:first-child,\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > tbody > tr > th:first-child,\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > tfoot > tr > th:first-child,\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > thead > tr > td:first-child,\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > tbody > tr > td:first-child,\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > tfoot > tr > td:first-child {\r\n      border-left: 0;\r\n    }\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > thead > tr > th:last-child,\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > tbody > tr > th:last-child,\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > tfoot > tr > th:last-child,\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > thead > tr > td:last-child,\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > tbody > tr > td:last-child,\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > tfoot > tr > td:last-child {\r\n      border-right: 0;\r\n    }\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > tbody > tr:last-child > th,\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > tfoot > tr:last-child > th,\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > tbody > tr:last-child > td,\r\n    .chipstable-xstn-responsive > .chipstable-xstn-bordered > tfoot > tr:last-child > td {\r\n      border-bottom: 0;\r\n    }\r\n  }\r\n  .chipstable-xstn .itemLeft {\r\n      text-align: left;\r\n      color: #333;\r\n      font-size: 20px;\r\n      border-right: 1px solid #eee;\r\n      border-left: 1px solid #eee;\r\n      background: #eee;\r\n  }\r\n  .chipstable-xstn td div{\r\n      font-size: inherit;\r\n  }\r\n  .chipstable-xstn tr:first-child td div{\r\n      text-transform: uppercase;\r\n  }\r\n  .chipstable-xstn .ticket_type,\r\n  .chipstable-xstn .date{\r\n      font-size : 15px;\r\n  }\r\n  .chipstable-xstn td:not(:first-child) div.giai-tam, .chipstable-xstn td:not(:first-child) div.giai-dac-biet{\r\n      font-size: 36px!important;\r\n      color: red!important;\r\n  }\r\n  .t8-giai-dac-biet{\r\n    color: red!important;\r\n}\r\n  .clock{\r\n      background : url(\"data:image/svg+xml,%3Csvg width%3D%22200px%22  height%3D%22200px%22  xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 100 100%22 preserveAspectRatio%3D%22xMidYMid%22 class%3D%22lds-lds-clock%22 style%3D%22background%3A none%3B%22%3E%3Cg transform%3D%22translate(50 50)%22%3E%3Cg ng-attr-transform%3D%22scale(%7B%7Bconfig.scale%7D%7D)%22 transform%3D%22scale(0.8)%22%3E%3Cg transform%3D%22translate(-50 -50)%22%3E%3Cpath ng-attr-fill%3D%22%7B%7Bconfig.c1%7D%7D%22 ng-attr-stroke%3D%22%7B%7Bconfig.c1%7D%7D%22 ng-attr-stroke-width%3D%22%7B%7Bconfig.width%7D%7D%22 d%3D%22M50%2C14c19.85%2C0%2C36%2C16.15%2C36%2C36S69.85%2C86%2C50%2C86S14%2C69.85%2C14%2C50S30.15%2C14%2C50%2C14 M50%2C10c-22.091%2C0-40%2C17.909-40%2C40 s17.909%2C40%2C40%2C40s40-17.909%2C40-40S72.091%2C10%2C50%2C10L50%2C10z%22 fill%3D%22%23c5523f%22 stroke%3D%22%23c5523f%22 stroke-width%3D%220%22%3E%3C%2Fpath%3E%3Cpath ng-attr-fill%3D%22%7B%7Bconfig.c3%7D%7D%22 d%3D%22M52.78%2C42.506c-0.247-0.092-0.415-0.329-0.428-0.603L52.269%2C40l-0.931-21.225C51.304%2C18.06%2C50.716%2C17.5%2C50%2C17.5 s-1.303%2C0.56-1.338%2C1.277L47.731%2C40l-0.083%2C1.901c-0.013%2C0.276-0.181%2C0.513-0.428%2C0.604c-0.075%2C0.028-0.146%2C0.063-0.22%2C0.093V44h6 v-1.392C52.925%2C42.577%2C52.857%2C42.535%2C52.78%2C42.506z%22 fill%3D%22%23499255%22 transform%3D%22rotate(307.368 50 50)%22%3E%3CanimateTransform attributeName%3D%22transform%22 type%3D%22rotate%22 calcMode%3D%22linear%22 values%3D%220 50 50%3B360 50 50%22 keyTimes%3D%220%3B1%22 dur%3D%221.425s%22 begin%3D%220s%22 repeatCount%3D%22indefinite%22%3E%3C%2FanimateTransform%3E%3C%2Fpath%3E%3Cpath ng-attr-fill%3D%22%7B%7Bconfig.c2%7D%7D%22 d%3D%22M58.001%2C48.362c-0.634-3.244-3.251-5.812-6.514-6.391c-3.846-0.681-7.565%2C1.35-9.034%2C4.941 c-0.176%2C0.432-0.564%2C0.717-1.013%2C0.744l-15.149%2C0.97c-0.72%2C0.043-1.285%2C0.642-1.285%2C1.383c0%2C0.722%2C0.564%2C1.321%2C1.283%2C1.363 l15.153%2C0.971c0.447%2C0.027%2C0.834%2C0.312%2C1.011%2C0.744c1.261%2C3.081%2C4.223%2C5.073%2C7.547%2C5.073c2.447%2C0%2C4.744-1.084%2C6.301-2.975 C57.858%2C53.296%2C58.478%2C50.808%2C58.001%2C48.362z M50%2C53.06c-1.688%2C0-3.06-1.373-3.06-3.06s1.373-3.06%2C3.06-3.06s3.06%2C1.373%2C3.06%2C3.06 S51.688%2C53.06%2C50%2C53.06z%22 fill%3D%22%23f2b736%22 transform%3D%22rotate(76.8421 50 50)%22%3E%3CanimateTransform attributeName%3D%22transform%22 type%3D%22rotate%22 calcMode%3D%22linear%22 values%3D%220 50 50%3B360 50 50%22 keyTimes%3D%220%3B1%22 dur%3D%225.7s%22 begin%3D%220s%22 repeatCount%3D%22indefinite%22%3E%3C%2FanimateTransform%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E\") top center no-repeat;\r\n      background-size: contain;\r\n  }\r\n  .chipstable-xstn td .load{\r\n      height : 40px;\r\n      width:100%;\r\n      margin : atuo;\r\n  }\r\n  .chipstable-xstn .random{\r\n      text-align : center;\r\n      color : white;\r\n  }\r\n  .winnings{\r\n      padding : 15px;\r\n      text-align : center;\r\n  }\r\n  .winningsTitle{\r\n      font-size: 20px;\r\n      font-weight: 600;\r\n      text-transform: uppercase;\r\n  }\r\n  @media (max-width: 768px){\r\n      .chipstable-xstn .itemLeft {\r\n          font-size: 14px;\r\n      }\r\n      .chipstable-xstn .ticket_type,\r\n      .chipstable-xstn .date{\r\n          font-size : 12px;\r\n      }\r\n      .chipstable-xstn td:not(:first-child) div.giai-tam{\r\n          font-size: 25px!important;\r\n      }\r\n      .chipstable-xstn td:not(:first-child) div.giai-dac-biet{\r\n          font-size: 18px!important;\r\n      }\r\n      .chipstable-xstn > thead > tr > th,\r\n      .chipstable-xstn > tbody > tr > th,\r\n      .chipstable-xstn > thead > tr > td,\r\n      .chipstable-xstn > tbody > tr > td {\r\n          font-size:15px;\r\n      }\r\n  }", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/lottery/lottery.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\r\n    <div class=\" col-md-12 form-row p-4 d-md-flex\">\r\n        <div class=\" col-md-5 col-xs-12 form-group \">\r\n            <input type=\"text\" class=\"form-control rounded \" [(ngModel)]=\"keywork\" placeholder=\"Nhập đủ 6 số của vé số\">\r\n        </div>\r\n        <div class=\"col-md-5 col-7 form-group d-flex float-md-right\">\r\n            <input type=\"text\" [(ngModel)]=\"lotdate\" [bsConfig]=\"{ dateInputFormat: 'DD/MM/YYYY' }\" [maxDate]='maxDate' class=\"rounded form-control w-100 \"\r\n                bsDatepicker>\r\n            <i class=\"fas fa-calendar-alt float-right\" style=\"position: absolute;right: 20px;top:10px;\"></i>\r\n        </div>\r\n        <div class=\"col-md-2 col-5 d-flex justify-content-end float-md-right ml-0\">\r\n            <button (click)=\"getlist(true)\" class=\" btn btn-primary mb-3 mr-0 ml-0\">\r\n                <i class=\"fab fa-searchengin mr-1\"></i>\r\n                <span class=\"text-white ml-0\">{{'home.seach'|translate}}</span>\r\n            </button>\r\n        </div>\r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n        <div class=\"row winnings d-flex justify-content-center\" *ngIf=\"winnings.skip == true\">\r\n            <div *ngIf=\"winnings.data.length > 0\">\r\n                <img src=\"assets/img/thantai.gif\" alt=\"\">\r\n                <p *ngFor=\"let item of winnings.data\">\r\n                    Bạn đã trúng giải\r\n                    <b>{{item.name }}</b> với số tiền là\r\n                    <b class=\"text-danger\">{{item.price | number : '1.0-3' }} VNĐ</b>\r\n                </p>\r\n            </div>\r\n            <div *ngIf=\"winnings.data.length == 0\">\r\n                <img src=\"assets/img/fail.gif\" alt=\"\">\r\n                <p>Rất tiếc vé số của bạn không trúng giải! Chúc bạn may mắn lần sau.</p>\r\n            </div>\r\n        </div>\r\n\r\n        <!-- //<div id=\"fullscreen\" class=\"fullscreen\"> -->\r\n        <table id=\"fullscreen\" class=\"chipstable-xstn table fullscreen\" style=\"border:none\">\r\n            <tbody>\r\n                <tr class=\"text-white\">\r\n\r\n                    <!--  <th class=\"border-right\">Giải thưởng</th>\r\n                        <th class=\"border-bottom-0 justify-content-center\">\r\n                        <div style=\"width: 100%;text-align: center;display: flex;\">\r\n                            <div style=\"flex : 1\">\r\n                                <div>\r\n                                    <h4>KẾT QUẢ XỔ SỐ</h4>\r\n                                </div>\r\n                                <div>{{timeAny[lotdate.getDay()] }} ngày {{lotdate | date : 'dd/MM/yyyy' }}</div>\r\n                                <div style=\"flex : 1\"> {{ 'lbnlResult.ticket' |translate}}: {{ticketType}}</div>\r\n                            </div>\r\n                        </div>\r\n                    </th> -->\r\n                    <th class=\"border-0\">{{timeAny[lotdate.getDay()] }}</th>\r\n                    <th class=\"border-bottom-0 d-md-flex justify-content-center\">\r\n                        <div>\r\n                            {{ 'lbnlResult.date' |translate}}: {{lotdate | date : 'dd/MM/yyyy' }}\r\n                        </div>\r\n                        <div class=\"ml-md-5\">{{ 'lbnlResult.ticket' |translate}}: {{ticketType}}</div>\r\n                    </th>\r\n                </tr>\r\n                <tr *ngFor=\"let item of list;let x = index;\">\r\n                    <td class=\"border-right\" [attr.class]=\" 't'+x+'-'+ item.code\">{{item.title}}</td>\r\n                    <!-- <td class=\"border-right\">{{item.price | number : '1.0-3' }}</td> -->\r\n                    <td class=\"text-center\" [attr.class]=\"item.code \">\r\n                        <div *ngIf=\"item.amount <= 4\" class=\"text-center\" style=\"display:flex;\">\r\n                            <div style=\"flex : 1;\" *ngFor=\"let r of item.list;let i = index\" [ngClass]=\"(( (x!=review.position.x || i!=review.position.y) && r=='') || (ckeckTime == false  && r=='')) ? 'load clock' : '' \">\r\n                                <span *ngIf=\"x==review.position.x && i==review.position.y && ckeckTime == true\">{{ review.mask(item.length)\r\n                                    }}\r\n                                </span>\r\n                                <span *ngIf=\"x!=review.position.x || i!=review.position.y || ckeckTime == false\">{{r}}</span>\r\n                            </div>\r\n                        </div>\r\n                        <div *ngIf=\"item.amount > 4\" class=\"text-center\">\r\n                            <div style=\"width : 25%;display: inline-block; min-width: 100px\" *ngFor=\"let r of item.list;let y = index \" [ngClass]=\"(((x!=review.position.x || y!=review.position.y ) && r=='') || (ckeckTime == false  && r=='')) ? 'load clock' : '' \">\r\n                                <span *ngIf=\"x==review.position.x && y==review.position.y && ckeckTime == true\">{{ review.mask(item.length)\r\n                                    }}\r\n                                </span>\r\n                                <span *ngIf=\"x!=review.position.x || y!=review.position.y || ckeckTime == false\">{{r}}</span>\r\n                            </div>\r\n                        </div>\r\n                    </td>\r\n                </tr>\r\n            </tbody>\r\n        </table>\r\n        <!-- </div> -->\r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col-md-12 col-12 mb-1 col-sm-12 col-12\">\r\n        <button class=\"btn btn-primary ml-2 float-right\" (click)=\"onPrint()\">\r\n            <i class=\"fas fa-print mr-1\"></i>\r\n            <span class=\"text-white\">{{'home.print'|translate}}</span>\r\n        </button>\r\n        <a class=\" btn btn-primary mb-1 ml-2 float-right\" [ngStyle]=\"{'pointer-events': (file && file.length) < 4 ?'none':'', 'opacity':(file && file.length) < 4 ?'0.5':'1' }\"\r\n            target=\"_blank\" [href]=\"[(file && file.length >4 ) ? globals.BASE_API_URL + 'public/result/'+ file: '']\">\r\n            <i class=\"far fa-file-pdf ml-1\"></i>\r\n            <span class=\"text-white\">{{'home.printPDF'|translate}}</span>\r\n        </a>\r\n        <button *ngIf=\"width > 678\" class=\" btn btn-primary mb-1 ml-2 float-right\" onclick=\"javascript:toggleFullScreen(fullscreen)\"\r\n            (click)=\"sk=!sk\">\r\n            <i class=\"fas fa-tv mr-1 \"></i>\r\n            <span class=\"text-white\">{{ 'home.watch' |translate}}</span>\r\n        </button>\r\n        <a class=\"btn btn-primary mb-1 float-right\" target=\"_blank\" [href]=\"['https://www.facebook.com/sharer/sharer.php?u='+globals.BASE_API_URL]\">\r\n            <i class=\" fab fa-facebook-f mr-1\"></i>\r\n            <span class=\"text-white\">{{'home.share'|translate}}</span>\r\n        </a>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/lottery/lottery.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LotteryComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals__ = __webpack_require__("../../../../../src/app/globals.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_integrated_table_service__ = __webpack_require__("../../../../../src/app/services/integrated/table.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_api_api_service__ = __webpack_require__("../../../../../src/app/services/api/api.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var LotteryComponent = (function () {
+    function LotteryComponent(globals, cws, api) {
+        var _this = this;
+        this.globals = globals;
+        this.cws = cws;
+        this.api = api;
+        this.maxDate = new Date();
+        this.lotdate = new Date();
+        this.list = [];
+        this.timeAny = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+        this.winnings = { skip: false, data: [] };
+        this.processData = function (struct, list) {
+            var compaid = function (list, amount, x) {
+                var data = {};
+                for (var i = 0; i < amount; i++) {
+                    var k = i + 1;
+                    data[k] = (list[k]) ? list[k] : '';
+                    if ((_this.review.position.x == -1 && _this.review.position.y == -1) && data[k].toString().length == 0) {
+                        _this.review.position = { x: x, y: i };
+                    }
+                }
+                return Object.values(data);
+            };
+            struct = struct.reduce(function (n, o, i) {
+                var v = list[o.id] ? list[o.id] : {};
+                var item = {
+                    title: o.name,
+                    price: o.prize_value,
+                    length: o.length_number,
+                    amount: +o.prize_amount,
+                    orders: o.orders,
+                    isactive: +o.isactive,
+                    list: compaid(v, +o.prize_amount, i),
+                    code: o.code
+                };
+                n[o.id] = item;
+                return n;
+            }, {});
+            _this.checkWinnings(struct);
+            _this.list = Object.values(struct);
+        };
+        this.checkWinnings = function (struct) {
+            var winnings = [];
+            var skip = false;
+            if (_this.keywork && _this.keywork.length > 5) {
+                struct = Object.values(struct).reduce(function (n, o, i) {
+                    var val = _this.keywork.slice(-(+o.length), _this.keywork.length);
+                    if (o.isactive == 0) {
+                        for (var i_1 = 0; i_1 < o.list.length; i_1++) {
+                            if (o.list[i_1] == val) {
+                                winnings.push({ name: o['title'], price: o.price });
+                            }
+                        }
+                    }
+                    else {
+                        var s = o.list[0];
+                        var t1 = _this.keywork.toString().slice(-((+o.length) - 1), _this.keywork.toString().length);
+                        var t2 = s.toString().slice(-((+o.length) - 1), s.toString().length);
+                        if (s === val || s == val) {
+                            winnings.push({ name: o['title'], price: o.price });
+                        }
+                        else if (t1 == t2 || t1 === t2) {
+                            winnings.push({ name: 'Giải phụ đặc biệt', price: 50000000 });
+                        }
+                        else {
+                            var v1 = _this.keywork.toString().slice(-(_this.keywork.toString().length), _this.keywork.toString().length);
+                            var v2 = s.toString().slice(-(s.toString().length), s.toString().length);
+                            var dem = 0;
+                            for (var i_2 = 0; i_2 < v1.length; i_2++) {
+                                if (v1[i_2] == v2[i_2] || v1[i_2] === v2[i_2]) {
+                                    dem++;
+                                }
+                            }
+                            if (dem == (v1.length - 1)) {
+                                winnings.push({ name: 'Giải khuyến kích', price: 6000000 });
+                            }
+                        }
+                    }
+                    return n;
+                }, {});
+                skip = true;
+            }
+            _this.winnings = { skip: skip, data: winnings };
+        };
+        this.review = {
+            connect: null,
+            reconnect: null,
+            display: 5000,
+            start: [16, 0],
+            time: new Date(),
+            end: [17, 0],
+            step: 0,
+            position: { x: -1, y: -1 },
+            get: function () {
+                _this.getlist(true);
+                var data = _this.list;
+                _this.review.set(data);
+            },
+            set: function (data) {
+                _this.review.clear();
+                _this.review.scan();
+            },
+            run: function () {
+                _this.review.connect = setInterval(function () {
+                    _this.review.step++;
+                    _this.review.get();
+                }, _this.review.display);
+            },
+            scan: function () {
+                var now = new Date();
+                if (now.getFullYear() == _this.review.time.getFullYear() && now.getMonth() == _this.review.time.getMonth() && now.getDate() == _this.review.time.getDate()) {
+                    var skip1 = (now.getHours() == _this.review.start[0] && now.getMinutes() >= _this.review.start[1]) ? true : (now.getHours() > _this.review.start[0] ? true : false);
+                    var skip2 = (now.getHours() == _this.review.end[0] && now.getMinutes() <= _this.review.end[1]) ? true : (now.getHours() < _this.review.end[0] ? true : false);
+                    if (skip1 == true && skip2 == true) {
+                        console.log("Chương trình đang chạy. Vui lòng ít thao tác.");
+                        _this.review.run();
+                        _this.ckeckTime = true;
+                    }
+                    else {
+                        console.log("Chưa tới thời gian");
+                        _this.ckeckTime = false;
+                    }
+                }
+                else {
+                    console.log("đây không phải là ngày hiện tại");
+                }
+            },
+            startReconnect: function () {
+                _this.review.reconnect = setInterval(function () {
+                    _this.review.scan();
+                }, 5000);
+            },
+            mask: function (length) {
+                var str = '';
+                for (var i = 0; i < length; i++) {
+                    var loto = Math.floor(Math.random() * 9);
+                    str = str + loto.toString();
+                }
+                return str;
+            },
+            clear: function () {
+                if (_this.review.connect) {
+                    clearInterval(_this.review.connect);
+                }
+                if (_this.review.reconnect) {
+                    clearInterval(_this.review.reconnect);
+                }
+            }
+        };
+        this.width = document.body.getBoundingClientRect().width;
+    }
+    LotteryComponent.prototype.ngOnInit = function () {
+        setTimeout(function () {
+            if (window['onClearShowTV']) {
+                window['onClearShowTV']();
+            }
+        }, 1000);
+        this.getlist(false);
+        this.review.set([]);
+    };
+    LotteryComponent.prototype.ngOnDestroy = function () {
+        this.review.clear();
+    };
+    LotteryComponent.prototype.getlist = function (skip) {
+        var _this = this;
+        var lotdate = "";
+        if (skip == true) {
+            lotdate = this.lotdate.getFullYear() + '-' + (this.lotdate.getMonth() + 1).toString() + '-' + this.lotdate.getDate();
+        }
+        this.api.results(lotdate).subscribe(function (res) {
+            var data = res['data'];
+            _this.file = "";
+            _this.ticketType = "";
+            if (data['list'].length > 0) {
+                _this.lotdate = new Date(data['list'][0]['lotdate']);
+                _this.ticketType = data['list'][0]['ticket_type'];
+                _this.file = data['list'][0]['file'];
+            }
+            var list = data['list'].reduce(function (n, o, i) {
+                if (!n[o.prize_id]) {
+                    n[o.prize_id] = {};
+                }
+                ;
+                n[o.prize_id][o.orders] = o.prize_number;
+                return n;
+            }, {});
+            _this.review.position = { x: -1, y: -1 };
+            var struct = data['struct'];
+            _this.processData(struct, list);
+        });
+    };
+    LotteryComponent.prototype.onPrint = function () {
+        var url = this.globals.BASE_API_URL + 'trang-chu?print=51&time=' + (this.lotdate.getFullYear() + '-' + (this.lotdate.getMonth() + 1).toString() + '-' + this.lotdate.getDate()) + '&city=tra-vinh';
+        window.open(url, '_blank');
+    };
+    LotteryComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-lottery',
+            template: __webpack_require__("../../../../../src/app/frontend/modules/lottery/lottery.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/modules/lottery/lottery.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__globals__["a" /* Globals */],
+            __WEBPACK_IMPORTED_MODULE_2__services_integrated_table_service__["a" /* TableService */],
+            __WEBPACK_IMPORTED_MODULE_3__services_api_api_service__["a" /* ApiService */]])
+    ], LotteryComponent);
+    return LotteryComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/not-found/not-found.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/not-found/not-found.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\" style=\"text-align: center\">\r\n  <div class=\"text-error\">{{'NotFound.title' | translate }}</div>\r\n  <h3>{{'NotFound.message' | translate }}</h3>\r\n  <a  class=\"btn btn-danger\" href=\"/trang-chu\">{{'NotFound.reHome' | translate }}</a>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/modules/not-found/not-found.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotFoundComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var NotFoundComponent = (function () {
+    function NotFoundComponent() {
+    }
+    NotFoundComponent.prototype.ngOnInit = function () {
+    };
+    NotFoundComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-not-found',
+            template: __webpack_require__("../../../../../src/app/frontend/modules/not-found/not-found.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/modules/not-found/not-found.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], NotFoundComponent);
+    return NotFoundComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/pages/pages.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/pages/pages.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"box-white pt-3 pb-3 \">\r\n  <div class=\"container-main\">\r\n    <div class=\"container-fluid\">\r\n      <div class=\"col-md-12\">\r\n        <p class=\"text-justify\" [innerHTML]=\"item.detail | sanitizeHtml\"></p>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/pages/pages.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PagesComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_api_api_service__ = __webpack_require__("../../../../../src/app/services/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var PagesComponent = (function () {
+    function PagesComponent(api, route) {
+        this.api = api;
+        this.route = route;
+        this.item = [];
+    }
+    PagesComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            var link = params.link;
+            _this.api.page(link).subscribe(function (res) {
+                _this.item = res.data;
+            });
+        });
+    };
+    PagesComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-pages',
+            template: __webpack_require__("../../../../../src/app/frontend/pages/pages.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/frontend/pages/pages.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_api_api_service__["a" /* ApiService */], __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */]])
+    ], PagesComponent);
+    return PagesComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/frontend/sanitizeHtml.pipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SanitizeHtmlPipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__("../../../platform-browser/esm5/platform-browser.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var SanitizeHtmlPipe = (function () {
+    function SanitizeHtmlPipe(_sanitizer) {
+        this._sanitizer = _sanitizer;
+    }
+    SanitizeHtmlPipe.prototype.transform = function (v) {
+        return this._sanitizer.bypassSecurityTrustHtml(v);
+    };
+    SanitizeHtmlPipe = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Pipe"])({
+            name: 'sanitizeHtml'
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["DomSanitizer"]])
+    ], SanitizeHtmlPipe);
+    return SanitizeHtmlPipe;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/assets/fonts/UTM-Aurora.ttf":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "UTM-Aurora.399be411d5650470c62e.ttf";
+
+/***/ }),
+
+/***/ "../../../../../src/assets/img/bgheader.png":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "bgheader.747a37f174f3092486e7.png";
+
+/***/ }),
+
+/***/ "../../../../css-loader/lib/url/escape.js":
+/***/ (function(module, exports) {
+
+module.exports = function escape(url) {
+    if (typeof url !== 'string') {
+        return url
+    }
+    // If url is already wrapped in quotes, remove them
+    if (/^['"].*['"]$/.test(url)) {
+        url = url.slice(1, -1);
+    }
+    // Should url be wrapped?
+    // See https://drafts.csswg.org/css-values-3/#urls
+    if (/["'() \t\n]/.test(url)) {
+        return '"' + url.replace(/"/g, '\\"').replace(/\n/g, '\\n') + '"'
+    }
+
+    return url
+}
+
+
+/***/ })
+
+});
+//# sourceMappingURL=frontend.module.chunk.js.map
